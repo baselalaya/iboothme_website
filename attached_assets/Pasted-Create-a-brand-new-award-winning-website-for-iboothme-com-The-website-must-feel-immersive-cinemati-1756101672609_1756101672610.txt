@@ -1,0 +1,74 @@
+Create a brand-new award-winning website for iboothme.com.
+The website must feel immersive, cinematic, and bespoke, with micro-animations and interactive polish inspired by the highest standards of modern digital experiences.
+
+Framework & Tech
+	•	Use Next.js + React 18.
+	•	Style with Tailwind CSS extended with custom utilities.
+	•	Integrate Three.js for the hero background and 3D elements.
+	•	Use Framer Motion and GSAP for smooth micro-animations and scroll-triggered effects.
+	•	Typography: Troika-three-text for 3D headline, paired with a clean modern sans-serif for body text.
+
+Overall Principles
+	•	Every element should have bespoke micro-animations (hover, scroll, parallax, interaction).
+	•	Use cinematic gradients, glassmorphism, and depth shadows for elevated visual quality.
+	•	Ensure responsiveness on all devices and optimize performance with adaptive DPR.
+	•	Disable animations automatically if the user has reduced-motion enabled.
+
+Sections to Build
+	1.	Hero Section
+	•	Background: 3D infinity loop with glowing galaxy particle aura.
+	•	Headline: “Get Your Brand Noticed” in 3D Troika text, editorial layout (Get Your / Brand / Noticed).
+	•	Add glowing underline animation on “Brand”.
+	•	Two CTAs: “Request a Custom Concept” (primary), “Schedule a Virtual Consultation” (secondary).
+	•	Micro-animations: text parallax with mouse, subtle 3D glow pulses, buttons ripple + lift on hover.
+	2.	Brand Activation Highlight
+	•	Gradient background with slow floating neon shapes.
+	•	Capsule badge above headline: “Revolutionary Technology”.
+	•	Headline: “AI designed for brand activations” in gradient glowing text.
+	•	CTA: “Explore Our AI Tech”.
+	•	Micro-animations: floating shapes rotate subtly, background gradient animates slowly.
+	3.	Products Section (More Than Photo Booths)
+	•	3 product cards with 3D rendered booth mockups.
+	•	Hover = card tilt, spotlight shine, floating depth effect.
+	•	Micro-animations: floating glow behind each card, image zoom reveal on hover.
+	•	CTAs below grid: “View All Models” and “Product Lineup Video 2024”.
+	4.	Meet Talia (Robot Section)
+	•	Split layout: left side text, right side autoplay looping video of Talia.
+	•	CTA: “Discover Talia”.
+	•	Micro-animations: text fades in with stagger, background shows animated circuit lines, robot video has glowing frame effect.
+	5.	Beyond Photo Booths
+	•	4 service tiles: Production, Hybrid Experiences, Gamification, Web App.
+	•	Tiles: cinematic hover with gradient overlay + label reveal.
+	•	Micro-animations: grid items animate in from staggered directions on scroll.
+	6.	Stats / Social Proof
+	•	Dark gradient background.
+	•	Counters:
+	•	500M+ social shares
+	•	98% engagement uplift
+	•	150+ global activations
+	•	Micro-animations: counters animate up on scroll, background glow pulses subtly.
+	7.	CTA Split Section
+	•	Two clay-style cards: “Get Ideas” and “Request Customisation”.
+	•	Cards float slightly and tilt on hover.
+	•	Micro-animations: gradient shifts across card edges.
+	8.	Analytics Section
+	•	Centered text: “Every activation is built for impact and proven with detailed analytics.”
+	•	CTA: “See What You Get”.
+	•	Micro-animations: subtle dust particles drifting in the background, text fade-in with glow.
+	9.	Global Clients / Logos
+	•	Scrolling marquee of brand logos in gradient capsules.
+	•	Micro-animations: logos glow on hover, marquee scrolls smoothly and reverses on hover.
+	10.	Footer
+
+	•	Gradient purple-to-black background.
+	•	Four columns: Navigation, Social, Legal, Contact.
+	•	Newsletter input styled glassmorphic with “Stay Connected” CTA.
+	•	Micro-animations: input glows when active, social icons pulse gently.
+
+⸻
+
+Important Notes for AI Coder:
+	•	Every section must have immersive bespoke micro-animations to feel alive and premium.
+	•	Motion should be smooth, elegant, and cinematic — no generic fast pop animations.
+	•	Ensure high contrast readability with central vignette or glow layers over backgrounds.
+	•	Maintain award-winning aesthetic throughout with polished gradients, 3D depth, and smooth transitions.

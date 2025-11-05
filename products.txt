@@ -1,0 +1,503 @@
+﻿iboothme Product Pages - Final Clean Version
+SEO URL Structure
+Base URL: iboothme.ae/product/[product-slug]
+
+
+
+
+PRODUCT 1: IBOOTHME X
+SEO URL: iboothme.ae/product/ai-photo-booth
+
+All the videos need to be in img frame of youtube. And clickable banners are there for few products.
+Category: Premium | AI Technology
+Product Description
+An awesome vertical-screen AI photo booth built for social-first formats. Sleek, modern, and engineered for studio-quality results that amplify your brand activations.
+Key Features:
+* Awesome vertical-screen design
+* Built for social-first formats
+* Sleek and modern engineering
+* Studio-quality results
+* Brand activation amplification
+* AI photo booth technology
+Technical Specifications
+* Dimensions: H160cm x W60cm
+* Power Requirements: 13 Amp 220V AC
+* Capacity: 70-100+ guests per hour
+* Technology: AI Effects/ Creative Results/ Real-time processing
+* Support: 24/7 online support / On-site support
+* Setup Time: 1-2 hours with power ready on site
+Use Cases
+* Corporate Events
+* Product Launches
+* Brand Activations
+* Retail Experiences
+Clickable Banner Required
+AI Technology Focus
+Solutions powered by AI, built for brand engagement.
+Discover what AI can do for your brand.
+
+
+Video link - https://youtu.be/Zimi28A13jg
+
+
+PRODUCT 2: GLAMDROID
+SEO URL: iboothme.ae/product/glamdroid-robotic-arm
+Category: Premium | Robotic Technology
+Product Description
+GlamDroid puts cinematic robotics in your guests' hands. With the freedom to select multiple camera moves, every shot is built to go viral while safety sensors keep it smooth and secure.
+Key Features:
+* Cinematic robotics in guests' hands
+* Freedom to select multiple camera moves
+* Every shot built to go viral
+* Safety sensors for smooth operation
+* Secure and reliable performance
+* Professional cinematic quality
+Technical Specifications
+* Dimensions: H91cm x W70cm x Top 30.5cm
+* Power Requirements: 13 Amp 220V AC
+* Capacity: 50+ guests per hour
+* Technology: High-Speed Video Capture | Dynamic Cinematic Feel
+* Support: 24/7 online support / On-site support
+* Setup Time: 3-5 hours with power ready on site
+Use Cases
+* Luxury Brand Events
+* Fashion Shows
+* Premium Product Launches
+* High-End Retail Activations
+Video Link - https://youtu.be/jfxTh0QykI4
+
+
+PRODUCT 3: LOCKER X
+SEO URL: iboothme.ae/product/smart-prize-locker
+Category: Premium | Interactive Product Distribution
+Product Description
+Locker X turns prizes into a game. Guests scan, play, and unlock — with your products at the heart of the experience.
+Key Features:
+* Prizes turned into games
+* Scan, play, unlock flow
+* Products at heart of experience
+* Interactive engagement system
+* Smart distribution technology
+* Gamified prize delivery
+Technical Specifications
+* Dimensions: H170cm x W60cm x D60cm
+* Power Requirements: 13 Amp 220V AC
+* Capacity: 100+ interactions per hour
+* Technology: Smart locking system with digital integration
+* Support: 24/7 online support / On-site support
+* Setup Time: 1-2 hours with power ready on site
+Use Cases
+* Product Launches
+* Educational Campaigns
+* Retail Promotions
+* Event Traffic Generation
+Video/Media - https://youtube.com/shorts/tFq9ZfcXNmE
+PRODUCT 4: VENDING X
+SEO URL: iboothme.ae/product/ai-vending-machine
+Category: Premium | Vending & AI Integration
+Product Description
+Vending X is a smart vending machine built for activations. Fully brandable, stocked with your products, and powered by gamification to keep guests engaged while distributing your products.
+Key Features:
+* Smart vending machine for activations
+* Fully brandable design
+* Stocked with your products
+* Powered by gamification
+* Guest engagement focus
+* Measurable ROI tracking
+Technical Specifications
+* Dimensions: H170cm x W70cm x D70cm
+* Power Requirements: 13 Amp 220V AC
+* Capacity: 100+ interactions per hour
+* Technology: AI-powered vending with custom experiences
+* Support: 24/7 online support / On-site support
+* Setup Time: 1-2 hours with power ready on site
+Use Cases
+* Product Sampling
+* Brand Education Events
+* Retail Activations
+* Trade Show Engagement
+Clickable Banner Required
+AI Technology Focus
+Solutions powered by AI, built for brand engagement.
+Discover what AI can do for your brand.
+Video/Media - https://youtu.be/PUh6I3Y1Ya4
+
+
+
+
+
+PRODUCT 5: GUMBALL X
+SEO URL: iboothme.ae/product/gumball-machine-activation
+Category: Premium | Interactive & Brand Activation
+Product Description
+Gumball X turns the iconic gumball machine into a powerful brand activation tool. Guests twist to reveal prizes or rewards, creating suspense, shareability, and instant buzz with your product at the center.
+Key Features:
+* Dopamine-triggering rewards delivery
+* Spin, win, share experience
+* Instant buzz creation
+* Brand-focused sharing
+* Psychological engagement design
+* Reward-based interaction
+Technical Specifications
+* Dimensions: [to be confirmed]
+
+* Power Requirements: 13 Amp 220V AC
+
+* Capacity: 100+ interactions per hour
+
+* Technology: Smart dispensing system with gamified flow
+
+* Support: 24/7 online support / On-site support
+
+* Setup Time: 1–2 hours with power ready on site
+
+
+Use Cases
+   * Brand Activations
+   * Product Launches
+   * Interactive Campaigns
+   * Retail Experiences
+Video/Media https://youtu.be/EdIOdHDaU68
+
+PRODUCT 6: ARCADE X
+SEO URL: iboothme.ae/product/arcade-vending-machine
+Category: Premium | Gaming & Brand Engagement
+Product Description
+Arcade X fuses retro gaming with branded interaction. Guests play custom-designed games, unlock rewards, and walk away with experiences and prizes that reinforce your brand.
+Key Features:
+   * Retro gaming meets brand engagement
+   * Custom game experiences
+   * Reward unlocking system
+   * Products tied to brand story
+   * Direct story connection
+   * Gaming-based engagement
+Technical Specifications
+   * Dimensions: Front 70 x 185cmH | Back 70 x 195cmH | Side 69 x 182cmH | Top 70 x 29cmH
+   * Power Requirements: 13 Amp 220V AC
+   * Capacity: 100+ guests per hour
+   * Technology: Arcade Games / Gift distribution / Recording while interacting
+   * Support: 24/7 online support / On-site support
+   * Setup Time: 1-2 hours with power ready on site
+Use Cases
+   * Brand Awareness Campaigns
+   * Product Launches
+   * Trade Show Engagement
+   * Retail Entertainment
+Video/Media - https://youtu.be/B8X5zcpfnO0
+PRODUCT 7: MEGA VENDING
+SEO URL: iboothme.ae/product/mega-vending-machine
+Category: Premium | Vending & Interactive
+Product Description
+Mega Vending is a smart vending unit built for high-impact activations. Fully brandable and stocked with products or rewards, it engages crowds through gamification while seamlessly delivering your products.
+Key Features:
+   * Smart vending unit for high-impact
+   * Fully brandable design
+   * Stocked with products or rewards
+   * Crowd engagement through gamification
+   * Seamless product delivery
+   * High-impact activation focus
+Technical Specifications
+   * Dimensions: [to be confirmed]
+
+   * Power Requirements: 13 Amp 220V AC
+
+   * Capacity: 100+ interactions per hour
+
+   * Technology: AI-powered vending with gamification
+
+   * Support: 24/7 online support / On-site support
+
+   * Setup Time: 1–2 hours with power ready on site
+
+
+Use Cases
+      * Large Events
+      * Trade Shows
+      * Major Brand Activations
+      * High-Volume Product Distribution
+Video/Media
+https://youtu.be/QgNf4eVpZmo
+PRODUCT 8: 180 Photo Booth
+SEO URL: iboothme.ae/product/180-degree-photo-booth
+Category: Premium | Photo Booth & Dynamic
+Product Description
+iboothme 180 photo booth is a multi-camera photo booth that creates dynamic, shareable content. With its striking setup and synchronized cameras, it makes a big statement at any event — an experience your prospects can't miss.
+Key Features:
+      * Multi-camera photo booth system
+      * Dynamic, shareable content creation
+      * Striking setup design
+      * Synchronized cameras
+      * Big statement at events
+      * Unmissable prospect experience
+Technical Specifications
+      * Dimensions: Body H143cm x W70cm | Top H32cm x W190cm
+      * Power Requirements: 13 Amp 220V AC
+      * Capacity: 80+ interactions per hour
+      * Technology: Slow-Motion Effects | 5-Camera Setup or 11-Camera Setup
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 2-3 hours with power ready on site
+Use Cases
+      * Fashion Events
+      * Product Launches
+      * Social Media Campaigns
+      * Premium Brand Activations
+Video/Media
+https://youtu.be/iskenBYoPjk
+PRODUCT 9: 360 Videobooth
+SEO URL: iboothme.ae/product/360-degree-video-booth
+Category: Premium | Video Booth & 360°
+Product Description
+iBoothme 360 captures every angle with an automated rotating arm. Powered by AI, it delivers bold, cinematic videos with fully customizable effects  and we can create any style tailored to your brand.
+Key Features:
+      * Every angle capture capability
+      * Automated rotating arm system
+      * AI-powered video processing
+      * Bold, cinematic video delivery
+      * Fully customizable effects
+      * Brand-tailored style creation
+Technical Specifications
+      * Dimensions: H33cm x ⌀80cm
+      * Power Requirements: 13 Amp 220V AC
+      * Capacity: 100+ guests per hour
+      * Technology: 360° rotation platform with video capture
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 1 hour with power ready on site
+Use Cases
+      * Social Media Campaigns
+      * Influencer Events
+      * Product Showcases
+      * Entertainment Venues
+Video/Media
+https://youtu.be/dcNqPEgbm_0
+PRODUCT 10: SCRIBBLE BOOTH
+SEO URL: iboothme.ae/product/scribble-video-booth
+Category: Premium | Interactive & Creative
+Product Description
+The Scribble Booth turns creativity into branded content. Guests draw, write, or leave messages on a glass screen while a hidden camera captures it live. The output: personalized videos that connect creativity with your brand.
+Key Features:
+      * Creativity turned into branded content
+      * Glass screen drawing interface
+      * Hidden camera live capture
+      * Personalized video output
+      * Creativity-brand connection
+      * Interactive drawing experience
+Technical Specifications
+      * Dimensions: H200cm x W100cm x D100cm
+      * Power Requirements: 13 Amp 220V AC
+      * Capacity: 100+ guests per hour
+      * Technology: Interactive drawing and video processing
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 1-2 hours with power ready on site
+Use Cases
+      * Creative Campaigns
+      * Art Events
+      * Youth Engagement
+      * Interactive Brand Experiences
+Video/Media
+https://youtu.be/oEjVunPv6HI
+
+
+
+
+
+PRODUCT 11: CATCH THE BATON
+SEO URL: iboothme.ae/product/catch-the-baton
+Category: Standard | Interactive & Gaming
+Product Description
+Equipped with an interactive touchscreen, this unit engages guests with a reflex-testing game while capturing valuable data.
+Key Features:
+      * Interactive touchscreen interface
+      * Reflex-testing game engagement
+      * Valuable data capture
+      * Guest engagement focus
+      * Gaming interaction design
+      * Data collection integration
+Technical Specifications
+      * Dimensions: Top ⌀72.5cm x Body H192cm x W10cm
+      * Power Requirements: 13 Amp 220V AC
+      * Capacity: 100+ interactions per hour
+      * Technology: Interactive gaming
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 1-2 hours with power ready on site
+Use Cases
+      * Gaming Events
+      * Youth Activations
+      * Interactive Campaigns
+      * Entertainment Venues
+Video/Media
+https://youtu.be/O8tdFXcLbhU
+PRODUCT 12: GIFT BOX
+SEO URL: iboothme.ae/product/interactive-prize-vault
+Category: Standard | Interactive & Surprise
+Product Description
+An iboothme invention designed for in-store activations and driving footfall. Guests receive a code through our photo booth units: correct unlocks a prize, wrong unlocks a discount. Either way, your brand wins the interaction.
+Key Features:
+      * iboothme invention for in-store activations
+      * Designed for driving footfall
+      * Code system through photo booth units
+      * Prize unlock for correct codes
+      * Discount unlock for wrong codes
+      * Brand wins every interaction
+Technical Specifications
+      * Dimensions: H42cm x W47cm x D28.6cm
+      * Power Requirements: 13 Amp 220V AC
+      * Capacity: 120+ guests per hour
+      * Technology: Digital surprise reveal system
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 1-2 hours with power ready on site
+Use Cases
+      * Gift Campaigns
+      * Surprise Activations
+      * Compact Venues
+      * High-Traffic Events
+Video/Media
+https://youtu.be/DFcO5sxTw0U
+PRODUCT 13: GOBOOTHME X
+SEO URL: iboothme.ae/product/roaming-photo-booth
+Category: Standard | Photo Booth & Portable
+Product Description
+Portable, professional, and AI-powered Goboothme X takes photo activations anywhere your audience is. With studio-quality results in a compact unit, it transforms any space into a branded content hub.
+Key Features:
+      * Portable, professional, AI-powered
+      * Takes activations anywhere
+      * Studio-quality results
+      * Compact unit design
+      * Any space transformation
+      * Branded content hub creation
+Technical Specifications
+      * Dimensions: Portable compact design
+      * Power Requirements: Battery or AC power
+      * Capacity: 100+ guests per hour
+      * Technology: Background Removal photo | Professional Photographer quality
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 1-2 hours with power ready on site
+Use Cases
+      * Mobile Events
+      * Outdoor Activations
+      * Remote Locations
+      * Flexible Venue Requirements
+Clickable Banner 
+AI Technology Focus
+Solutions powered by AI, built for brand engagement.
+Discover what AI can do for your brand.
+Video/Media
+https://youtu.be/fHKuVhofkxc
+PRODUCT 14: RETRO X
+SEO URL: iboothme.ae/product/retro-photo-booth
+Category: Standard | Retro & Immersive
+Product Description
+Retro X blends the charm of old-school photo booths with modern AI. With striking LED lighting and a large touchscreen, it delivers a stylish, high-impact experience.
+Key Features:
+      * Old-school charm with modern AI
+      * Striking LED lighting system
+      * Large touchscreen interface
+      * Stylish design aesthetic
+      * High-impact experience delivery
+      * Nostalgic appeal with tech innovation
+Technical Specifications
+      * Dimensions: H180cm x W80cm x D80cm
+      * Power Requirements: 13 Amp 220V AC
+      * Capacity: 80+ guests per hour
+      * Technology: AI photo processing with retro styling effects
+      * Support: 24/7 online support / On-site support
+      * Setup Time: 1-2 hours with power ready on site
+Use Cases
+      * Nostalgic Campaigns
+      * Vintage Brand Events
+      * Retro-Themed Activations
+      * Heritage Brand Experiences
+Clickable Banner 
+AI Technology Focus
+Solutions powered by AI, built for brand engagement.
+Discover what AI can do for your brand.
+Video/Media
+https://youtu.be/yFy-ffmNP6o
+
+
+PRODUCT 15: 120 SLIDER
+SEO URL: iboothme.ae/product/120-slider
+Category: Standard | Video Booth & Cinematic
+Product Description
+ 120 Slider brings smooth cinematic motion to your activations. Engineered for short-form content, it transforms every shot into scroll-stopping video with an AI touch. Compact, portable, and made for events where branded video is everything.
+Key Features
+      * Cinematic slider motion
+
+      * Compact, portable build
+
+      * AI-enhanced short videos
+
+      * Social-first output
+
+      * Professional finish in seconds
+
+      * Event-ready design
+
+Technical Specifications
+         * Dimensions: H70cm x W91cm x D30cm (slider not brandable, base can be wrapped)
+
+         * Power: 13 Amp 220V AC
+
+         * Capacity: 80+ interactions per hour
+
+         * Technology: Cinematic video slider + AI effects
+
+         * Support: 24/7 online / On-site
+
+         * Setup: 1–2 hours
+
+Use Cases
+            * Fashion events
+
+            * Premium launches
+
+            * Social-first campaigns
+
+            * Brand storytelling clips
+
+Video/Media
+https://youtu.be/M48azd5whPg
+________________
+
+
+PRODUCT 16: CLAW X
+SEO URL: iboothme.ae/product/claw-machine
+Category: Premium | Interactive Gaming & Prize Distribution
+Product Description
+Claw Machine is built to pull a crowd. The iconic claw is re-engineered for brands where guests play, grab, and win while your products sit at the center of the action. Suspense, buzz, and instant shareability in one machine.
+Key Features
+               * Iconic claw, redefined for activations
+
+               * Skill meets suspense for instant buzz
+
+               * Prizes tied directly to your brand
+
+               * Fully brandable cabinet (claw arm excluded)
+
+               * Gameplay that guests don’t walk past
+
+               * Engagement that multiplies on social
+
+Technical Specifications
+                  * Dimensions: H180cm x W76cm
+
+                  * Power: 13 Amp 220V AC
+
+                  * Capacity: 100+ guests per hour
+
+                  * Technology: Arcade claw system + digital integration
+
+                  * Support: 24/7 online / On-site
+
+                  * Setup: 1–2 hours
+
+Use Cases
+                     * Retail promotions
+
+                     * Sampling campaigns
+
+                     * Trade shows
+
+                     * High-traffic brand events
+
+Video/Media
+https://youtu.be/rc8kHOgyfzI

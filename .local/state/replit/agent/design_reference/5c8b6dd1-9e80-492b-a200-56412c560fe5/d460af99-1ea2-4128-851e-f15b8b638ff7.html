@@ -1,0 +1,707 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iBoothme - Revolutionary Brand Activations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-purple': '#8B5CF6',
+                        'neon-blue': '#06B6D4',
+                        'neon-green': '#10B981',
+                        'electric': '#3B82F6'
+                    },
+                    fontFamily: {
+                        'display': ['Inter', 'system-ui', 'sans-serif'],
+                        'body': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow-pulse': 'glow-pulse 2s ease-in-out infinite alternate',
+                        'marquee': 'marquee 30s linear infinite',
+                        'counter': 'counter 2s ease-out',
+                        'particle-drift': 'particle-drift 10s linear infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'bounce-gentle': 'bounce-gentle 3s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        'glow-pulse': {
+                            '0%': { boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)' },
+                            '100%': { boxShadow: '0 0 40px rgba(139, 92, 246, 0.8)' }
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(-100%)' }
+                        },
+                        counter: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0px)' }
+                        },
+                        'particle-drift': {
+                            '0%': { transform: 'translateY(100vh) translateX(0px)' },
+                            '100%': { transform: 'translateY(-100px) translateX(50px)' }
+                        },
+                        'bounce-gentle': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.6;
+        }
+        
+        .hero-bg {
+            background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.3) 0%, rgba(59, 130, 246, 0.2) 50%, rgba(0, 0, 0, 0.9) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateY(-10px);
+        }
+        
+        .tilt-effect:hover {
+            transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.05);
+        }
+        
+        .neon-glow {
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.8), 0 0 20px rgba(139, 92, 246, 0.6), 0 0 30px rgba(139, 92, 246, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-body antialiased">
+
+<!-- @COMPONENT: Navigation -->
+<nav class="fixed top-0 w-full z-50 glass-effect">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="text-2xl font-bold gradient-text">iBoothme</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="hover:text-neon-purple transition-colors duration-300">Products</a>
+                <a href="#" class="hover:text-neon-purple transition-colors duration-300">Technology</a>
+                <a href="#" class="hover:text-neon-purple transition-colors duration-300">Portfolio</a>
+                <a href="#" class="hover:text-neon-purple transition-colors duration-300">Contact</a>
+            </div>
+            <button class="bg-gradient-to-r from-neon-purple to-electric px-6 py-2 rounded-full hover:scale-105 transition-transform duration-300">
+                Get Started
+            </button>
+        </div>
+    </div>
+</nav>
+<!-- @END_COMPONENT: Navigation -->
+
+<!-- @COMPONENT: Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg">
+    <!-- @FUNCTIONALITY: This should implement Three.js infinity loop with glowing galaxy particles -->
+    <div class="floating-shapes">
+        <div class="floating-shape w-64 h-64 bg-gradient-to-r from-neon-purple to-transparent animate-float" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-shape w-48 h-48 bg-gradient-to-r from-neon-blue to-transparent animate-float" style="top: 60%; right: 15%; animation-delay: 2s;"></div>
+        <div class="floating-shape w-32 h-32 bg-gradient-to-r from-neon-green to-transparent animate-float" style="top: 40%; left: 70%; animation-delay: 4s;"></div>
+    </div>
+    
+    <div class="relative z-10 text-center max-w-6xl mx-auto px-6">
+        <!-- @FUNCTIONALITY: 3D Troika text implementation needed for "Get Your Brand Noticed" -->
+        <div class="mb-8 space-y-4">
+            <h1 class="text-7xl md:text-9xl font-black leading-none">
+                <span class="block gradient-text neon-glow animate-glow-pulse">Get Your</span>
+                <span class="block gradient-text neon-glow relative">
+                    Brand
+                    <!-- Glowing underline animation -->
+                    <div class="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-neon-purple to-neon-blue animate-pulse"></div>
+                </span>
+                <span class="block gradient-text neon-glow animate-glow-pulse">Noticed</span>
+            </h1>
+        </div>
+        
+        <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Revolutionary AI-powered brand activations that create unforgettable experiences and drive massive engagement
+        </p>
+        
+        <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+            <button class="group bg-gradient-to-r from-neon-purple to-electric px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-glow-pulse">
+                <span class="group-hover:animate-bounce-gentle">Request a Custom Concept</span>
+                <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform duration-300"></i>
+            </button>
+            <button class="glass-effect px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 border border-white/20">
+                Schedule a Virtual Consultation
+                <i class="fas fa-calendar ml-2"></i>
+            </button>
+        </div>
+    </div>
+</section>
+<!-- @END_COMPONENT: Hero Section -->
+
+<!-- @COMPONENT: Brand Activation Highlight -->
+<section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-blue-900/50">
+        <div class="floating-shapes">
+            <div class="floating-shape w-96 h-96 bg-gradient-to-r from-neon-purple/30 to-transparent animate-spin-slow" style="top: 10%; left: -10%;"></div>
+            <div class="floating-shape w-64 h-64 bg-gradient-to-r from-neon-blue/30 to-transparent animate-spin-slow" style="top: 50%; right: -10%; animation-delay: 3s;"></div>
+        </div>
+    </div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto text-center px-6">
+        <div class="inline-block glass-effect px-6 py-2 rounded-full mb-8">
+            <span class="gradient-text font-semibold">Revolutionary Technology</span>
+        </div>
+        
+        <h2 class="text-5xl md:text-7xl font-black mb-8 gradient-text neon-glow">
+            AI designed for brand activations
+        </h2>
+        
+        <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+            Our cutting-edge artificial intelligence creates personalized, immersive experiences that adapt in real-time to your audience
+        </p>
+        
+        <button class="bg-gradient-to-r from-neon-green to-neon-blue px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-glow-pulse">
+            Explore Our AI Tech
+            <i class="fas fa-robot ml-2"></i>
+        </button>
+    </div>
+</section>
+<!-- @END_COMPONENT: Brand Activation Highlight -->
+
+<!-- @COMPONENT: Products Section -->
+<section class="py-32 bg-gradient-to-b from-gray-900 to-black">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20">
+            <h2 class="text-5xl md:text-6xl font-black mb-6 gradient-text">More Than Photo Booths</h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                Immersive experiences that blend physical and digital worlds to create unforgettable brand moments
+            </p>
+        </div>
+        
+        <!-- @MAP: products.map(product => ( -->
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <div class="card-hover tilt-effect glass-effect rounded-2xl p-8 group">
+                <!-- Premium photo booth with holographic display and LED strips -->
+                <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Premium holographic photo booth" class="rounded-xl mb-6 group-hover:scale-105 transition-transform duration-500" />
+                <h3 class="text-2xl font-bold mb-4 gradient-text">HoloBoothᵀᴹ</h3>
+                <p class="text-gray-300 mb-6">Holographic displays with AI-powered gesture recognition for next-level brand interactions</p>
+                <div class="flex items-center text-neon-blue font-semibold">
+                    <span>Explore Features</span>
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform duration-300"></i>
+                </div>
+            </div>
+            
+            <div class="card-hover tilt-effect glass-effect rounded-2xl p-8 group">
+                <!-- Interactive gaming station with VR headset and motion sensors -->
+                <img src="https://pixabay.com/get/g1ded401361c92c9fda1fd889631945c69ca037ff972d99e338bd52ef5c16da16c751651bd7bebe07688ccc9c753b708b1c9cd895e38d748f7d9403ddbaa99fc6_1280.jpg" alt="VR gaming activation booth" class="rounded-xl mb-6 group-hover:scale-105 transition-transform duration-500" />
+                <h3 class="text-2xl font-bold mb-4 gradient-text">GameXperienceᵀᴹ</h3>
+                <p class="text-gray-300 mb-6">Virtual reality gaming stations with custom brand integration and real-time leaderboards</p>
+                <div class="flex items-center text-neon-blue font-semibold">
+                    <span>View Games</span>
+                    <i class="fas fa-gamepad ml-2 group-hover:translate-x-2 transition-transform duration-300"></i>
+                </div>
+            </div>
+            
+            <div class="card-hover tilt-effect glass-effect rounded-2xl p-8 group">
+                <!-- AI-powered interactive display with motion tracking -->
+                <img src="https://pixabay.com/get/gccb428a52659ea520839fba8eb13d4178e8fab719436d597b2290685179758ac7275beab37fb416ef62565000e8abd04290b05b40abd6b4d13d1e4b2965cdacd_1280.jpg" alt="AI interactive display installation" class="rounded-xl mb-6 group-hover:scale-105 transition-transform duration-500" />
+                <h3 class="text-2xl font-bold mb-4 gradient-text">TaliaAIᵀᴹ</h3>
+                <p class="text-gray-300 mb-6">AI assistant with facial recognition and personalized brand recommendations</p>
+                <div class="flex items-center text-neon-blue font-semibold">
+                    <span>Meet Talia</span>
+                    <i class="fas fa-brain ml-2 group-hover:translate-x-2 transition-transform duration-300"></i>
+                </div>
+            </div>
+        </div>
+        <!-- @END_MAP -->
+        
+        <div class="text-center">
+            <div class="flex flex-col md:flex-row gap-6 justify-center">
+                <button class="glass-effect px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 border border-white/20">
+                    View All Models
+                    <i class="fas fa-grid ml-2"></i>
+                </button>
+                <button class="bg-gradient-to-r from-neon-purple to-electric px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300">
+                    Product Lineup Video 2024
+                    <i class="fas fa-play ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- @END_COMPONENT: Products Section -->
+
+<!-- @COMPONENT: Meet Talia Robot Section -->
+<section class="py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">
+        <!-- @FUNCTIONALITY: Animated circuit lines background -->
+        <div class="absolute inset-0 opacity-20">
+            <svg class="w-full h-full" viewBox="0 0 1000 600">
+                <path d="M0,300 Q250,100 500,300 T1000,300" stroke="url(#circuit-gradient)" stroke-width="2" fill="none" opacity="0.6">
+                    <animate attributeName="stroke-dasharray" values="0,1000;1000,0;0,1000" dur="8s" repeatCount="indefinite" />
+                </path>
+                <defs>
+                    <linearGradient id="circuit-gradient">
+                        <stop offset="0%" stop-color="#8B5CF6"/>
+                        <stop offset="50%" stop-color="#06B6D4"/>
+                        <stop offset="100%" stop-color="#10B981"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-5xl md:text-6xl font-black mb-8 gradient-text neon-glow">
+                    Meet Talia
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                    Our AI-powered robot assistant creates personalized brand experiences through advanced facial recognition, natural language processing, and real-time emotion analysis.
+                </p>
+                <ul class="space-y-4 mb-12">
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-check-circle text-neon-green mr-4"></i>
+                        <span>Advanced facial recognition & emotion detection</span>
+                    </li>
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-check-circle text-neon-green mr-4"></i>
+                        <span>Natural language processing in 12+ languages</span>
+                    </li>
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-check-circle text-neon-green mr-4"></i>
+                        <span>Real-time brand personality adaptation</span>
+                    </li>
+                </ul>
+                <button class="bg-gradient-to-r from-neon-purple to-electric px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-glow-pulse">
+                    Discover Talia
+                    <i class="fas fa-robot ml-2"></i>
+                </button>
+            </div>
+            
+            <div class="relative">
+                <!-- @FUNCTIONALITY: Autoplay looping video of Talia with glowing frame effect -->
+                <!-- Futuristic humanoid robot with glowing blue LED accents -->
+                <div class="relative rounded-2xl overflow-hidden animate-glow-pulse">
+                    <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=1000" alt="Talia AI robot with holographic interface" class="rounded-2xl" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent"></div>
+                    <div class="absolute top-4 right-4 glass-effect px-4 py-2 rounded-full">
+                        <span class="text-sm font-semibold text-neon-green">● LIVE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- @END_COMPONENT: Meet Talia Robot Section -->
+
+<!-- @COMPONENT: Beyond Photo Booths -->
+<section class="py-32 bg-gradient-to-b from-black to-gray-900">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20">
+            <h2 class="text-5xl md:text-6xl font-black mb-6 gradient-text">Beyond Photo Booths</h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                Complete ecosystem of immersive brand activation solutions
+            </p>
+        </div>
+        
+        <!-- @MAP: services.map(service => ( -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="group relative overflow-hidden rounded-2xl aspect-square cursor-pointer">
+                <!-- Film production studio with professional lighting and camera equipment -->
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800" alt="Professional film production studio" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-neon-purple/0 to-neon-purple/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <h3 class="text-2xl font-bold mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Production</h3>
+                    <p class="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">End-to-end content creation and brand storytelling</p>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-2xl aspect-square cursor-pointer">
+                <!-- Hybrid AR/VR experience with people wearing mixed reality headsets -->
+                <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800" alt="Hybrid AR VR experience setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-neon-blue/0 to-neon-blue/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <h3 class="text-2xl font-bold mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Hybrid Experiences</h3>
+                    <p class="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Seamless blend of physical and digital interactions</p>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-2xl aspect-square cursor-pointer">
+                <!-- Interactive gaming setup with multiple screens and controllers -->
+                <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800" alt="Interactive gaming installation" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-neon-green/0 to-neon-green/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <h3 class="text-2xl font-bold mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Gamification</h3>
+                    <p class="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Interactive challenges and competitive experiences</p>
+                </div>
+            </div>
+            
+            <div class="group relative overflow-hidden rounded-2xl aspect-square cursor-pointer">
+                <!-- Modern web development workspace with multiple monitors showing code -->
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800" alt="Web application development setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-orange-500/0 to-orange-500/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <h3 class="text-2xl font-bold mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Web App</h3>
+                    <p class="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Custom digital platforms and brand ecosystems</p>
+                </div>
+            </div>
+        </div>
+        <!-- @END_MAP -->
+    </div>
+</section>
+<!-- @END_COMPONENT: Beyond Photo Booths -->
+
+<!-- @COMPONENT: Stats / Social Proof -->
+<section class="py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-black"></div>
+    <div class="absolute inset-0 opacity-30">
+        <div class="floating-shapes">
+            <div class="floating-shape w-32 h-32 bg-gradient-to-r from-neon-purple/50 to-transparent animate-pulse" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+            <div class="floating-shape w-24 h-24 bg-gradient-to-r from-neon-blue/50 to-transparent animate-pulse" style="top: 60%; right: 15%; animation-delay: 2s;"></div>
+            <div class="floating-shape w-16 h-16 bg-gradient-to-r from-neon-green/50 to-transparent animate-pulse" style="top: 40%; left: 70%; animation-delay: 4s;"></div>
+        </div>
+    </div>
+    
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-black mb-20 gradient-text">Proven Impact</h2>
+        
+        <!-- @MAP: stats.map(stat => ( -->
+        <div class="grid md:grid-cols-3 gap-12">
+            <div class="group">
+                <div class="text-6xl md:text-8xl font-black gradient-text neon-glow mb-4" data-counter="500">
+                    <!-- @STATE: counter animation on scroll -->
+                    <span data-bind="stats.socialShares">500M+</span>
+                </div>
+                <p class="text-xl text-gray-300 group-hover:text-white transition-colors duration-300">Social Shares Generated</p>
+            </div>
+            
+            <div class="group">
+                <div class="text-6xl md:text-8xl font-black gradient-text neon-glow mb-4" data-counter="98">
+                    <span data-bind="stats.engagement">98%</span>
+                </div>
+                <p class="text-xl text-gray-300 group-hover:text-white transition-colors duration-300">Average Engagement Uplift</p>
+            </div>
+            
+            <div class="group">
+                <div class="text-6xl md:text-8xl font-black gradient-text neon-glow mb-4" data-counter="150">
+                    <span data-bind="stats.activations">150+</span>
+                </div>
+                <p class="text-xl text-gray-300 group-hover:text-white transition-colors duration-300">Global Brand Activations</p>
+            </div>
+        </div>
+        <!-- @END_MAP -->
+    </div>
+</section>
+<!-- @END_COMPONENT: Stats / Social Proof -->
+
+<!-- @COMPONENT: CTA Split Section -->
+<section class="py-32">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="group glass-effect rounded-3xl p-12 hover:scale-105 transition-all duration-500 tilt-effect cursor-pointer">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-neon-purple to-electric rounded-full mx-auto mb-8 flex items-center justify-center animate-bounce-gentle">
+                        <i class="fas fa-lightbulb text-2xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-6 gradient-text">Get Ideas</h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Explore our inspiration gallery and see how top brands create unforgettable experiences with our technology
+                    </p>
+                    <button class="bg-gradient-to-r from-neon-purple to-electric px-8 py-4 rounded-full font-semibold group-hover:scale-105 transition-all duration-300 w-full">
+                        Browse Gallery
+                        <i class="fas fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform duration-300"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="group glass-effect rounded-3xl p-12 hover:scale-105 transition-all duration-500 tilt-effect cursor-pointer">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-neon-blue to-neon-green rounded-full mx-auto mb-8 flex items-center justify-center animate-bounce-gentle">
+                        <i class="fas fa-cogs text-2xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-6 gradient-text">Request Customisation</h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Work with our team to create a bespoke brand activation tailored specifically to your vision and objectives
+                    </p>
+                    <button class="glass-effect border border-white/20 px-8 py-4 rounded-full font-semibold group-hover:scale-105 transition-all duration-300 w-full hover:bg-white/10">
+                        Start Project
+                        <i class="fas fa-rocket ml-2 group-hover:translate-x-2 transition-transform duration-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- @END_COMPONENT: CTA Split Section -->
+
+<!-- @COMPONENT: Analytics Section -->
+<section class="py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-indigo-900/20 to-purple-900/20"></div>
+    
+    <!-- @FUNCTIONALITY: Particle drift effects -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="particle absolute w-1 h-1 bg-white rounded-full animate-particle-drift opacity-60" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle absolute w-1 h-1 bg-neon-purple rounded-full animate-particle-drift opacity-40" style="left: 30%; animation-delay: 3s;"></div>
+        <div class="particle absolute w-1 h-1 bg-neon-blue rounded-full animate-particle-drift opacity-50" style="left: 50%; animation-delay: 6s;"></div>
+        <div class="particle absolute w-1 h-1 bg-neon-green rounded-full animate-particle-drift opacity-30" style="left: 70%; animation-delay: 9s;"></div>
+        <div class="particle absolute w-1 h-1 bg-white rounded-full animate-particle-drift opacity-70" style="left: 90%; animation-delay: 12s;"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto text-center px-6">
+        <h2 class="text-4xl md:text-6xl font-black mb-8 gradient-text neon-glow">
+            Every activation is built for impact and proven with detailed analytics
+        </h2>
+        
+        <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+            Real-time insights, comprehensive reporting, and actionable data to maximize your brand's return on experience
+        </p>
+        
+        <button class="bg-gradient-to-r from-neon-purple to-electric px-8 py-4 rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 animate-glow-pulse">
+            See What You Get
+            <i class="fas fa-chart-line ml-2"></i>
+        </button>
+    </div>
+</section>
+<!-- @END_COMPONENT: Analytics Section -->
+
+<!-- @COMPONENT: Global Clients / Logos -->
+<section class="py-32 bg-gradient-to-b from-gray-900 to-black overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-black mb-6 gradient-text">Trusted by Global Brands</h2>
+            <p class="text-xl text-gray-400">Join the world's most innovative companies creating unforgettable experiences</p>
+        </div>
+        
+        <!-- @FUNCTIONALITY: Scrolling marquee with hover reverse -->
+        <div class="relative overflow-hidden">
+            <div class="flex animate-marquee hover:animation-pause">
+                <!-- @MAP: brands.map(brand => ( -->
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Apple</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Google</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Nike</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Coca-Cola</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Samsung</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Tesla</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Netflix</span>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 mx-8">
+                    <div class="glass-effect px-6 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:animate-glow-pulse">
+                        <span class="text-xl font-bold gradient-text">Spotify</span>
+                    </div>
+                </div>
+                <!-- @END_MAP -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- @END_COMPONENT: Global Clients / Logos -->
+
+<!-- @COMPONENT: Footer -->
+<footer class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-purple-900/20 to-transparent"></div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-12 mb-16">
+            <!-- Navigation -->
+            <div>
+                <h3 class="text-2xl font-bold gradient-text mb-6">Navigation</h3>
+                <ul class="space-y-4">
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Products</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Technology</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Portfolio</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">About</a></li>
+                </ul>
+            </div>
+            
+            <!-- Social -->
+            <div>
+                <h3 class="text-2xl font-bold gradient-text mb-6">Social</h3>
+                <div class="flex space-x-4 mb-6">
+                    <a href="#" class="w-12 h-12 glass-effect rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 animate-bounce-gentle">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 glass-effect rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 animate-bounce-gentle">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 glass-effect rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 animate-bounce-gentle">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+                <p class="text-gray-400 text-sm">Follow our journey</p>
+            </div>
+            
+            <!-- Legal -->
+            <div>
+                <h3 class="text-2xl font-bold gradient-text mb-6">Legal</h3>
+                <ul class="space-y-4">
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Terms of Service</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Cookie Policy</a></li>
+                </ul>
+            </div>
+            
+            <!-- Contact -->
+            <div>
+                <h3 class="text-2xl font-bold gradient-text mb-6">Contact</h3>
+                <p class="text-gray-300 mb-4">hello@iBoothme</p>
+                <p class="text-gray-300 mb-6">+1 (555) 123-4567</p>
+                
+                <!-- Newsletter -->
+                <div class="glass-effect rounded-2xl p-6">
+                    <h4 class="font-semibold mb-4">Stay Connected</h4>
+                    <div class="flex">
+                        <input type="email" placeholder="your@email.com" class="flex-1 bg-white/10 border border-white/20 rounded-l-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-neon-purple focus:bg-white/20 transition-all duration-300" />
+                        <button class="bg-gradient-to-r from-neon-purple to-electric px-6 py-2 rounded-r-full hover:scale-105 transition-all duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-white/10 pt-8 text-center">
+            <div class="text-3xl font-bold gradient-text mb-4">iBoothme</div>
+            <p class="text-gray-400">© 2024 iBoothme. Revolutionizing brand experiences worldwide.</p>
+        </div>
+    </div>
+</footer>
+<!-- @END_COMPONENT: Footer -->
+
+<script>
+    // TODO: Implement Three.js integration for hero background
+    // TODO: Implement GSAP/Framer Motion for advanced animations
+    // TODO: Implement intersection observer for scroll-triggered animations
+    // TODO: Implement counter animations for stats section
+    // TODO: Implement smooth scrolling and parallax effects
+    
+    (function() {
+        // Basic intersection observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-counter');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe stat counters
+        document.querySelectorAll('[data-counter]').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Hover effects for marquee
+        const marquee = document.querySelector('.animate-marquee');
+        if (marquee) {
+            marquee.addEventListener('mouseenter', () => {
+                marquee.style.animationPlayState = 'paused';
+            });
+            
+            marquee.addEventListener('mouseleave', () => {
+                marquee.style.animationPlayState = 'running';
+            });
+        }
+        
+        // Enhanced card hover effects
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            });
+        });
+    })();
+</script>
+
+</body>
+</html>
