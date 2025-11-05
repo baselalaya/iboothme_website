@@ -114,6 +114,89 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Media: Public list (read-only)
+  // Returns paginated media items ordered by created_at desc
+  app.get('/api/media', async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const { page = '1', pageSize = '20' } = req.query as any;
+      const p = Math.max(1, parseInt(page as string, 10) || 1);
+      const ps = Math.min(100, Math.max(1, parseInt(pageSize as string, 10) || 20));
+      const from = (p - 1) * ps;
+      const to = p * ps - 1;
+
+      const { data, error, count } = await supabase
+        .from('media')
+        .select('id,url,type,title,tags,published,created_at,updated_at', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .range(from, to);
+
+      if (error) return res.status(500).json({ message: error.message });
+      return res.json({ data: data || [], count: count || 0, page: p, pageSize: ps });
+    } catch (e: any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Media: Admin - create presigned upload URL (stub if no provider configured)
+  app.post('/api/media/upload-url', requireAdmin, async (req, res) => {
+    try {
+      // If you have a real object storage, wire it here to return presigned PUT URL.
+      // For now, return a 501 Not Implemented to indicate the route exists.
+      return res.status(501).json({ message: 'upload-url not configured' });
+    } catch (e: any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Media: Admin - upsert media record
+  app.post('/api/media', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const body = req.body || {};
+      body.updated_at = new Date().toISOString();
+      const { data, error } = await supabase
+        .from('media')
+        .upsert(body, { onConflict: 'id' })
+        .select()
+        .single();
+      if (error) return res.status(500).json({ message: error.message });
+      return res.status(200).json(data);
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Media: Admin - update by id
+  app.put('/api/media/:id', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const patch = { ...(req.body || {}), updated_at: new Date().toISOString() };
+      const { data, error } = await supabase
+        .from('media')
+        .update(patch)
+        .eq('id', req.params.id)
+        .select()
+        .single();
+      if (error) return res.status(500).json({ message: error.message });
+      return res.json(data);
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Media: Admin - delete by id
+  app.delete('/api/media/:id', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const { error } = await supabase.from('media').delete().eq('id', req.params.id);
+      if (error) return res.status(500).json({ message: error.message });
+      return res.json({ ok: true });
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
   // Articles: Public single by slug
   app.get('/api/articles/:slug', async (req, res) => {
     try {
