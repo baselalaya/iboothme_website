@@ -248,10 +248,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Static Pages: slug validation helper
   function normalizeSlug(input: string): string {
     let s = (input || '').toLowerCase().trim();
-    s = s.replace(/[^a-z0-9\/-]+/g, '-');
-    s = s.replace(/-{2,}/g, '-');
-    s = s.replace(/\/-+|+-\//g, '/');
-    s = s.replace(/^[-/]+|[-/]+$/g, '');
+    s = s.replace(/[^a-z0-9\/-]+/g, '-'); // keep only a-z0-9, -, /
+    s = s.replace(/-{2,}/g, '-');         // collapse multiple hyphens
+    s = s.replace(/\/+/, '/');           // collapse multiple slashes (run a few times)
+    s = s.replace(/\/+/, '/');
+    s = s.replace(/\/+/, '/');
+    s = s.replace(/^[-/]+|[-/]+$/g, '');  // trim leading/trailing - or /
     return s;
   }
   const reservedSlugs = new Set(['api','admin','images','assets','videos','static','sitemap.xml','robots.txt','favicon.ico','_next','_vercel','s']);
