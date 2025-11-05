@@ -4,6 +4,7 @@ import Seo from "@/components/seo";
 import { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { getAdminKey, adminApi } from "@/lib/adminApi";
+import { apiBaseJoin } from "@/lib/publicApi";
 
 type MediaItem = {
   id: string;
@@ -25,14 +26,14 @@ async function uploadViaPresign(file: File, access: 'public'|'private' = 'public
   const ext = file.name.split('.').pop() || 'bin';
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, '-');
   const presign = await adminApi('POST', '/api/media/upload-url', {
-    fileName: safeName,
+    filename: safeName,
     contentType: file.type || `application/octet-stream`,
     access,
   });
-  const { uploadUrl, url } = presign as any;
+  const { uploadUrl, publicUrl } = presign as any;
   const put = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file });
   if (!put.ok) throw new Error('Failed to upload to storage');
-  return url as string;
+  return (publicUrl as string) || '';
 }
 
 export default function AdminMediaPage() {
