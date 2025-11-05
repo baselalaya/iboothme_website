@@ -181,6 +181,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const supabase = getSupabaseAdmin();
       const body = req.body || {};
+      // sanitize id: drop empty string so DB can auto-generate UUID on insert
+      if (body.id === '' || body.id === null) {
+        delete body.id;
+      }
       body.updated_at = new Date().toISOString();
       const { data, error } = await supabase
         .from('media_items')
