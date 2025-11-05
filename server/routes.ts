@@ -126,8 +126,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const to = p * ps - 1;
 
       const { data, error, count } = await supabase
-        .from('media')
-        .select('id,url,type,title,tags,published,created_at,updated_at', { count: 'exact' })
+        .from('media_items')
+        .select('id,url,type,title,slug,thumbnail_url,tags,published,created_at,updated_at', { count: 'exact' })
         .order('created_at', { ascending: false })
         .range(from, to);
 
@@ -156,7 +156,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const body = req.body || {};
       body.updated_at = new Date().toISOString();
       const { data, error } = await supabase
-        .from('media')
+        .from('media_items')
         .upsert(body, { onConflict: 'id' })
         .select()
         .single();
@@ -173,7 +173,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const supabase = getSupabaseAdmin();
       const patch = { ...(req.body || {}), updated_at: new Date().toISOString() };
       const { data, error } = await supabase
-        .from('media')
+        .from('media_items')
         .update(patch)
         .eq('id', req.params.id)
         .select()
@@ -189,7 +189,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete('/api/media/:id', requireAdmin, async (req, res) => {
     try {
       const supabase = getSupabaseAdmin();
-      const { error } = await supabase.from('media').delete().eq('id', req.params.id);
+      const { error } = await supabase.from('media_items').delete().eq('id', req.params.id);
       if (error) return res.status(500).json({ message: error.message });
       return res.json({ ok: true });
     } catch (e:any) {
