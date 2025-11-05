@@ -3,6 +3,7 @@ import FooterSection from "@/components/footer-section";
 import Seo from "@/components/seo";
 import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { apiBaseJoin } from "../lib/publicApi";
 import { createPortal } from "react-dom";
 import { useLocation } from "wouter";
 import { applySeoToHead, fetchSeoConfig } from "@/lib/seoOverride";
@@ -68,7 +69,7 @@ export default function AiEffectsGallery() {
     try{
       const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
       if (active && active !== 'All') params.set('tag', active);
-      const res = await fetch(`/api/media?${params.toString()}`);
+      const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
       const ct = res.headers.get('content-type') || '';
       let json: any;
       if (ct.includes('application/json')) json = await res.json(); else { const txt = await res.text(); try{ json = JSON.parse(txt);}catch{ throw new Error('Unexpected response'); } }

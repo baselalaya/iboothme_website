@@ -3,6 +3,7 @@ import FooterSection from "@/components/footer-section";
 import Seo from "@/components/seo";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { useEffect, useMemo, useState } from "react";
+import { apiBaseJoin } from "../lib/publicApi";
 import { applySeoToHead, fetchSeoConfig } from "@/lib/seoOverride";
 
 type Article = {
@@ -32,7 +33,7 @@ export default function InsightsPage(){
     try{
       const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
       if (q) params.set('q', q); if (tag) params.set('tag', tag);
-      const res = await fetch(`/api/articles?${params.toString()}`);
+      const res = await fetch(apiBaseJoin(`/api/articles?${params.toString()}`));
       const json = await res.json();
       if(!res.ok) throw new Error(json?.message||'Failed');
       setData(json.data||[]); setCount(json.count||0);

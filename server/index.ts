@@ -4,11 +4,32 @@ import dotenv from 'dotenv';
 dotenv.config();
 dotenv.config({ path: '.env.local' });
 import { registerRoutes } from "./routes";
+import cors from 'cors';
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// CORS: allow frontend on Vercel and iboothme domains to call the API
+const allowedOrigins: (string|RegExp)[] = [
+  /^https?:\/\/.*\.vercel\.app$/,
+  'https://stagingbooth.vercel.app',
+  'https://www.iboothme.com',
+  'https://iboothme.com',
+];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const ok = allowedOrigins.some((p) => typeof p === 'string' ? p === origin : p.test(origin));
+    callback(ok ? null : new Error('Not allowed by CORS'), ok);
+  },
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','x-admin-key'],
+  credentials: false,
+  maxAge: 600,
+}));
+app.options('*', (_req, res) => res.sendStatus(204));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -60,7 +81,9 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    if (process.env.SERVE_CLIENT !== 'false') {
+      serveStatic(app);
+    }
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT

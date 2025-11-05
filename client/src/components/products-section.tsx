@@ -6,6 +6,7 @@ import { ArrowRight, Grid3X3, Play } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useEffect, useState } from "react";
+import { apiBaseJoin } from "../lib/publicApi";
 import { products as dataProducts } from "@/data/products";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay, Navigation as SwiperNavigation } from "swiper/modules";
@@ -77,7 +78,7 @@ export default function ProductsSection() {
     const url =
       (typeof window !== 'undefined' && (window as any).__PRODUCTS_URL__) ||
       "/data/products.json";
-    fetch(url, { cache: 'no-store' })
+    fetch(apiBaseJoin(url), { cache: 'no-store' })
       .then(async (res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();

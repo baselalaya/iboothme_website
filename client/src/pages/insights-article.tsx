@@ -3,6 +3,7 @@ import FooterSection from "@/components/footer-section";
 import Seo from "@/components/seo";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { useEffect, useMemo, useState } from "react";
+import { apiBaseJoin } from "../lib/publicApi";
 import { useRoute } from "wouter";
 
 type Article = {
@@ -50,13 +51,13 @@ export default function InsightArticlePage(){
     setError(undefined);
     try {
       // Prefer query-based endpoint to avoid any dynamic route quirks on Vercel
-      const firstUrl = `/api/articles/by-slug?slug=${encodeURIComponent(slug)}`;
+      const firstUrl = apiBaseJoin(`/api/articles/by-slug?slug=${encodeURIComponent(slug)}`);
       let data: any;
       try {
         data = await tryFetch(firstUrl);
       } catch (e:any) {
         // Fallback to dynamic route if the first attempt returns HTML or fails parsing
-        const fallbackUrl = `/api/articles/${encodeURIComponent(slug)}`;
+        const fallbackUrl = apiBaseJoin(`/api/articles/${encodeURIComponent(slug)}`);
         data = await tryFetch(fallbackUrl);
       }
       setArticle(data);

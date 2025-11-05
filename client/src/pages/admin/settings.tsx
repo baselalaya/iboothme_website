@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiBaseJoin } from '../../lib/publicApi';
 // Top admin nav removed; using floating bottom nav
 import AdminBottomNav from '@/components/admin-bottom-nav';
 import { adminApi, getAdminKey } from '@/lib/adminApi';
@@ -24,12 +25,12 @@ export default function AdminSettingsPage() {
     if (!getAdminKey()) { window.location.href = '/admin/login'; return; }
     (async () => {
       try {
-        const res = await fetch('/api/settings/ga');
+        const res = await fetch(apiBaseJoin('/api/settings/ga'));
         if (res.ok) {
           const { id } = await res.json();
           setGaId(id || '');
         }
-        const pub = await fetch('/api/settings/public');
+        const pub = await fetch(apiBaseJoin('/api/settings/public'));
         if (pub.ok) {
           const js = await pub.json();
           setGoogleVerify(js.google_site_verification || '');
@@ -48,7 +49,7 @@ export default function AdminSettingsPage() {
         setGaClientEmail(map['ga_client_email'] || '');
         setGaPrivateKey(map['ga_private_key'] || '');
         try {
-          const h = await fetch('/api/health/env');
+          const h = await fetch(apiBaseJoin('/api/health/env'));
           setEnvHealth(h.ok ? await h.json() : null);
         } catch (e) {
           console.error('Health check failed', e);

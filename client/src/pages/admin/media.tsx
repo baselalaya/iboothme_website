@@ -77,7 +77,7 @@ export default function AdminMediaPage() {
     }
     // refresh
     setEditing(null);
-    const res = await fetch(`/api/media?page=${page}&pageSize=${pageSize}`);
+    const res = await fetch(apiBaseJoin(`/api/media?page=${page}&pageSize=${pageSize}`));
     const json = await res.json();
     setItems(json.data||[]); setTotal(json.count||0);
   };
@@ -87,7 +87,7 @@ export default function AdminMediaPage() {
     await adminApi('DELETE', `/api/media/${id}`);
     toast({ title: 'Media deleted' });
     // refresh
-    const res = await fetch(`/api/media?page=${page}&pageSize=${pageSize}`);
+    const res = await fetch(apiBaseJoin(`/api/media?page=${page}&pageSize=${pageSize}`));
     const json = await res.json();
     setItems(json.data||[]); setTotal(json.count||0);
   };

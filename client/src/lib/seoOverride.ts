@@ -1,3 +1,5 @@
+import { apiBaseJoin } from "./publicApi";
+
 export type SeoConfig = {
   id: string;
   title?: string;
@@ -11,7 +13,7 @@ export type SeoConfig = {
 
 export async function fetchSeoConfig(path: string): Promise<SeoConfig | null> {
   try {
-    const res = await fetch(`/api/seo/${encodeURIComponent(path)}`);
+    const res = await fetch(apiBaseJoin(`/api/seo/${encodeURIComponent(path)}`));
     if (!res.ok) return null;
     return await res.json();
   } catch {
@@ -62,4 +64,3 @@ function setJsonLd(data: any) {
   script.text = typeof data === 'string' ? data : JSON.stringify(data);
   document.head.appendChild(script);
 }
-

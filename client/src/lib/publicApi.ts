@@ -11,9 +11,13 @@ function sleep(ms: number) { return new Promise(res => setTimeout(res, ms)); }
 
 export type PublicApiOptions = { timeoutMs?: number; retries?: number; backoffMs?: number; headers?: Record<string,string> };
 
-export async function publicApi<T = any>(method: string, path: string, body?: any, opts?: PublicApiOptions): Promise<T | null> {
+export function apiBaseJoin(path: string): string {
   const base = (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_BASE) || '';
-  const url = base ? base.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`) : path;
+  return base ? base.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`) : path;
+}
+
+export async function publicApi<T = any>(method: string, path: string, body?: any, opts?: PublicApiOptions): Promise<T | null> {
+  const url = apiBaseJoin(path);
   const timeoutMs = opts?.timeoutMs ?? 5000;
   const retries = Math.max(0, opts?.retries ?? 1);
   const backoff = Math.max(0, opts?.backoffMs ?? 600);
@@ -45,4 +49,3 @@ export async function publicApi<T = any>(method: string, path: string, body?: an
     }
   }
 }
-

@@ -6,12 +6,13 @@ export function getAdminKey() {
   }
 }
 
+import { apiBaseJoin } from './publicApi';
+
 export async function adminApi<T = any>(method: string, path: string, body?: any): Promise<T> {
-  const base = (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_BASE) || '';
   const headers: Record<string,string> = { 'Content-Type': 'application/json' };
   const key = getAdminKey();
   if (key) headers['x-admin-key'] = key;
-  const url = base ? base.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`) : path;
+  const url = apiBaseJoin(path);
 
   const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
   const ct = res.headers.get('content-type') || '';
@@ -33,4 +34,3 @@ export async function adminApi<T = any>(method: string, path: string, body?: any
   try { return JSON.parse(text) as T; } catch {}
   throw new Error('Unexpected non-JSON response');
 }
-

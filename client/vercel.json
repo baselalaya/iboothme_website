@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://api.iboothme.com/api/$1" }
+  ]
+}

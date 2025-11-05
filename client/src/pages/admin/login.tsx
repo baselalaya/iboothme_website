@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { apiBaseJoin } from '../../lib/publicApi';
 
 export default function AdminLoginPage() {
   const [key, setKey] = useState('');
@@ -10,7 +11,7 @@ export default function AdminLoginPage() {
     try {
       localStorage.setItem('adminKey', key);
       // quick ping to verify
-      const res = await fetch('/api/seo', { headers: { 'x-admin-key': key }});
+      const res = await fetch(apiBaseJoin('/api/seo'), { headers: { 'x-admin-key': key }});
       if (!res.ok) {
         const text = await res.text().catch(()=> '');
         // try to extract message json
