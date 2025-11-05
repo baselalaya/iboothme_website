@@ -18,6 +18,7 @@ export default function AdminBottomNav() {
         <Link href="/admin" className={linkCls('/admin')}>Dashboard</Link>
         <Link href="/admin/leads" className={linkCls('/admin/leads')}>Leads</Link>
         <Link href="/admin/articles" className={linkCls('/admin/articles')}>Articles</Link>
+        <Link href="/admin/pages" className={linkCls('/admin/pages')}>Pages</Link>
         <Link href="/admin/media" className={linkCls('/admin/media')}>Media</Link>
         <Link href="/admin/seo" className={linkCls('/admin/seo')}>SEO</Link>
         <Link href="/admin/settings" className={linkCls('/admin/settings')}>Settings</Link>

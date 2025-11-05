@@ -44,17 +44,23 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
     return () => { if (obs && el) obs.unobserve(el); };
   }, []);
   return (
-    <video
-      ref={ref}
-      src={src}
-      className="w-full h-auto"
-      muted={!reduced}
-      playsInline
-      loop={!reduced}
-      controls={reduced}
-      preload="metadata"
-      poster={poster}
-    />
+    <div className="absolute inset-0 flex">
+      <div className="m-auto w-full h-full">
+        <div className="w-full h-full aspect-[9/16] max-h-full mx-auto">
+          <video
+            ref={ref}
+            src={src}
+            className="w-full h-full object-cover"
+            muted={!reduced}
+            playsInline
+            loop={!reduced}
+            controls={reduced}
+            preload="metadata"
+            poster={poster}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -109,7 +115,7 @@ export default function GetIdeasPage() {
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Get Ideas' }]} />
         </div>
         {/* Hero */}
-        <section className="relative w-full overflow-hidden min-h-[70vh] text-center mb-14 rounded-[28px] flex items-center justify-center">
+        <section className="relative w-full overflow-hidden min-h-[30vh] text-center mb-14 rounded-[28px] flex items-center justify-center">
           <div className="absolute inset-0 -z-10 opacity-30 overflow-hidden">
             <video className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[100vh] md:w-[177.78vw] md:h-[56.25vw] max-w-none" autoPlay muted loop playsInline preload="metadata">
               <source src="/videos/get-ideas.mp4" />
@@ -117,7 +123,7 @@ export default function GetIdeasPage() {
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0.85)_10%,rgba(0,0,0,0)_40%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.85)_90%,rgba(0,0,0,1)_100%)]" />
             <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_82%)]" />
           </div>
-          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 lg:py-24 min-h-[70vh] flex flex-col items-center justify-center">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 lg:py-24 min-h-[30vh] flex flex-col items-center justify-center">
             <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/15 bg-white/10 backdrop-blur mb-6">
               <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span className="text-sm font-semibold tracking-wide uppercase">Get Ideas</span>
@@ -146,58 +152,13 @@ export default function GetIdeasPage() {
         
         {/* Inside the Ideas – preview from Creative Results with filters */}
         <section className="max-w-7xl mx-auto px-6 mb-12">
-          <div className="text-center mb-8 opacity-60">⸻</div>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-2">Inside the Ideas</h2>
-          <p className="text-white/80 text-center max-w-2xl mx-auto mb-6">Real project outcomes and successful brand activations</p>
+         
 
           {/* Filter tabs (mirroring creative-results) */}
           <IdeasFilterGrid />
         </section>
 
-        {/* Ideas Grid mapped to cards in screenshot */}
-        <section className="max-w-7xl mx-auto px-6 mb-12">
-          <div className="text-center mb-8 opacity-60">⸻</div>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">Inside the Ideas</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { title: 'AI Effects', desc: 'Ready-made AI effects that create instant impact in brand activations and events.', cta: 'Explore Effects', href: '/ai-effects' },
-              { title: 'Creative Results', desc: 'See the final results of projects we\'ve delivered to help you visualize possibilities.', cta: 'View Results',href: '/creative-results'  },
-              { title: 'Video Hub', desc: 'Watch videos showing how our innovations engage during events and brand activations.', cta: 'Watch Videos' ,href: '/video-hub' },
-              { title: 'Insights & Inspiration', desc: 'Blogs that unpack events we\'ve delivered and the ideas driving them.', cta: 'Read Insights' ,href: '/insights'  },
-              { title: 'Newsletter', desc: 'Your monthly round-up of new innovations and trends we\'ve applied in events.', cta: 'Browse Archive' },
-              { title: 'Concepts', desc: 'Fresh monthly ideas to help you stand out in pitches and win clients', cta: 'Explore Products' },
-            ].map((item, idx) => (
-              <a key={idx} href={item.href || '#'} className="relative rounded-3xl border border-white/10 bg-white/5 p-6 md:p-7 flex flex-col justify-between shadow-[0_18px_60px_rgba(0,0,0,0.35)] hover:bg-white/10 transition-colors">
-                <div>
-                  <h3 className="text-lg md:text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-white/80 text-sm md:text-base leading-relaxed">{item.desc}</p>
-                </div>
-                <div className="pt-4">
-                  <button className="text-sm md:text-base text-white font-semibold inline-flex items-center gap-2 opacity-90 hover:opacity-100">
-                    {item.cta}
-                    <span aria-hidden>›</span>
-                  </button>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        {/* Ideas Statistics */}
-        <section className="max-w-6xl mx-auto px-6 pb-8 md:pb-12 grid grid-cols-1 sm:grid-cols-4 gap-6">
-          {[
-            { k: "150+", v: "AI Effects" },
-            { k: "50+", v: "Interactive Games" },
-            { k: "25+", v: "Music Generators" },
-            { k: "∞", v: "Custom Concepts" },
-          ].map((s, i) => (
-            <div key={i} className="relative rounded-3xl lg:rounded-[2.5rem] border border-white/10 bg-white/5 p-10 text-center overflow-hidden transition-all duration-500 hover:bg-gradient-to-br hover:from-white/10 hover:to-white/5 hover:border-white/20">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120px_60px_at_50%_0%,rgba(255,255,255,0.12),transparent)]" />
-              <div className="text-3xl md:text-4xl font-black mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">{s.k}</div>
-              <div className="text-sm md:text-base text-white/70 tracking-wide uppercase">{s.v}</div>
-            </div>
-          ))}
-        </section>
+   
 
         {/* CTA */}
         <section className="max-w-7xl mx-auto px-6 mb-16 text-center">
@@ -208,9 +169,6 @@ export default function GetIdeasPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button asChild variant="creativePrimary" size="lg" className="w-full sm:w-auto">
-              <a href="/creative-results">View Results</a>
-            </Button>
-            <Button asChild variant="creativeSecondary" size="lg" className="w-full sm:w-auto">
               <a href="/contact-us">Start the Conversation</a>
             </Button>
           </div>
@@ -245,7 +203,7 @@ function IdeasFilterGrid() {
 
   const frFilters = ['All','AI Photo','AI Video','Experimental'];
   const items = useMemo(()=> active==='All' ? demo : demo.filter(i => i.tag===active), [active]);
-  const eight = items.slice(0, 6);
+  const eight = items.slice(0, 8);
 
   return (
     <div>
@@ -255,25 +213,46 @@ function IdeasFilterGrid() {
         ))}
       </div>
 
-      <section className="[column-fill:_balance] sm:columns-2 lg:columns-3 gap-5 space-y-5">
-        {eight.map((it) => (
-          <article key={it.id} className="group break-inside-avoid rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20">
-            <div className="relative">
+      {/* Bento Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5">
+        {eight.map((it, idx) => (
+          <article
+            key={it.id}
+            className={`group relative rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20 ${
+              // New rule: videos are tall, images are square-ish
+              it.type === 'video'
+                ? 'lg:col-span-2 lg:row-span-3'
+                : 'lg:col-span-2 lg:row-span-2'
+            }`}
+          >
+            <div className={`relative ${it.type === 'video' ? 'h-72 sm:h-80 md:h-[26rem] lg:h-[34rem]' : 'h-60 sm:h-64 md:h-72 lg:h-[22rem]'}`}>
               {it.type==='image' ? (
-                <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-auto object-cover will-change-transform transition-transform duration-700 ease-out group-hover:scale-[1.03]" loading="lazy" />
+                <div className="absolute inset-0 flex">
+                  <div className="m-auto w-full h-full">
+                    <div className={`w-full h-full ${it.type==='video' ? 'aspect-[9/16]' : 'aspect-square'} max-h-full mx-auto`}>
+                      <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover will-change-transform transition-transform duration-700 ease-out group-hover:scale-[1.03]" loading="lazy" />
+                    </div>
+                  </div>
+                </div>
               ) : (
-                <SmartVideo src={it.src} poster={it.poster}
-                />
+                <div className="absolute inset-0 flex">
+                  <div className="m-auto w-full h-full">
+                    <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[20rem] md:max-w-[22rem] lg:max-w-[24rem]">
+                      <SmartVideo src={it.src} poster={it.poster} />
+                    </div>
+                  </div>
+                </div>
               )}
               {(it.title || it.tag) && (
-                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 via-black/10 to-transparent">
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 via-black/10 to-transparent">
                   <div className="text-sm font-semibold leading-tight">{it.title}</div>
                   {it.tag && <div className="text-xs text-white/80">{it.tag}</div>}
                 </div>
               )}
             </div>
-            <div className="p-3">
-              <Button onClick={()=> setOpen({ title: it.title, tag: it.tag, img: it.src })} variant="creativePrimary" className="w-full">I like it</Button>
+            <div className="absolute inset-x-0 bottom-0 p-3">
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <Button onClick={()=> setOpen({ title: it.title, tag: it.tag, img: it.src })} variant="creativePrimary" className="w-[calc(100%-1.5rem)] mx-auto block opacity-0 translate-y-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 focus:opacity-100 focus:translate-y-0">I like it</Button>
             </div>
           </article>
         ))}

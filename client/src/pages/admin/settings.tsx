@@ -6,6 +6,7 @@ import { adminApi, getAdminKey } from '@/lib/adminApi';
 
 export default function AdminSettingsPage() {
   const [gaId, setGaId] = useState('');
+  const [gtmId, setGtmId] = useState('');
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
   const [googleVerify, setGoogleVerify] = useState('');
@@ -48,6 +49,7 @@ export default function AdminSettingsPage() {
         setGaPropertyId(map['ga_property_id'] || '');
         setGaClientEmail(map['ga_client_email'] || '');
         setGaPrivateKey(map['ga_private_key'] || '');
+        setGtmId(map['gtm_id'] || '');
         try {
           const h = await fetch(apiBaseJoin('/api/health/env'));
           setEnvHealth(h.ok ? await h.json() : null);
@@ -67,6 +69,7 @@ export default function AdminSettingsPage() {
       await adminApi('POST', '/api/settings', { key: 'ga_measurement_id', value: gaId.trim() || null });
       await adminApi('POST', '/api/settings', { key: 'google_site_verification', value: googleVerify.trim() || null });
       await adminApi('POST', '/api/settings', { key: 'bing_site_verification', value: bingVerify.trim() || null });
+      await adminApi('POST', '/api/settings', { key: 'gtm_id', value: gtmId.trim() || null });
       await adminApi('POST', '/api/settings', { key: 'allow_gptbot', value: String(allowGPT) });
       await adminApi('POST', '/api/settings', { key: 'allow_google_extended', value: String(allowGoogleExt) });
       await adminApi('POST', '/api/settings', { key: 'allow_ccbot', value: String(allowCCBot) });
@@ -90,6 +93,19 @@ export default function AdminSettingsPage() {
       <div className="p-6 max-w-xl mx-auto space-y-4">
         <h1 className="text-2xl font-bold gradient-text">Settings</h1>
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
+          <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+            <div className="text-sm font-semibold mb-2">Google Client Tags</div>
+            <label className="space-y-1 block">
+              <div className="text-sm text-white/80">Google Analytics Measurement ID (G-XXXX)</div>
+              <input value={gaId} onChange={(e)=>setGaId(e.target.value)} placeholder="G-XXXXXXXXXX" className="w-full rounded bg-black/40 border border-white/15 px-3 py-2" />
+              <div className="text-xs text-white/60">Used by client to initialize GA4 (exposed via settings API).</div>
+            </label>
+            <label className="space-y-1 block mt-3">
+              <div className="text-sm text-white/80">Google Tag Manager ID (GTM-XXXXX)</div>
+              <input value={gtmId} onChange={(e)=>setGtmId(e.target.value)} placeholder="GTM-XXXXXXX" className="w-full rounded bg-black/40 border border-white/15 px-3 py-2" />
+              <div className="text-xs text-white/60">Populates GTM container loading on client.</div>
+            </label>
+          </div>
           {envHealth && (
             <div className="rounded-xl border border-white/10 bg-white/5 p-3 mb-2">
               <div className="text-sm font-semibold mb-2">Environment Health</div>

@@ -245,6 +245,169 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Static Pages: slug validation helper
+  function normalizeSlug(input: string): string {
+    let s = (input || '').toLowerCase().trim();
+    s = s.replace(/[^a-z0-9\/-]+/g, '-');
+    s = s.replace(/-{2,}/g, '-');
+    s = s.replace(/\/-+|+-\//g, '/');
+    s = s.replace(/^[-/]+|[-/]+$/g, '');
+    return s;
+  }
+  const reservedSlugs = new Set(['api','admin','images','assets','videos','static','sitemap.xml','robots.txt','favicon.ico','_next','_vercel','s']);
+  function isValidSlugPath(s: string): boolean {
+    if (!s) return false;
+    if (reservedSlugs.has(s)) return false;
+    const parts = s.split('/');
+    if (parts.length > 2) return false; // depth <= 1
+    return parts.every(p => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p));
+  }
+
+  // Admin: Static Pages list
+  app.get('/api/admin/pages', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const { page = '1', pageSize = '50', q } = req.query as any;
+      const p = Math.max(1, parseInt(page));
+      const ps = Math.min(100, Math.max(1, parseInt(pageSize)));
+      let query = supabase
+        .from('static_pages')
+        .select('*', { count: 'exact' })
+        .order('updated_at', { ascending: false })
+        .range((p - 1) * ps, p * ps - 1);
+      if (q) query = query.or(`title.ilike.%${q}%,slug.ilike.%${q}%`);
+      const { data, error, count } = await query;
+      if (error) return res.status(500).json({ message: error.message });
+      return res.json({ data, count, page: p, pageSize: ps });
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Admin: Slug availability
+  app.get('/api/admin/pages/slug-availability', requireAdmin, async (req, res) => {
+    try {
+      const raw = String((req.query.slug || '') as string);
+      const slug = normalizeSlug(raw);
+      if (!isValidSlugPath(slug)) return res.json({ available: false, slug, reason: 'invalid' });
+      const supabase = getSupabaseAdmin();
+      const { data, error } = await supabase.from('static_pages').select('id').eq('slug', slug).limit(1);
+      if (error) return res.status(500).json({ message: error.message });
+      const available = !data || data.length === 0;
+      return res.json({ available, slug });
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Admin: Create page
+  app.post('/api/admin/pages', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const body = req.body || {};
+      const slug = normalizeSlug(body.slug || '');
+      if (!isValidSlugPath(slug)) return res.status(400).json({ message: 'Invalid slug' });
+      const now = new Date().toISOString();
+      const record: any = { ...body, slug, created_at: now, updated_at: now };
+      // sanitize body fields
+      if (record.body_html && typeof record.body_html === 'string') {
+        // minimal sanitize: strip script tags
+        record.body_html = String(record.body_html).replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+      }
+      const { data, error } = await supabase.from('static_pages').insert(record).select().single();
+      if (error) return res.status(400).json({ message: error.message });
+      return res.status(201).json(data);
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Admin: Update page
+  app.put('/api/admin/pages/:id', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const patch = { ...(req.body || {}) } as any;
+      if (typeof patch.slug === 'string') {
+        patch.slug = normalizeSlug(patch.slug);
+        if (!isValidSlugPath(patch.slug)) return res.status(400).json({ message: 'Invalid slug' });
+      }
+      patch.updated_at = new Date().toISOString();
+      if (patch.body_html && typeof patch.body_html === 'string') {
+        patch.body_html = String(patch.body_html).replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+      }
+      const { data, error } = await supabase.from('static_pages').update(patch).eq('id', req.params.id).select().single();
+      if (error) return res.status(400).json({ message: error.message });
+      return res.json(data);
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Admin: Delete page
+  app.delete('/api/admin/pages/:id', requireAdmin, async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const { error } = await supabase.from('static_pages').delete().eq('id', req.params.id);
+      if (error) return res.status(400).json({ message: error.message });
+      return res.json({ ok: true });
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Public: fetch page by slug (JSON)
+  app.get('/api/pages/:slug', async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const slug = normalizeSlug(req.params.slug);
+      const { data, error } = await supabase
+        .from('static_pages')
+        .select('*')
+        .eq('slug', slug)
+        .eq('published', true)
+        .single();
+      if (error || !data) return res.status(404).json({ message: 'Not found' });
+      return res.json(data);
+    } catch (e:any) {
+      return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Public: render page at /s/:slug with meta
+  app.get('/s/:slug(*)', async (req, res) => {
+    try {
+      const supabase = getSupabaseAdmin();
+      const slug = normalizeSlug(String(req.params.slug || ''));
+      if (!isValidSlugPath(slug)) return res.status(404).send('Not found');
+      const { data } = await supabase
+        .from('static_pages')
+        .select('*')
+        .eq('slug', slug)
+        .eq('published', true)
+        .single();
+      if (!data) return res.status(404).send('Not found');
+      const title = data.seo_title || data.title || 'Page';
+      const desc = data.seo_description || '';
+      const canonical = (process.env.PUBLIC_BASE_URL || '').replace(/\/$/, '') + `/s/${slug}`;
+      const bodyHtml = data.body_html || '';
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(`<!doctype html><html lang="en"><head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>${title}</title>
+        ${desc ? `<meta name="description" content="${desc}">` : ''}
+        <link rel="canonical" href="${canonical}">
+        <meta property="og:title" content="${title}">
+        ${desc ? `<meta property="og:description" content="${desc}">` : ''}
+        <meta property="og:type" content="website">
+      </head><body>
+        <main>${bodyHtml || ''}</main>
+      </body></html>`);
+    } catch (e:any) {
+      return res.status(500).send('Server error');
+    }
+  });
+
   // Admin: Articles list
   app.get('/api/admin/articles', requireAdmin, async (req, res) => {
     try {
@@ -520,6 +683,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+
+  // Public: sitemap.xml includes static pages
+  app.get('/sitemap.xml', async (_req, res) => {
+    try {
+      const base = (process.env.SITEMAP_BASE_URL || '').replace(/\/$/, '') || 'https://example.com';
+      const supabase = getSupabaseAdmin();
+      const urls: string[] = [];
+      const { data } = await supabase.from('static_pages').select('slug,updated_at,published,indexable').eq('published', true).eq('indexable', true);
+      (data||[]).forEach((r:any)=>{ urls.push(`${base}/s/${r.slug}`); });
+      const now = new Date().toISOString();
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u=>`  <url><loc>${u}</loc><lastmod>${now}</lastmod></url>`).join('\n')}\n</urlset>`;
+      res.setHeader('Content-Type', 'application/xml');
+      return res.send(xml);
+    } catch (e:any) {
+      return res.status(500).send('');
+    }
+  });
 
   // Health: environment and settings presence (admin)
   app.get('/api/health/env', async (_req, res) => {

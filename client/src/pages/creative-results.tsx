@@ -82,22 +82,35 @@ export default function CreativeResultsPage() {
         {/* Masonry layout using CSS columns */}
         <section className="[column-fill:_balance] sm:columns-2 lg:columns-3 gap-4 space-y-4">
           {items.map((it) => (
-            <article key={it.id} className="break-inside-avoid rounded-2xl overflow-hidden bg-zinc-900/80 border border-white/10 backdrop-blur-sm">
-              <div className="relative">
+            <article key={it.id} className="group relative break-inside-avoid rounded-2xl overflow-hidden bg-zinc-900/80 border border-white/10 backdrop-blur-sm shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20">
+              <div className="relative h-64 sm:h-72 md:h-80">
                 {it.type==='image' ? (
-                  <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-auto object-cover" loading="lazy" />
+                  <div className="absolute inset-0 flex">
+                    <div className="m-auto w-full h-full">
+                      <div className="w-full h-full aspect-[9/16] max-h-full mx-auto">
+                        <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover will-change-transform transition-transform duration-700 ease-out group-hover:scale-[1.03]" loading="lazy" />
+                      </div>
+                    </div>
+                  </div>
                 ) : (
-                  <video className="w-full h-auto" src={it.src} autoPlay loop muted playsInline />
+                  <div className="absolute inset-0 flex">
+                    <div className="m-auto w-full h-full">
+                      <div className="w-full h-full aspect-[9/16] max-h-full mx-auto">
+                        <video className="w-full h-full object-cover" src={it.src} autoPlay loop muted playsInline />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {(it.title || it.tag) && (
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 via-black/10 to-transparent">
+                    <div className="text-sm font-semibold leading-tight">{it.title}</div>
+                    {it.tag && <div className="text-xs text-white/80">{it.tag}</div>}
+                  </div>
                 )}
               </div>
-              {(it.title || it.tag) && (
-                <div className="px-3 py-2 bg-zinc-900/90 text-white border-t border-white/10">
-                  <div className="text-sm font-semibold text-white">{it.title}</div>
-                  <div className="text-xs text-white/70">{it.tag}</div>
-                </div>
-              )}
-              <div className="p-3">
-                <Button onClick={()=> setOpen({ title: it.title, tag: it.tag, img: it.src })} variant="creativePrimary" className="w-full">I like it</Button>
+              <div className="absolute inset-x-0 bottom-0 p-3">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <Button onClick={()=> setOpen({ title: it.title, tag: it.tag, img: it.src })} variant="creativePrimary" className="w-[calc(100%-1.5rem)] mx-auto block opacity-0 translate-y-2 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 focus:opacity-100 focus:translate-y-0">I like it</Button>
               </div>
             </article>
           ))}

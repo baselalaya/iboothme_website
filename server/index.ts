@@ -17,6 +17,10 @@ const allowedOrigins: (string|RegExp)[] = [
   'https://stagingbooth.vercel.app',
   'https://www.iboothme.com',
   'https://iboothme.com',
+  // Local development
+  /^http:\/\/localhost(?::\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(?::\d+)?$/,
+  /^http:\/\/0\.0\.0\.0(?::\d+)?$/,
 ];
 app.use(cors({
   origin: (origin, callback) => {
