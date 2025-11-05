@@ -138,12 +138,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Media: Admin - create presigned upload URL (stub if no provider configured)
+  // Media: Admin - create Supabase Storage signed upload URL
   app.post('/api/media/upload-url', requireAdmin, async (req, res) => {
     try {
-      // If you have a real object storage, wire it here to return presigned PUT URL.
-      // For now, return a 501 Not Implemented to indicate the route exists.
-      return res.status(501).json({ message: 'upload-url not configured' });
+      const bucket = process.env.SUPABASE_STORAGE_BUCKET || process.env.SUPABASE_MEDIA_BUCKET || 'media';
+      const { filename, contentType } = req.body || {};
+      if (!filename) return res.status(400).json({ message: 'filename is required' });
+
+      const supabase = getSupabaseAdmin();
+
+      // Normalize key: no leading slash, optional date prefix to reduce collisions
+      const safeName = String(filename).replace(/^\/+/, '');
+      const key = `${new Date().toISOString().slice(0,10)}/${safeName}`;
+
+      // Create a signed URL for uploading. Supabase supports signed upload URLs via createSignedUploadUrl.
+      const { data, error } = await (supabase as any)
+        .storage
+        .from(bucket)
+        .createSignedUploadUrl(key);
+
+      if (error || !data) return res.status(500).json({ message: error?.message || 'Failed to create signed upload url' });
+
+      // Public URL (if bucket is public) or a storage URL that your app can transform/use
+      const { data: pub } = (supabase as any).storage.from(bucket).getPublicUrl(key);
+      const publicUrl: string | undefined = pub?.publicUrl;
+
+      return res.json({
+        uploadUrl: data.signedUrl as string,
+        token: data.token as string,
+        key,
+        publicUrl,
+        bucket,
+        contentType: contentType || 'application/octet-stream',
+      });
     } catch (e: any) {
       return res.status(500).json({ message: e.message || 'Server error' });
     }
