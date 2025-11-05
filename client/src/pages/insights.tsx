@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { useEffect, useMemo, useState } from "react";
 import { apiBaseJoin } from "../lib/publicApi";
 import { applySeoToHead, fetchSeoConfig } from "@/lib/seoOverride";
+import { gtmEvent } from "@/lib/gtm";
 
 type Article = {
   id: string;
@@ -27,6 +28,13 @@ export default function InsightsPage(){
   const [q, setQ] = useState('');
   const [tag, setTag] = useState('');
   const pageSize = 12;
+  useEffect(()=>{
+    // keep URL in sync for shareability
+    const url = new URL(window.location.href);
+    if (q) url.searchParams.set('q', q); else url.searchParams.delete('q');
+    if (tag) url.searchParams.set('tag', tag); else url.searchParams.delete('tag');
+    window.history.replaceState(null, '', url.toString());
+  }, [q, tag]);
 
   useEffect(()=>{ (async()=>{
     setLoading(true); setError(undefined);
@@ -37,15 +45,38 @@ export default function InsightsPage(){
       const json = await res.json();
       if(!res.ok) throw new Error(json?.message||'Failed');
       setData(json.data||[]); setCount(json.count||0);
+      try {
+        gtmEvent('insights_list_view', {
+          page,
+          page_size: 12,
+          count: (json?.count || (json?.data?.length ?? 0)),
+          q: q || undefined,
+          tag: tag || undefined,
+        });
+      } catch {}
     }catch(e:any){ setError(e?.message||'Failed'); }
     finally{ setLoading(false); }
   })(); }, [page, q, tag]);
 
   const totalPages = Math.max(1, Math.ceil(count / pageSize));
 
+  const prev = page > 1 ? `/insights?page=${page-1}${q?`&q=${encodeURIComponent(q)}`:''}${tag?`&tag=${encodeURIComponent(tag)}`:''}` : undefined;
+  const next = page < totalPages ? `/insights?page=${page+1}${q?`&q=${encodeURIComponent(q)}`:''}${tag?`&tag=${encodeURIComponent(tag)}`:''}` : undefined;
+  const jsonLd = {
+    "@context":"https://schema.org",
+    "@type":"CollectionPage",
+    name: "Insights & Inspiration",
+    description: "Articles, guides, and case studies for experiential marketing",
+    hasPart: (data||[]).slice(0,12).map(a=>({
+      "@type":"Article",
+      headline: a.title,
+      url: `/insights/${a.slug}`,
+      datePublished: a.published_at || undefined
+    }))
+  } as any;
   return (
     <div className="relative min-h-screen text-white">
-      <Seo title="Insights & Inspiration" description="Ideas, case studies, and inspiration from real brand activations." canonical="/insights" />
+      <Seo title="Insights & Inspiration" description="Ideas, case studies, and inspiration from real brand activations." canonical="/insights" prev={prev} next={next} jsonLd={jsonLd} />
       <Navigation />
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
         <Breadcrumbs items={[{ label:'Get Ideas', href:'/get-ideas' }, { label:'Insights & Inspiration' }]} />

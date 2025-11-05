@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { useEffect, useMemo, useState } from "react";
 import { apiBaseJoin } from "../lib/publicApi";
 import { useRoute } from "wouter";
+import { gtmEvent } from "@/lib/gtm";
 
 type Article = {
   id: string; title: string; slug: string; excerpt?: string; cover_image?: string; content: string; tags?: string[]; author?: string; published_at?: string;
@@ -61,6 +62,13 @@ export default function InsightArticlePage(){
         data = await tryFetch(fallbackUrl);
       }
       setArticle(data);
+      try {
+        gtmEvent('insights_article_view', {
+          slug,
+          title: data?.title,
+          published_at: data?.published_at,
+        });
+      } catch {}
     } catch (e:any) {
       const msg = typeof e?.message === 'string' ? e.message : 'Failed to load article';
       setError(msg);
@@ -81,10 +89,18 @@ export default function InsightArticlePage(){
   }, [article]);
 
   const html = useMemo(()=> article ? mdToHtml(article.content||'') : '', [article]);
+  const breadcrumbLd = useMemo(()=>({
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    itemListElement: [
+      { "@type":"ListItem", position: 1, name: "Insights", item: "/insights" },
+      { "@type":"ListItem", position: 2, name: article?.title || 'Article', item: `/insights/${slug}` }
+    ]
+  }), [article, slug]);
 
   return (
     <div className="relative min-h-screen text-white">
-      <Seo title={article?.title || 'Article'} description={article?.excerpt} canonical={`/insights/${slug}`} jsonLd={jsonLd || undefined} />
+      <Seo title={article?.title || 'Article'} description={article?.excerpt} canonical={`/insights/${slug}`} jsonLd={jsonLd ? [jsonLd, breadcrumbLd] : breadcrumbLd} />
       <Navigation />
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-10 md:py-14">
         <Breadcrumbs items={[{ label:'Insights & Inspiration', href:'/insights' }, { label: article?.title || 'Article' }]} />

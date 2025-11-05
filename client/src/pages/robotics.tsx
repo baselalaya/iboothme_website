@@ -11,6 +11,7 @@ import { getEffectiveUtm } from "@/lib/utm";
 import { validateLeadBasics } from "@/lib/validation";
 import CTAGroup from "@/components/ui/cta-group";
 import { trackEvent } from "@/lib/ga";
+import { gtmEvent } from "@/lib/gtm";
 import { motion } from "framer-motion";
 import {
   Shirt,
@@ -383,10 +384,23 @@ Don’t miss on the updates!              </p>
                       gclid: params.get('gclid') || eff?.gclid || undefined,
                       fbclid: params.get('fbclid') || eff?.fbclid || undefined,
                     });
+                    try {
+                      gtmEvent('lead_submit', {
+                        product: 'Talia',
+                        source_path: typeof window!== 'undefined' ? window.location.pathname : '/robotics',
+                        utm_source: localStorage.getItem('utm_source') || undefined,
+                        utm_medium: localStorage.getItem('utm_medium') || undefined,
+                        utm_campaign: localStorage.getItem('utm_campaign') || undefined,
+                        gclid: localStorage.getItem('gclid') || undefined,
+                        fbclid: localStorage.getItem('fbclid') || undefined,
+                        status: 'created'
+                      });
+                    } catch {}
                     toast({ title:'Request sent', description:'We will contact you shortly.' });
                     setSent(true);
                     setForm({ name:'', email:'', phone:'', company:'', eventDate:'', eventType:'', guests:'', duration:'', location:'', idea:'', _hp: '' });
                   } catch(err:any){
+                    try { gtmEvent('lead_error', { reason: (err && err.message) || 'unknown' }); } catch {}
                     toast({ title:'Failed to send', description: err?.message || 'Please try again.', variant: 'destructive' as any });
                   } finally { setSending(false); }
                 }}

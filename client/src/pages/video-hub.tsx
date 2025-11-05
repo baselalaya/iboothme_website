@@ -10,6 +10,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { getEffectiveUtm } from "@/lib/utm";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/ga";
+import { gtmEvent } from "@/lib/gtm";
 
 type Clip = { title: string; tag: string; src: string; poster?: string };
 
@@ -141,10 +142,23 @@ export default function VideoHubPage(){
                     fbclid: params.get('fbclid') || eff?.fbclid || undefined,
                   });
                   try { trackEvent('generate_lead', { form_id:'video_hub_modal', method:'modal', value:1, currency:'USD', items:[{ item_id: open?.title, item_name: open?.title }] }); } catch {}
+                  try {
+                    gtmEvent('lead_submit', {
+                      product: open?.title,
+                      source_path: window.location.pathname,
+                      utm_source: localStorage.getItem('utm_source') || undefined,
+                      utm_medium: localStorage.getItem('utm_medium') || undefined,
+                      utm_campaign: localStorage.getItem('utm_campaign') || undefined,
+                      gclid: localStorage.getItem('gclid') || undefined,
+                      fbclid: localStorage.getItem('fbclid') || undefined,
+                      status: 'created'
+                    });
+                  } catch {}
                   toast({ title:'Request sent', description:'We will contact you shortly.' });
                   setSent(true);
                   setForm({ name:'', email:'', phone:'', company:'', eventType:'', guests:'', duration:'', eventDate:'', location:'', idea:'', _hp: '' } as any);
               } catch(err:any){
+                  try { gtmEvent('lead_error', { reason: (err && err.message) || 'unknown' }); } catch {}
                   toast({ title:'Failed to send', description: err?.message || 'Please try again.' });
                 } finally { setSending(false); }
               }} className="grid grid-cols-1 sm:grid-cols-2 gap-3">

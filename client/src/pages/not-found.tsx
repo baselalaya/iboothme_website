@@ -10,6 +10,7 @@ export default function NotFoundPage() {
         title="404 — Page Not Found"
         description="The page you’re looking for doesn’t exist or was moved."
         canonical="/404"
+        robots="noindex,follow"
       />
       <div
         aria-hidden

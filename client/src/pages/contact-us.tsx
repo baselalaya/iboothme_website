@@ -11,6 +11,7 @@ import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { getEffectiveUtm } from "@/lib/utm";
 import { trackEvent } from "@/lib/ga";
+import { gtmEvent } from "@/lib/gtm";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ContactUsPage() {
@@ -68,6 +69,19 @@ export default function ContactUsPage() {
         gclid: params.get('gclid') || eff?.gclid || undefined,
         fbclid: params.get('fbclid') || eff?.fbclid || undefined,
       });
+      try {
+        const body = { product: form.product || undefined, source_path: window.location.pathname } as any;
+        gtmEvent('lead_submit', {
+          product: body.product,
+          source_path: body.source_path || window.location.pathname,
+          utm_source: localStorage.getItem('utm_source') || undefined,
+          utm_medium: localStorage.getItem('utm_medium') || undefined,
+          utm_campaign: localStorage.getItem('utm_campaign') || undefined,
+          gclid: localStorage.getItem('gclid') || undefined,
+          fbclid: localStorage.getItem('fbclid') || undefined,
+          status: 'created'
+        });
+      } catch {}
       trackEvent('generate_lead', {
         form_id: 'contact_us',
         method: 'contact_form',
@@ -79,6 +93,7 @@ export default function ContactUsPage() {
       setForm({ name:'', email:'', phone:'', company:'', product:'', message:'' });
       // Stay on the same page after successful submit (no redirect)
     } catch (err:any) {
+      try { gtmEvent('lead_error', { reason: (err && err.message) || 'unknown' }); } catch {}
       // Provide a friendlier error message
       const msg = typeof err?.message === 'string' ? err.message : 'Please try again.';
       const friendly = msg.includes('Missing SUPABASE') || msg.includes('Invalid API key')
@@ -106,7 +121,16 @@ export default function ContactUsPage() {
           description: "Get in touch for demos and quotes.",
           mainEntity: {
             "@type": "Organization",
-            name: "iboothme"
+            name: "iboothme",
+            url: "https://www.iboothme.com/",
+            logo: "https://www.iboothme.com/images/icon.svg",
+            contactPoint: [{
+              "@type": "ContactPoint",
+              telephone: "+971 4 44 88 563",
+              contactType: "customer support",
+              areaServed: "AE",
+              availableLanguage: ["en", "ar"]
+            }]
           }
         }}
       />

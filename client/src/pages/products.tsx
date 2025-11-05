@@ -34,7 +34,17 @@ export default function ProductsPage() {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: "Products",
-          description: "Interactive booths and experiential products for events."
+          description: "Interactive booths and experiential products for events.",
+          hasPart: (function(){
+            try { return (dataProducts||[]).map(p=>({
+              "@type":"Product",
+              name: p.name,
+              sku: p.id,
+              image: p.image,
+              brand: { "@type":"Brand", name: "iboothme" },
+              url: `/products/${p.id}`
+            })); } catch { return []; }
+          })()
         }}
       />
       <Navigation />

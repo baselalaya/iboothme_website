@@ -60,13 +60,34 @@ export default function Home() {
         canonical="/"
         ogImage="/images/icon.svg"
         keywords={["experiential marketing", "photo booth", "AI", "gamification", "brand activation"]}
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "iboothme",
-          url: "https://www.iboothme.com/",
-          logo: "https://www.iboothme.com/images/icon.svg"
-        }}
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "iboothme",
+            url: "https://www.iboothme.com/",
+            logo: "https://www.iboothme.com/images/icon.svg",
+            sameAs: [
+              "https://www.facebook.com/iboothme",
+              "https://www.instagram.com/iboothme/",
+              "https://www.linkedin.com/company/iboothme/"
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "iboothme",
+            url: "https://www.iboothme.com/",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: "https://www.iboothme.com/insights?q={search_term_string}"
+              },
+              queryInput: "required name=search_term_string"
+            }
+          }
+        ]}
       />
       <div className="absolute inset-0 z-10 pointer-events-none">
         <ThreeDShape />

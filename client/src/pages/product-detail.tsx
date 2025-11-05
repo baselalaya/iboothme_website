@@ -46,7 +46,14 @@ export default function ProductDetailPage() {
             name: product.name,
             image: product.image ? [product.image] : undefined,
             description: product.description,
-            brand: { "@type": "Brand", name: "iboothme" }
+            sku: product.id,
+            brand: { "@type": "Brand", name: "iboothme" },
+            offers: {
+              "@type": "Offer",
+              availability: "https://schema.org/InStock",
+              price: "0",
+              priceCurrency: "USD"
+            }
           }}
         />
       )}

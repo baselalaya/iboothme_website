@@ -75,10 +75,12 @@ export default function ProductsSection() {
 
   useEffect(() => {
     let isMounted = true;
-    const url =
-      (typeof window !== 'undefined' && (window as any).__PRODUCTS_URL__) ||
-      "/data/products.json";
-    fetch(apiBaseJoin(url), { cache: 'no-store' })
+    const url = (typeof window !== 'undefined' && (window as any).__PRODUCTS_URL__) || "/data/products.json";
+    // Always fetch static assets like /data/products.json from the current origin, not the API domain
+    const absolute = url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : `${location.origin}${url.startsWith('/') ? '' : '/'}${url}`;
+    fetch(absolute, { cache: 'no-store' })
       .then(async (res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();

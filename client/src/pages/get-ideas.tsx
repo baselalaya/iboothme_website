@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { getEffectiveUtm } from "@/lib/utm";
 import { trackEvent } from "@/lib/ga";
+import { gtmEvent } from "@/lib/gtm";
 import { validateLeadBasics } from "@/lib/validation";
 import "swiper/css";
 import "swiper/css/effect-coverflow";

@@ -39,6 +39,7 @@ import React, { useEffect, useState } from 'react';
 import { captureUtmFromUrl } from "@/lib/utm";
 import { loadGA, trackPageView } from "@/lib/ga";
 import { publicApi } from "@/lib/publicApi";
+import { initGTM, gtmEvent } from "@/lib/gtm";
 
 function Router() {
   const [location] = useLocation();
@@ -209,6 +210,8 @@ function App() {
         const data = await publicApi<{ id: string | null }>('GET', '/api/settings/ga');
         if (data?.id) { loadGA(data.id); setGaLoaded(true); }
       } catch {}
+      // Initialize GTM if configured
+      try { initGTM(); } catch {}
       try {
         // Inject search console meta tags if configured (resilient)
         const cfg = await publicApi<Record<string,string>>('GET', '/api/settings/public');
@@ -229,6 +232,14 @@ function App() {
   useEffect(() => {
     if (!gaLoaded) return;
     trackPageView(location);
+    // Emit GTM page_view
+    try {
+      gtmEvent('page_view', {
+        page_location: typeof window !== 'undefined' ? window.location.href : undefined,
+        page_path: typeof window !== 'undefined' ? (window.location.pathname + window.location.search) : undefined,
+        page_title: typeof document !== 'undefined' ? document.title : undefined,
+      });
+    } catch {}
   }, [location, gaLoaded]);
   return (
     <QueryClientProvider client={queryClient}>

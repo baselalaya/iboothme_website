@@ -4,6 +4,8 @@ type SeoProps = {
   title?: string;
   description?: string;
   canonical?: string;
+  prev?: string;
+  next?: string;
   robots?: string;
   ogImage?: string;
   keywords?: string[];
@@ -18,6 +20,8 @@ export function Seo({
   title,
   description,
   canonical,
+  prev,
+  next,
   robots = "index,follow",
   ogImage,
   keywords,
@@ -46,6 +50,8 @@ export function Seo({
     }
   };
   const canonicalUrl = normalizeCanonical(canonical);
+  const prevUrl = normalizeCanonical(prev);
+  const nextUrl = normalizeCanonical(next);
   const og = ogImage || DEFAULT_OG;
   const kw = keywords?.join(", ");
   const json = typeof jsonLd === "string" ? jsonLd : jsonLd ? JSON.stringify(jsonLd) : undefined;
@@ -57,6 +63,8 @@ export function Seo({
       {kw && <meta name="keywords" content={kw} />} 
       <meta name="robots" content={robots} />
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      {prevUrl && <link rel="prev" href={prevUrl} />}
+      {nextUrl && <link rel="next" href={nextUrl} />}
 
       {/* Open Graph */}
       <meta property="og:title" content={pageTitle} />

@@ -12,6 +12,7 @@ import { getEffectiveUtm } from "@/lib/utm";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/ga";
 import { validateLeadBasics } from "@/lib/validation";
+import { gtmEvent } from "@/lib/gtm";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { Search, ChevronDown } from "lucide-react";
 
@@ -75,6 +76,13 @@ export default function AiEffectsGallery() {
       if (ct.includes('application/json')) json = await res.json(); else { const txt = await res.text(); try{ json = JSON.parse(txt);}catch{ throw new Error('Unexpected response'); } }
       if (!res.ok) throw new Error(json?.message||'Failed to load media');
       setItems(json.data || []); setTotal(json.count || 0);
+      try {
+        gtmEvent('media_list_view', {
+          page,
+          page_size: pageSize,
+          count: (json?.count || (json?.data?.length ?? 0))
+        });
+      } catch {}
     }catch(e:any){ setError(e?.message||'Failed to load media'); }
     finally{ setLoading(false); }
   })(); }, [active, page]);
@@ -120,6 +128,21 @@ export default function AiEffectsGallery() {
         title="AI Effects Gallery"
         description="Discover curated AI-powered effects for your next brand activation"
         canonical="/ai-effects"
+        prev={page>1?`/ai-effects?page=${page-1}${active&&active!=='All'?`&tag=${encodeURIComponent(active)}`:''}`:undefined}
+        next={page<totalPages?`/ai-effects?page=${page+1}${active&&active!=='All'?`&tag=${encodeURIComponent(active)}`:''}`:undefined}
+        jsonLd={{
+          "@context":"https://schema.org",
+          "@type":"CollectionPage",
+          name: "AI Effects Gallery",
+          description: "Discover curated AI-powered effects for your next brand activation",
+          hasPart: items.slice(0,24).map(it=>({
+            "@type": it.type==='video' ? 'VideoObject' : 'ImageObject',
+            name: it.title,
+            url: it.url,
+            thumbnailUrl: it.thumbnail_url,
+            keywords: (it.tags||[]).join(', ')
+          }))
+        }}
       />
       <Navigation />
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
@@ -215,9 +238,10 @@ export default function AiEffectsGallery() {
               </div>
               <div className="p-4 pt-0">
                 <Button
-                  onClick={() =>
+                  onClick={() => {
+                    try { gtmEvent('media_item_click', { id: e.id, type: e.type, title: e.title, tags: e.tags }); } catch {}
                     setOpen({ title: e.title, tag: (e.tags?.[0]||'Effect'), img: e.type==='image' ? e.url : (e.thumbnail_url || e.url) })
-                  }
+                  }}
                   variant="creativePrimary"
                   className="w-full"
                 >

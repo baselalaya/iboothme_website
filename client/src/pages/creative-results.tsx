@@ -11,6 +11,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { getEffectiveUtm } from "@/lib/utm";
 import { trackEvent } from "@/lib/ga";
 import { validateLeadBasics } from "@/lib/validation";
+import { gtmEvent } from "@/lib/gtm";
 
 type Item = {
   id: string;
@@ -161,10 +162,23 @@ export default function CreativeResultsPage() {
                         fbclid: params.get('fbclid') || eff?.fbclid || undefined,
                       });
                       try { trackEvent('generate_lead', { form_id:'creative_results_modal', method:'modal', value:1, currency:'USD', items:[{ item_id: open?.title, item_name: open?.title }] }); } catch {}
+                      try {
+                        gtmEvent('lead_submit', {
+                          product: open?.title,
+                          source_path: typeof window !== 'undefined' ? window.location.pathname : '/creative-results',
+                          utm_source: localStorage.getItem('utm_source') || undefined,
+                          utm_medium: localStorage.getItem('utm_medium') || undefined,
+                          utm_campaign: localStorage.getItem('utm_campaign') || undefined,
+                          gclid: localStorage.getItem('gclid') || undefined,
+                          fbclid: localStorage.getItem('fbclid') || undefined,
+                          status: 'created'
+                        });
+                      } catch {}
                       toast({ title:'Request sent', description:'We will contact you shortly.' });
                       setSent(true);
                       setForm({ name:'', email:'', phone:'', company:'', eventDate:'', eventType:'', guests:'', duration:'', location:'', idea:'' });
                     } catch(err:any){
+                      try { gtmEvent('lead_error', { reason: (err && err.message) || 'unknown' }); } catch {}
                       toast({ title:'Failed to send', description: err?.message || 'Please try again.', variant: 'destructive' as any });
                     } finally { setSending(false); }
                   }}
@@ -208,7 +222,7 @@ export default function CreativeResultsPage() {
                     <div>
                       <button type="button" onClick={()=>setOpen(null)} className="w-full px-4 py-2 rounded-full border border-white/25 text-white/90 hover:bg-white/10">{sent? 'Close':'Cancel'}</button>
                     </div>
-                    {!sent && (
+                {!sent && (
                       <div>
                         <Button type="button" onClick={()=>formRef.current?.requestSubmit()} disabled={sending} variant="creativePrimary" className="w-full rounded-full px-6">{sending? 'Sending…':'Send Request'}</Button>
                       </div>
