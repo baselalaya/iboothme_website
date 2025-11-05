@@ -53,10 +53,10 @@ export default function AdminPages() {
                     <td className="px-3 py-2 text-white/70">{it.updated_at?.slice(0,19).replace('T',' ')}</td>
                     <td className="px-3 py-2 text-right">
                       <a href={`/admin/pages/${it.id}`} className="underline mr-3">Edit</a>
-                      <a href={apiBaseJoin(`/s/${it.slug}`)} target="_blank" rel="noreferrer" className="text-white/70 underline">Preview</a>
-                    </td>
-                  </tr>
-                ))}
+                      <a href={`/s/${it.slug}`} target="_blank" rel="noreferrer" className="text-white/70 underline">Preview</a>
+                  </td>
+                </tr>
+              ))}
                 {items.length===0 && <tr><td className="px-3 py-6 text-white/70" colSpan={5}>No pages found.</td></tr>}
               </tbody>
             </table>

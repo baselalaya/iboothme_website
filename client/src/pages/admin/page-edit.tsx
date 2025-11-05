@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'wouter';
+import { useToast } from '@/hooks/use-toast';
 import { publicApi, apiBaseJoin } from '../../lib/publicApi';
 import AdminBottomNav from '@/components/admin-bottom-nav';
 
@@ -21,6 +22,7 @@ export default function AdminPageEdit(props:any){
   const [item, setItem] = useState<any>({ title:'', slug:'', published:false, body_html:'', seo_title:'', seo_description:'' });
   const [checking, setChecking] = useState<{slug?:string, ok?:boolean}>({});
   const [saving, setSaving] = useState(false);
+  const { toast } = useToast?.() || ({ toast: (args: any) => console.log(args) } as any);
 
   useEffect(()=>{
     async function run(){
@@ -83,7 +85,7 @@ export default function AdminPageEdit(props:any){
       <main className="relative z-20 max-w-3xl mx-auto px-6 py-8">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-black">{isNew? 'New Page' : 'Edit Page'}</h1>
-        {item.slug ? <a className="underline" href={apiBaseJoin(`/s/${item.slug}`)} target="_blank" rel="noreferrer">Preview</a> : null}
+        {item.slug ? <a className="underline" href={`/s/${item.slug}`} target="_blank" rel="noreferrer">Preview</a> : null}
       </div>
       <Field label="Title">
         <input className="rounded bg-white/10 border border-white/15 px-4 py-2 outline-none focus:ring-2 focus:ring-purple-400/60 w-full" value={item.title} onChange={e=>setItem({...item,title:e.target.value})} />
@@ -93,6 +95,18 @@ export default function AdminPageEdit(props:any){
           <input className="rounded bg-white/10 border border-white/15 px-4 py-2 outline-none focus:ring-2 focus:ring-purple-400/60 w-full" value={item.slug} onChange={e=>{ const v=e.target.value; setItem({...item,slug:v}); }} onBlur={()=>{ const norm = normalizeSlugLocal(item.slug); setItem({...item, slug: norm}); if (norm) checkSlug(norm); }} />
           <span className={checking.ok===false? 'text-red-400': 'text-white/60'}>{checking.ok===false? 'Not available' : checking.ok? 'Available' : ''}</span>
         </div>
+        {item.slug ? (
+          <div className="mt-1 text-xs text-white/60 flex items-center gap-2">
+            <span>Public URL:</span>
+            <a className="underline" href={`/s/${item.slug}`} target="_blank" rel="noreferrer">{`/s/${item.slug}`}</a>
+            <button
+              type="button"
+              onClick={() => { try { const u = `${window.location.origin}/s/${item.slug}`; navigator.clipboard.writeText(u); toast({ title: 'Copied', description: u }); } catch {} }}
+              className="px-2 py-0.5 rounded-full border border-white/20 hover:bg-white/10"
+              title="Copy URL"
+            >Copy</button>
+          </div>
+        ) : null}
       </Field>
       <Field label="Published">
         <input type="checkbox" checked={!!item.published} onChange={e=>setItem({...item,published:e.target.checked})} />
@@ -108,7 +122,7 @@ export default function AdminPageEdit(props:any){
       </Field>
       <div className="flex gap-2">
         <button onClick={save} className="px-4 py-2 rounded-full bg-white text-black font-semibold" disabled={saving}>{saving? 'Saving…':'Save'}</button>
-        {item.slug && <a className="px-4 py-2 rounded-full border border-white/20 hover:bg-white/10" href={apiBaseJoin(`/s/${item.slug}`)} target="_blank" rel="noreferrer">Open</a>}
+        {item.slug && <a className="px-4 py-2 rounded-full border border-white/20 hover:bg-white/10" href={`/s/${item.slug}`} target="_blank" rel="noreferrer">Open</a>}
       </div>
       </main>
       <AdminBottomNav />
