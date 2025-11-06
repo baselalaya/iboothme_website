@@ -139,7 +139,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { data, error, count } = await supabase
         .from('media_items')
-        .select('id,url,type,title,slug,thumbnail_url,tags,published,created_at,updated_at', { count: 'exact' })
+        .select('id,url,type,title,slug,thumbnail_url,tags,published,created_at,updated_at,target,video_url,short_description,order_by', { count: 'exact' })
         .order('created_at', { ascending: false })
         .range(from, to);
 
