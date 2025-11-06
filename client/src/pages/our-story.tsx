@@ -193,11 +193,18 @@ export default function OurStoryPage() {
             >
               Today, that vision is stronger than ever. Creating custom, tech-powered experiences that help your brand stand out and make lasting connections.
             </motion.p>
-            <Button asChild variant="creativeSecondary" size="lg" className="group">
-              <a href="https://www.linkedin.com/in/youssefkibbe/" target="_blank" rel="noreferrer">
-                <span className="inline-block mr-2 text-lg font-bold leading-none">in</span>Connect with Youssef
-              </a>
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild variant="creativeSecondary" size="lg" className="group">
+                <a href="https://www.linkedin.com/in/youssefkibbe/" target="_blank" rel="noreferrer">
+                  <span className="inline-block mr-2 text-lg font-bold leading-none">in</span>Connect on LinkedIn
+                </a>
+              </Button>
+              <Button asChild variant="creativePrimary" size="lg" className="group">
+                <a href="https://www.instagram.com/youssefkibbe/" target="_blank" rel="noreferrer">
+                  <span className="inline-block mr-2 text-lg font-bold leading-none">IG</span>Follow on Instagram
+                </a>
+              </Button>
+            </div>
           </section>
         </div>
 

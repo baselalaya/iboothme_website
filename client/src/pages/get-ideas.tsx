@@ -247,6 +247,28 @@ function IdeasFilterGrid() {
   const items = useMemo(()=> active==='All' ? demo : demo.filter(i => i.tag===active), [active, demo]);
   const eight = items.slice(0, 8);
 
+  const onCardClick = (it: Item) => {
+    try {
+      const { trackEvent } = require('@/lib/ga');
+      trackEvent('select_content', {
+        content_type: 'idea_card',
+        item_id: it.id,
+        item_name: it.title,
+        item_category: it.tag,
+        item_variant: it.type,
+      });
+    } catch {}
+    try {
+      const { gtmEvent } = require('@/lib/gtm');
+      gtmEvent('ideas_card_click', {
+        id: it.id,
+        title: it.title,
+        tag: it.tag,
+        type: it.type,
+      });
+    } catch {}
+  };
+
   return (
     <div>
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6">
@@ -260,6 +282,7 @@ function IdeasFilterGrid() {
         {eight.map((it, idx) => (
           <article
             key={it.id}
+            onClick={() => onCardClick(it)}
             className={`group relative rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20 ${
               // New rule: videos are tall, images are square-ish
               it.type === 'video'

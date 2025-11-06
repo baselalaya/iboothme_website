@@ -127,11 +127,11 @@ export default function TailoredSoftwareSolutionsPage() {
             {(() => {
               const ids = new Set(["locker-x", "gift-box"]);
               const subset = (dataProducts as Product[]).filter(p => ids.has(p.id));
-              const withHref = subset.map(p => ({ ...p, href: `/products#${p.id}` }));
+              const withHref = subset.map(p => ({ ...p, href: `/products/${p.id}` }));
               return withHref;
             })().map((p) => (
               <article key={p.id} className="group cursor-pointer relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/10 ring-1 ring-white/5 hover:ring-white/15 transition-all duration-500">
-                <a href={p.href} className="absolute inset-0" aria-label={`Learn more about ${p.name}`}></a>
+                <a href={p.href} className="absolute inset-0 z-30 block" aria-label={`Learn more about ${p.name}`}></a>
                 <div className="absolute inset-0 bg-cover bg-center transform-gpu transition-transform duration-700 will-change-transform group-hover:scale-[1.06]" style={{ backgroundImage: `url('${p.image}')` }} />
                 <div className="absolute inset-0 z-10 pointer-events-none">
                   <div className="absolute inset-0 bg-black/25" />
