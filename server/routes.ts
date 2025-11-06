@@ -165,6 +165,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const dot = safeName.lastIndexOf('.');
       const base = dot > 0 ? safeName.slice(0, dot) : safeName;
       const ext = dot > 0 ? safeName.slice(dot) : '';
+
+      // 1) If same-named file already exists in today's folder, reuse it
+      try {
+        const { data: existingList, error: listErr } = await (supabase as any)
+          .storage
+          .from(bucket)
+          .list(datePrefix, { limit: 1000 });
+        if (!listErr && Array.isArray(existingList)) {
+          const match = existingList.find((o: any) => o?.name === safeName);
+          if (match) {
+            const reuseKey = `${datePrefix}/${match.name}`;
+            const { data: pub } = (supabase as any).storage.from(bucket).getPublicUrl(reuseKey);
+            return res.json({
+              uploadUrl: null,
+              token: null,
+              key: reuseKey,
+              publicUrl: pub?.publicUrl,
+              bucket,
+              contentType: contentType || 'application/octet-stream',
+              reused: true,
+            });
+          }
+        }
+      } catch {}
+
+      // 2) Otherwise, generate a unique key to avoid collisions
       const uniqueSuffix = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
       const uniqueName = `${base}-${uniqueSuffix}${ext}`;
       const key = `${datePrefix}/${uniqueName}`;
