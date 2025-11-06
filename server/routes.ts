@@ -270,7 +270,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/media/:id', requireAdmin, async (req, res) => {
     try {
       const supabase = getSupabaseAdmin();
-      const patch = { ...(req.body || {}), updated_at: new Date().toISOString() };
+      const b = req.body || {};
+      const patch: any = {
+        title: b.title,
+        slug: b.slug,
+        // keep existing media kind behavior; UI categories are managed via tags/category elsewhere
+        type: b.type && (b.type === 'image' || b.type === 'video') ? b.type : undefined,
+        url: b.url,
+        target: b.target,
+        video_url: b.video_url,
+        thumbnail_url: b.thumbnail_url,
+        short_description: b.short_description,
+        order_by: typeof b.order_by === 'number' ? b.order_by : (b.order_by ? parseInt(String(b.order_by),10) : undefined),
+        tags: b.tags,
+        published: typeof b.published === 'boolean' ? b.published : undefined,
+        updated_at: new Date().toISOString(),
+      };
       const { data, error } = await supabase
         .from('media_items')
         .update(patch)

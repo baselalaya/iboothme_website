@@ -226,7 +226,7 @@ function IdeasFilterGrid() {
   const formRef = useRef<HTMLFormElement|null>(null);
   const [form, setForm] = useState({ name:'', email:'', phone:'', company:'', eventDate:'', eventType:'', guests:'', duration:'', location:'', idea:'' });
   function upd<K extends keyof typeof form>(k: K, v: string) { setForm(f => ({...f, [k]: v})); }
-  type Item = { id: string; type: 'image'|'video'; src: string; poster?: string; title?: string; tag?: string };
+  type Item = { id: string; type: 'image'|'video'; src: string; target?: string; video?: string; poster?: string; title?: string; tag?: string };
   const [demo, setDemo] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string|undefined>();
@@ -238,8 +238,8 @@ function IdeasFilterGrid() {
       const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
       const ct = res.headers.get('content-type')||'';
       const json = ct.includes('application/json') ? await res.json() : JSON.parse(await res.text());
-      const arr = (json?.data||[]) as Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>;
-      const mapped: Item[] = arr.map(it => ({ id: it.id, type: it.type, src: it.url, poster: it.thumbnail_url, title: it.title, tag: it.tags?.[0]|| (it.type==='video'?'AI Video':'AI Photo') }));
+      const arr = (json?.data||[]) as Array<{ id:string; title:string; type:'image'|'video'; url:string; target?:string; video_url?:string; thumbnail_url?:string; tags?:string[] }>;
+      const mapped: Item[] = arr.map(it => ({ id: it.id, type: it.type, src: it.url, target: it.target, video: it.video_url, poster: it.thumbnail_url, title: it.title, tag: it.tags?.[0]|| (it.type==='video'?'AI Video':'AI Photo') }));
       setDemo(mapped);
     }catch(e:any){ setError(e?.message||'Failed to load'); setDemo([]);} finally{ setLoading(false);} })(); },[]);
 
@@ -272,7 +272,10 @@ function IdeasFilterGrid() {
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
                     <div className={`w-full h-full ${it.type==='video' ? 'aspect-[9/16]' : 'aspect-square'} max-h-full mx-auto`}>
-                      <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover will-change-transform transition-transform duration-700 ease-out group-hover:scale-[1.03]" loading="lazy" />
+                      <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0" loading="lazy" />
+                      {it.target && (
+                        <img src={it.target} alt={it.title||'Creative Result'} className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" loading="lazy" />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -280,7 +283,11 @@ function IdeasFilterGrid() {
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
                     <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[20rem] md:max-w-[22rem] lg:max-w-[24rem]">
-                      <SmartVideo src={it.src} poster={it.poster} />
+                      {/* show source image by default, swap to video on hover */}
+                      <img src={it.poster || it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0" loading="lazy" />
+                      {it.video && (
+                        <video className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" src={it.video} poster={it.poster || it.src} autoPlay muted loop playsInline preload="metadata" />
+                      )}
                     </div>
                   </div>
                 </div>
