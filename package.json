@@ -15,6 +15,7 @@
     "robots": "tsx scripts/generate-robots.ts",
     "preview:client": "serve dist/public -s -l 4173 || npx serve dist/public -s -l 4173",
     "start": "NODE_ENV=production node dist/index.js",
+    "start:prod": "npm run start",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
