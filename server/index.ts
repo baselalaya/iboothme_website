@@ -16,6 +16,7 @@ const allowedOrigins: (string|RegExp)[] = [
   /^https?:\/\/.*\.vercel\.app$/,
   'https://stagingbooth.vercel.app',
   'https://www.iboothme.com',
+  'https://ae.iboothme.com',
   'https://iboothme.com',
   'https://api.iboothme.com',
   // Local development

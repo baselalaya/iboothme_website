@@ -69,46 +69,50 @@ export default function GetIdeasPage() {
   useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/get-ideas'); if (cfg) applySeoToHead(cfg); })(); }, []);
   const [activeFilter, setActiveFilter] = useState<string>("All Effects");
   const [featured, setFeatured] = useState<Idea[]>([]);
+  const [items, setItems] = useState<Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string|undefined>();
+  const [page, setPage] = useState(1);
+  const pageSize = 24;
 
-  const [gridAll, setGridAll] = useState<Idea[]>([]);
-
-  // Fetch dynamic ideas/media from admin-managed API similar to ai-effects
+  // Unified fetch used by Featured and Grid
   useEffect(() => {
     (async () => {
+      setLoading(true); setError(undefined);
       try {
-        const params = new URLSearchParams({ page: '1', pageSize: '24' });
+        const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
+        if (activeFilter && activeFilter !== 'All Effects') params.set('tag', activeFilter);
         const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
-        const data = await res.json();
-        const items = (data?.data || []) as Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>
-        const ideas: Idea[] = items.map(it => ({
+        const ct = res.headers.get('content-type')||'';
+        const data = ct.includes('application/json') ? await res.json() : JSON.parse(await res.text());
+        if (!res.ok) throw new Error(data?.message||'Failed to load ideas');
+        const arr = (data?.data || []) as Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>;
+        setItems(arr);
+        // derive featured from first two results
+        const ideas: Idea[] = arr.slice(0,2).map(it => ({
           tag: it.tags?.[0] || (it.type==='video' ? 'AI Video' : 'AI Photo'),
           title: it.title,
           subtitle: it.tags?.slice(0,2).join(', ') || it.title,
-          media: { type: it.type, src: it.type==='image' ? it.url : (it.url) }
+          media: { type: it.type, src: it.url }
         }));
-        setGridAll(ideas);
-        setFeatured(ideas.slice(0,2));
-      } catch (e) {
-        // fallback to existing static set if needed
-        setGridAll([]);
-      }
+        setFeatured(ideas);
+      } catch(e:any) {
+        setError(e?.message||'Failed to load ideas');
+        setItems([]);
+        setFeatured([]);
+      } finally { setLoading(false); }
     })();
-  }, []);
+  }, [activeFilter, page]);
 
-  const filters = ['All Effects','AI Photo','AI Video','AI Music','Interactive','Creative'];
+  const filters = useMemo(() => {
+    const tags = Array.from(new Set(items.map(i => (i.tags?.[0] || (i.type==='video'?'AI Video':'AI Photo')))));
+    return ['All Effects', ...tags];
+  }, [items]);
 
   const grid = useMemo(() => {
-    if (activeFilter === 'All Effects') return gridAll;
-    const map: Record<string, string[]> = {
-      'AI Photo': ['AI Photo Effect'],
-      'AI Video': ['AI Video Effect','AI Video Generator','Motion Graphics Video'],
-      'AI Music': ['AI Music Generator'],
-      'Interactive': ['Interactive Experience'],
-      'Creative': ['Creative AI Tool','AI Effect'],
-    };
-    const tags = map[activeFilter] || [];
-    return gridAll.filter(i => tags.includes(i.tag));
-  }, [activeFilter]);
+    if (activeFilter === 'All Effects') return items;
+    return items.filter(i => (i.tags?.[0] || (i.type==='video'?'AI Video':'AI Photo')) === activeFilter);
+  }, [activeFilter, items]);
 
   return (
     <div className="relative min-h-screen text-white">
@@ -163,10 +167,18 @@ export default function GetIdeasPage() {
         
         {/* Inside the Ideas – preview from Creative Results with filters */}
         <section className="max-w-7xl mx-auto px-6 mb-12">
-         
-
           {/* Filter tabs (mirroring creative-results) */}
-          <IdeasFilterGrid />
+          <IdeasFilterGrid
+            items={items}
+            loading={loading}
+            error={error}
+            page={page}
+            pageSize={pageSize}
+            onPrev={()=>setPage(p=>Math.max(1,p-1))}
+            onNext={()=>setPage(p=>p+1)}
+            active={activeFilter}
+            onActiveChange={setActiveFilter}
+          />
         </section>
 
    
@@ -200,20 +212,24 @@ function IdeasFilterGrid() {
   const [form, setForm] = useState({ name:'', email:'', phone:'', company:'', eventDate:'', eventType:'', guests:'', duration:'', location:'', idea:'' });
   function upd<K extends keyof typeof form>(k: K, v: string) { setForm(f => ({...f, [k]: v})); }
   type Item = { id: string; type: 'image'|'video'; src: string; poster?: string; title?: string; tag?: string };
-  const demo: Item[] = [
-    { id:'1', type:'image', src:'/images/ai-effects-24-87a3ecd1-8012-4fff-b172-0fd869fb98d0.jpg', title:'Lego Style', tag:'AI Photo' },
-    { id:'2', type:'image', src:'/images/ai-effects-25-34e87f0a-8b2e-4762-92fc-12aa5c136feb.jpg', title:'Illustration', tag:'AI Photo' },
-    { id:'3', type:'video', src:'/videos/ai-parallax-new.mp4', poster:'/images/posters/ai-parallax.jpg', title:'Parallax', tag:'AI Video' },
-    { id:'4', type:'image', src:'/images/ai-effects-10-6697ad3c-9d76-439a-8b77-f4327ef98124.jpg', title:'Zombie', tag:'AI Photo' },
-    { id:'5', type:'image', src:'/images/ai-effects-14-e92e477d-7a05-4303-9270-f2c302c099a8.jpg', title:'Simpson', tag:'AI Photo' },
-    { id:'6', type:'video', src:'/videos/ai-avatar-new.mp4', poster:'/images/posters/ai-avatar.jpg', title:'Avatar', tag:'AI Video' },
-    { id:'7', type:'image', src:'/images/ai-effects-12-abc87399-46e6-4499-94a5-24099adc2d0f.jpg', title:'GTA', tag:'AI Photo' },
-    { id:'8', type:'image', src:'/images/ai-effects-05-a204058a-88d8-4042-8b34-42528d195155.jpeg', title:'Christmas', tag:'AI Photo' },
-    { id:'9', type:'image', src:'/images/ai-effects-18-4d0d7820-be91-4c28-a548-be1941e53889.jpg', title:'Portrait', tag:'AI Photo' },
-  ];
+  const [demo, setDemo] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string|undefined>();
 
-  const frFilters = ['All','AI Photo','AI Video','Experimental'];
-  const items = useMemo(()=> active==='All' ? demo : demo.filter(i => i.tag===active), [active]);
+  useEffect(()=>{ (async()=>{
+    setLoading(true); setError(undefined);
+    try{
+      const params = new URLSearchParams({ page:'1', pageSize:'24' });
+      const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
+      const ct = res.headers.get('content-type')||'';
+      const json = ct.includes('application/json') ? await res.json() : JSON.parse(await res.text());
+      const arr = (json?.data||[]) as Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>;
+      const mapped: Item[] = arr.map(it => ({ id: it.id, type: it.type, src: it.url, poster: it.thumbnail_url, title: it.title, tag: it.tags?.[0]|| (it.type==='video'?'AI Video':'AI Photo') }));
+      setDemo(mapped);
+    }catch(e:any){ setError(e?.message||'Failed to load'); setDemo([]);} finally{ setLoading(false);} })(); },[]);
+
+  const frFilters = useMemo(()=>['All', ...Array.from(new Set(demo.map(i=>i.tag||'').filter(Boolean)))] ,[demo]);
+  const items = useMemo(()=> active==='All' ? demo : demo.filter(i => i.tag===active), [active, demo]);
   const eight = items.slice(0, 8);
 
   return (
