@@ -13,6 +13,8 @@ const routes = [
   "/robotics",
   "/personalised-merch",
   "/get-ideas",
+  "/creative-results",
+  "/insights",
   "/gamifications",
   "/tailored-software-solutions",
   "/contact-us",

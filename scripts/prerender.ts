@@ -18,6 +18,8 @@ const staticRoutes = [
   '/analytics',
   '/privacy',
   '/terms',
+  '/get-ideas',
+  '/creative-results',
 ]
 
 async function startServer(): Promise<{ url: string; close: () => Promise<void> }>{

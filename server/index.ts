@@ -31,8 +31,8 @@ app.use(cors({
     callback(ok ? null : new Error('Not allowed by CORS'), ok);
   },
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','x-admin-key'],
-  credentials: false,
+  allowedHeaders: ['Content-Type','Authorization','X-Requested-With','x-admin-key'],
+  credentials: true,
   maxAge: 600,
 }));
 app.options('*', (_req, res) => res.sendStatus(204));

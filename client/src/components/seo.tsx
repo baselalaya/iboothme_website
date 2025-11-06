@@ -53,7 +53,18 @@ export function Seo({
   const canonicalUrl = normalizeCanonical(canonical);
   const prevUrl = normalizeCanonical(prev);
   const nextUrl = normalizeCanonical(next);
+  const toAbsolute = (url?: string) => {
+    if (!url) return undefined;
+    try {
+      if (/^https?:\/\//i.test(url)) return url;
+      const path = url.startsWith('/') ? url : `/${url}`;
+      return BASE_URL ? `${BASE_URL}${path}` : path;
+    } catch {
+      return url;
+    }
+  };
   const og = ogImage || DEFAULT_OG;
+  const ogAbs = toAbsolute(og);
   const kw = keywords?.join(", ");
   const json = typeof jsonLd === "string" ? jsonLd : jsonLd ? JSON.stringify(jsonLd) : undefined;
 
@@ -73,13 +84,13 @@ export function Seo({
       <meta property="og:type" content="website" />
       {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
       <meta property="og:site_name" content={SITE_NAME} />
-      {og && <meta property="og:image" content={og} />}
+      {ogAbs && <meta property="og:image" content={ogAbs} />}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={pageTitle} />
       {description && <meta name="twitter:description" content={description} />}
-      {og && <meta name="twitter:image" content={og} />}
+      {ogAbs && <meta name="twitter:image" content={ogAbs} />}
 
       {/* JSON-LD */}
       {json && (
