@@ -35,7 +35,18 @@ app.use(cors({
   credentials: true,
   maxAge: 600,
 }));
-app.options('*', (_req, res) => res.sendStatus(204));
+// Ensure preflight responses include proper CORS headers
+app.options('*', cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const ok = allowedOrigins.some((p) => typeof p === 'string' ? p === origin : p.test(origin));
+    callback(ok ? null : new Error('Not allowed by CORS'), ok);
+  },
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization','X-Requested-With','x-admin-key'],
+  credentials: true,
+  maxAge: 600,
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();

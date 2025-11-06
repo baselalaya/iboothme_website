@@ -11,6 +11,7 @@ import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { getEffectiveUtm } from "@/lib/utm";
 import { trackEvent } from "@/lib/ga";
+import { intercomUpdate } from "@/lib/intercom";
 import { gtmEvent } from "@/lib/gtm";
 import { useToast } from "@/hooks/use-toast";
 
@@ -89,6 +90,7 @@ export default function ContactUsPage() {
         currency: 'USD',
         items: form.product ? [{ item_id: form.product, item_name: selectedProduct?.name }] : undefined,
       });
+      try { intercomUpdate({ name: form.name.trim(), email: form.email.trim(), company: form.company.trim() || undefined, lead_source: 'contact_us', product: form.product || undefined }); } catch {}
       toast({ title: 'Request sent', description: 'We will contact you shortly.' });
       setForm({ name:'', email:'', phone:'', company:'', product:'', message:'' });
       // Stay on the same page after successful submit (no redirect)

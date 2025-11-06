@@ -78,6 +78,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // leads: public creation
   app.post('/api/leads', rateLimit, antiSpam, async (req, res) => {
+    // Explicit CORS headers as backup (in addition to global cors middleware)
+    try {
+      const origin = (req.headers['origin'] as string|undefined) || '';
+      const allowed = [/^https?:\/\/.*\.vercel\.app$/, 'https://stagingbooth.vercel.app', 'https://www.iboothme.com', 'https://ae.iboothme.com', 'https://iboothme.com', 'https://api.iboothme.com', /^http:\/\/localhost(?::\d+)?$/, /^http:\/\/127\.0\.0\.1(?::\d+)?$/, /^http:\/\/0\.0\.0\.0(?::\d+)?$/].some((p:any)=> typeof p==='string'? p===origin : p.test(origin));
+      if (allowed) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Vary', 'Origin');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-admin-key');
+      }
+    } catch {}
     try {
       const supabase = getSupabaseAdmin();
       const { name, email, phone, company, product, message, source_path, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid } = req.body || {};

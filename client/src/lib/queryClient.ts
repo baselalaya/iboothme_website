@@ -13,11 +13,12 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  const isPublicNoCreds = /\/api\/leads(\b|\/)/.test(url);
   const res = await fetch(apiBaseJoin(url), {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
+    credentials: isPublicNoCreds ? "omit" : "include",
   });
 
   await throwIfResNotOk(res);
