@@ -20,6 +20,30 @@ import "swiper/css/effect-coverflow";
 
 type Idea = { tag: string; title: string; subtitle: string; media?: { type: 'image'|'video'; src: string } };
 
+function SwapImage({ src, target, alt }: { src: string; target?: string; alt: string }){
+  const [ready, setReady] = useState(false);
+  return (
+    <div className="relative w-full h-full">
+      <img src={src} alt={alt} className={`w-full h-full object-cover transition-opacity duration-300 ${ready && target ? 'group-hover:opacity-0' : ''}`} loading="lazy" />
+      {target && (
+        <img src={target} alt={alt} onLoad={()=> setReady(true)} onError={()=> setReady(false)} className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" loading="lazy" />
+      )}
+    </div>
+  );
+}
+
+function SwapVideo({ poster, src, alt }: { poster?: string; src?: string; alt: string }){
+  const [ready, setReady] = useState(false);
+  return (
+    <div className="relative w-full h-full">
+      <img src={poster} alt={alt} className={`w-full h-full object-cover transition-opacity duration-300 ${ready && src ? 'group-hover:opacity-0' : ''}`} loading="lazy" />
+      {src && (
+        <video className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" src={src} poster={poster} autoPlay muted loop playsInline preload="metadata" onCanPlay={()=> setReady(true)} onError={()=> setReady(false)} />
+      )}
+    </div>
+  );
+}
+
 function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const ref = useRef<HTMLVideoElement|null>(null);
   const [reduced, setReduced] = useState(false);
@@ -295,10 +319,8 @@ function IdeasFilterGrid() {
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
                     <div className={`w-full h-full ${it.type==='video' ? 'aspect-[9/16]' : 'aspect-square'} max-h-full mx-auto`}>
-                      <img src={it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0" loading="lazy" />
-                      {it.target && (
-                        <img src={it.target} alt={it.title||'Creative Result'} className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" loading="lazy" />
-                      )}
+                      {/* Keep base visible until target loads to avoid blank in prod */}
+                      <SwapImage src={it.src} target={it.target} alt={it.title||'Creative Result'} />
                     </div>
                   </div>
                 </div>
@@ -306,11 +328,8 @@ function IdeasFilterGrid() {
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
                     <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[20rem] md:max-w-[22rem] lg:max-w-[24rem]">
-                      {/* show source image by default, swap to video on hover */}
-                      <img src={it.poster || it.src} alt={it.title||'Creative Result'} className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0" loading="lazy" />
-                      {it.video && (
-                        <video className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" src={it.video} poster={it.poster || it.src} autoPlay muted loop playsInline preload="metadata" />
-                      )}
+                      {/* show source image by default, swap to video on hover when ready */}
+                      <SwapVideo poster={it.poster || it.src} src={it.video} alt={it.title||'Creative Result'} />
                     </div>
                   </div>
                 </div>

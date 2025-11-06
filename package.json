@@ -6,7 +6,8 @@
   "scripts": {
     "prebuild": "",
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build:with-prerender": "vite build && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
     "build:ssg": "VITE_SSG=1 vite build && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
     "build:prerender": "vite build && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
     "prebuild:client": "tsx scripts/check-env.ts",
