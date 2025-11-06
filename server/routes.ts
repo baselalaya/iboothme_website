@@ -160,8 +160,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const supabase = getSupabaseAdmin();
 
       // Normalize key: no leading slash, optional date prefix to reduce collisions
-      const safeName = String(filename).replace(/^\/+/, '');
-      const key = `${new Date().toISOString().slice(0,10)}/${safeName}`;
+      const safeName = String(filename).replace(/^\/+/, '').replace(/\s+/g, '-');
+      const datePrefix = new Date().toISOString().slice(0,10);
+      const dot = safeName.lastIndexOf('.');
+      const base = dot > 0 ? safeName.slice(0, dot) : safeName;
+      const ext = dot > 0 ? safeName.slice(dot) : '';
+      const uniqueSuffix = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
+      const uniqueName = `${base}-${uniqueSuffix}${ext}`;
+      const key = `${datePrefix}/${uniqueName}`;
 
       // Create a signed URL for uploading. Supabase supports signed upload URLs via createSignedUploadUrl.
       const { data, error } = await (supabase as any)
@@ -192,7 +198,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/media', requireAdmin, async (req, res) => {
     try {
       const supabase = getSupabaseAdmin();
-      const body = req.body || {};
+      const bodyIn = req.body || {};
+      // Map UI payload to DB columns
+      const body: any = {
+        id: bodyIn.id || undefined,
+        title: bodyIn.title,
+        slug: bodyIn.slug,
+        // Store category in tags to not break existing "type" semantics if DB expects image/video
+        type: bodyIn.type && (bodyIn.type === 'ai-effects' || bodyIn.type === 'creative-effects') ? 'image' : bodyIn.type, 
+        url: bodyIn.url,
+        thumbnail_url: bodyIn.thumbnail_url,
+        tags: Array.isArray(bodyIn.tags) ? bodyIn.tags : (typeof bodyIn.tags === 'string' ? bodyIn.tags.split(',').map((s:string)=>s.trim()).filter(Boolean) : []),
+        // New optional fields if present in schema
+        short_description: bodyIn.short_description,
+        target: bodyIn.target,
+        video_url: bodyIn.video_url,
+        order_by: typeof bodyIn.order_by === 'number' ? bodyIn.order_by : (bodyIn.order_by ? parseInt(String(bodyIn.order_by),10) : undefined),
+        published: typeof bodyIn.published === 'boolean' ? bodyIn.published : undefined,
+      };
+      // Ensure the category tag is included for filtering in UI
+      const cat = bodyIn.type;
+      if (cat === 'ai-effects' || cat === 'creative-effects') {
+        const set = new Set<string>(Array.isArray(body.tags) ? body.tags : []);
+        set.add(cat.replace('-', ' '));
+        body.tags = Array.from(set);
+      }
       // sanitize id: drop empty string so DB can auto-generate UUID on insert
       if (body.id === '' || body.id === null) {
         delete body.id;

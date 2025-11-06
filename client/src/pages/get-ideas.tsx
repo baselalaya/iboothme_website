@@ -69,7 +69,7 @@ export default function GetIdeasPage() {
   useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/get-ideas'); if (cfg) applySeoToHead(cfg); })(); }, []);
   const [activeFilter, setActiveFilter] = useState<string>("All Effects");
   const [featured, setFeatured] = useState<Idea[]>([]);
-  const [items, setItems] = useState<Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>>([]);
+  const [items, setItems] = useState<Array<{ id:string; title:string; type:'image'|'video'; url:string; target?: string; video_url?: string; thumbnail_url?:string; tags?:string[] }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string|undefined>();
   const [page, setPage] = useState(1);
@@ -86,7 +86,7 @@ export default function GetIdeasPage() {
         const ct = res.headers.get('content-type')||'';
         const data = ct.includes('application/json') ? await res.json() : JSON.parse(await res.text());
         if (!res.ok) throw new Error(data?.message||'Failed to load ideas');
-        const arr = (data?.data || []) as Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>;
+        const arr = (data?.data || []) as Array<{ id:string; title:string; type:'image'|'video'; url:string; target?:string; video_url?:string; thumbnail_url?:string; tags?:string[] }>;
         setItems(arr);
         // derive featured from first two results
         const ideas: Idea[] = arr.slice(0,2).map(it => ({
@@ -113,6 +113,21 @@ export default function GetIdeasPage() {
     if (activeFilter === 'All Effects') return items;
     return items.filter(i => (i.tags?.[0] || (i.type==='video'?'AI Video':'AI Photo')) === activeFilter);
   }, [activeFilter, items]);
+
+  const Card = ({ it }: { it: { id:string; title:string; url:string; target?:string; video_url?:string; thumbnail_url?:string; tags?:string[] } }) => (
+    <div className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5">
+      <img src={it.url} alt={it.title} className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0" loading="lazy" />
+      {!it.video_url && it.target && (
+        <img src={it.target} alt={it.title} className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" loading="lazy" />
+      )}
+      {it.video_url && (
+        <video className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" src={it.video_url} poster={it.thumbnail_url || it.url} autoPlay muted loop playsInline preload="metadata" />
+      )}
+      <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+        <div className="text-sm font-semibold">{it.title}</div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="relative min-h-screen text-white">

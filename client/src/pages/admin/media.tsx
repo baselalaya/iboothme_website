@@ -8,12 +8,16 @@ import { apiBaseJoin } from "@/lib/publicApi";
 
 type MediaItem = {
   id: string;
-  title: string;
+  title: string; // Title *
   slug: string;
-  type: 'image'|'video';
-  url: string;
+  type: 'image'|'video'|'creative-effects'; // Type * (mapped)
+  url: string; // Source
+  target?: string; // Target
+  video_url?: string; // Video
+  short_description?: string; // Short Description *
+  order_by?: number; // Order By
   thumbnail_url?: string;
-  tags?: string[];
+  tags?: string[]; // Tags *
   published?: boolean;
   created_at?: string;
 };
@@ -47,6 +51,7 @@ export default function AdminMediaPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string|undefined>();
   const [editing, setEditing] = useState<MediaItem|null>(null);
+  const [picker, setPicker] = useState<null | { field: 'url'|'target'|'video_url'; filter?: 'image'|'video' }>(null);
   const { toast } = useToast?.() || ({ toast: (args: any) => console.log(args) } as any);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -192,23 +197,53 @@ export default function AdminMediaPage() {
           <div className="fixed inset-0 z-50 grid place-items-center p-4">
             <div className="absolute inset-0 bg-black/70" onClick={()=> setEditing(null)} />
             <div className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-black/70 backdrop-blur p-5">
-              <h3 className="text-xl font-bold mb-3">{editing.id ? 'Edit' : 'New'} Media Item</h3>
+              <h3 className="text-xl font-bold mb-3">Create/Edit Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <label className="block">Title<input value={editing.title} onChange={e=> setEditing({ ...editing, title: e.target.value })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" /></label>
-                <label className="block">Slug<input value={editing.slug} onChange={e=> setEditing({ ...editing, slug: e.target.value })} placeholder={toSlug(editing.title)} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" /></label>
-                <label className="block">Type<select value={editing.type} onChange={e=> setEditing({ ...editing, type: e.target.value as any })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2"><option value="image">Image</option><option value="video">Video</option></select></label>
-                <label className="block">Tags (comma separated)<input value={(editing.tags||[]).join(', ')} onChange={e=> setEditing({ ...editing, tags: e.target.value.split(',').map(s=>s.trim()).filter(Boolean) })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" /></label>
-                <label className="block col-span-1 md:col-span-2">URL<input value={editing.url} onChange={e=> setEditing({ ...editing, url: e.target.value })} placeholder="https://..." className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" /></label>
-                {editing.type==='video' && (
-                  <label className="block col-span-1 md:col-span-2">Thumbnail URL<input value={editing.thumbnail_url||''} onChange={e=> setEditing({ ...editing, thumbnail_url: e.target.value })} placeholder="https://..." className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" /></label>
-                )}
-                <div className="col-span-1 md:col-span-2 flex gap-2">
-                  <button onClick={async()=>{ const inp = document.createElement('input'); inp.type='file'; inp.accept = editing.type==='video'? 'video/*' : 'image/*'; inp.onchange = async()=>{ const f = inp.files?.[0]; if (!f) return; const url = await uploadViaPresign(f, 'public'); setEditing(e=> e ? { ...e, url } : e); }; inp.click(); }} className="px-3 py-2 rounded-full border border-white/20">Upload {editing.type}</button>
-                  {editing.type==='video' && (
-                    <button onClick={async()=>{ const inp = document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange= async()=>{ const f = inp.files?.[0]; if (!f) return; const url = await uploadViaPresign(f, 'public'); setEditing(e=> e ? { ...e, thumbnail_url: url } : e); }; inp.click(); }} className="px-3 py-2 rounded-full border border-white/20">Upload Thumbnail</button>
-                  )}
+                <label className="block">Type<span className="text-red-400"> *</span>
+                  <select value={editing.type} onChange={e=> setEditing({ ...editing, type: e.target.value as any })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2">
+                    <option value="ai-effects">AI Effects</option>
+                    <option value="creative-effects">Creative Effects</option>
+                  </select>
+                </label>
+                <label className="block">Tags<span className="text-red-400"> *</span>
+                  <input value={(editing.tags||[]).join(', ')} onChange={e=> setEditing({ ...editing, tags: e.target.value.split(',').map(s=>s.trim()).filter(Boolean) })} placeholder="Ai, Beauty" className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                </label>
+                <label className="block">Title<span className="text-red-400"> *</span>
+                  <input value={editing.title} onChange={e=> setEditing({ ...editing, title: e.target.value })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                </label>
+                <label className="block md:col-span-2">Short Description<span className="text-red-400"> *</span>
+                  <input value={editing.short_description||''} onChange={e=> setEditing({ ...editing, short_description: e.target.value })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                </label>
+                <label className="block">Source
+                  <div className="flex gap-2 mt-1">
+                    <input value={editing.url} onChange={e=> setEditing({ ...editing, url: e.target.value })} placeholder="Creative result" className="flex-1 rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                    <button onClick={async()=>{ const inp=document.createElement('input'); inp.type='file'; inp.accept='*/*'; inp.onchange= async()=>{ const f=inp.files?.[0]; if(!f) return; const url= await uploadViaPresign(f,'public'); setEditing(e=> e?{...e,url}:e); }; inp.click(); }} className="px-3 py-2 rounded-lg border border-white/20">Browse</button>
+                    <button onClick={()=> setPicker({ field:'url' })} className="px-3 py-2 rounded-lg border border-white/20">Pick</button>
+                  </div>
+                </label>
+                <label className="block">Target
+                  <div className="flex gap-2 mt-1">
+                    <input value={editing.target||''} onChange={e=> setEditing({ ...editing, target: e.target.value })} placeholder="creative Results" className="flex-1 rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                    <button onClick={async()=>{ const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange= async()=>{ const f=inp.files?.[0]; if(!f) return; const url= await uploadViaPresign(f,'public'); setEditing(e=> e?{...e,target:url}:e); }; inp.click(); }} className="px-3 py-2 rounded-lg border border-white/20">Browse</button>
+                    <button onClick={()=> setPicker({ field:'target', filter:'image' })} className="px-3 py-2 rounded-lg border border-white/20">Pick</button>
+                  </div>
+                </label>
+                <label className="block">Video
+                  <div className="flex gap-2 mt-1">
+                    <input value={editing.video_url||''} onChange={e=> setEditing({ ...editing, video_url: e.target.value })} placeholder="Creative Result" className="flex-1 rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                    <button onClick={async()=>{ const inp=document.createElement('input'); inp.type='file'; inp.accept='video/*'; inp.onchange= async()=>{ const f=inp.files?.[0]; if(!f) return; const url= await uploadViaPresign(f,'public'); setEditing(e=> e?{...e,video_url:url}:e); }; inp.click(); }} className="px-3 py-2 rounded-lg border border-white/20">Browse</button>
+                    <button onClick={()=> setPicker({ field:'video_url', filter:'video' })} className="px-3 py-2 rounded-lg border border-white/20">Pick</button>
+                  </div>
+                </label>
+                <label className="block">Order By
+                  <input type="number" value={editing.order_by || 0} onChange={e=> setEditing({ ...editing, order_by: parseInt(e.target.value||'0',10) })} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                </label>
+                <label className="block">Slug
+                  <input value={editing.slug} onChange={e=> setEditing({ ...editing, slug: e.target.value })} placeholder={toSlug(editing.title)} className="mt-1 w-full rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+                </label>
+                <div className="md:col-span-2">
+                  <label className="inline-flex items-center gap-2 mt-1"><input type="checkbox" checked={!!editing.published} onChange={e=> setEditing({ ...editing, published: e.target.checked })} /> Published</label>
                 </div>
-                <label className="inline-flex items-center gap-2 mt-1"><input type="checkbox" checked={!!editing.published} onChange={e=> setEditing({ ...editing, published: e.target.checked })} /> Published</label>
               </div>
               <div className="mt-4 flex justify-end gap-2">
                 <button onClick={()=> setEditing(null)} className="px-4 py-2 rounded-full border border-white/20">Cancel</button>
@@ -217,9 +252,76 @@ export default function AdminMediaPage() {
             </div>
           </div>
         )}
+        {picker && (
+          <MediaPicker
+            filter={picker.filter}
+            onClose={()=> setPicker(null)}
+            onPick={(url)=>{ if (!editing) return; setEditing({ ...editing, [picker.field]: url } as any); setPicker(null); }}
+          />
+        )}
       </main>
       {null}
       <AdminBottomNav />
+    </div>
+  );
+}
+
+function MediaPicker({ filter, onClose, onPick }: { filter?: 'image'|'video'; onClose: ()=>void; onPick: (url: string)=>void }){
+  const [q, setQ] = useState('');
+  const [data, setData] = useState<MediaItem[]>([] as any);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string|undefined>();
+  useEffect(()=>{ (async()=>{
+    setLoading(true); setError(undefined);
+    try{
+      const params = new URLSearchParams({ page:'1', pageSize:'50', includeAll:'true' });
+      const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
+      const json = await res.json();
+      const arr = (json?.data||[]) as MediaItem[];
+      // Permissive filtering: treat anything not 'video' as image when filter==='image'
+      const filtered = filter
+        ? arr.filter(x => filter==='video' ? x.type==='video' : x.type!=='video')
+        : arr;
+      setData(filtered);
+    }catch(e:any){ setError(e?.message||'Failed to load'); setData([]); }
+    finally{ setLoading(false); }
+  })(); }, [filter]);
+  const visible = useMemo(()=> data.filter(d => !q || d.title.toLowerCase().includes(q.toLowerCase())), [q, data]);
+  return (
+    <div className="fixed inset-0 z-[10000] grid place-items-center p-4">
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="relative w-full max-w-3xl rounded-2xl border border-white/10 bg-black/80 backdrop-blur p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-lg font-semibold">Pick Existing {filter? filter.charAt(0).toUpperCase()+filter.slice(1):'Resource'}</h4>
+          <button onClick={onClose} className="px-3 py-1.5 rounded-full border border-white/20">Close</button>
+        </div>
+        <input value={q} onChange={e=> setQ(e.target.value)} placeholder="Search by title" className="w-full mb-3 rounded-lg bg-white/10 border border-white/15 px-3 py-2" />
+        {loading ? (
+          <div className="p-6 text-center text-white/70">Loading…</div>
+        ) : error ? (
+          <div className="p-4 rounded border border-red-500/40 bg-red-500/10 text-red-200">{error}</div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[50vh] overflow-auto">
+            {visible.map(m => {
+              const previewUrl = m.url || m.thumbnail_url || '';
+              const disabled = !previewUrl;
+              return (
+                <button key={m.id} disabled={disabled} onClick={()=> onPick(m.url || m.thumbnail_url || '')} className={`group relative rounded-lg overflow-hidden border ${disabled? 'border-white/10 opacity-50 cursor-not-allowed' : 'border-white/10 hover:border-white/25'}`}>
+                  {m.type==='video' ? (
+                    previewUrl ? <video src={previewUrl} poster={m.thumbnail_url || undefined} className="w-full h-28 object-cover" muted playsInline preload="metadata" /> : <div className="w-full h-28 grid place-items-center text-xs text-white/60">No preview</div>
+                  ) : (
+                    previewUrl ? <img src={previewUrl} alt={m.title} className="w-full h-28 object-cover" /> : <div className="w-full h-28 grid place-items-center text-xs text-white/60">No preview</div>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 p-1.5 bg-gradient-to-t from-black/80 via-black/30 to-transparent text-xs text-left truncate">{m.title || 'Untitled'}</div>
+                </button>
+              );
+            })}
+            {visible.length === 0 && (
+              <div className="col-span-full p-6 text-center text-white/70">No matching items. Try clearing the search or filter.</div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

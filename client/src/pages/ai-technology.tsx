@@ -166,12 +166,16 @@ export default function AITechnologyPage() {
               Your brand deserves AI that reflects its identity, not gimmicks. Our local engineers build awesome tailored AI experiences that engage your audience.
             </p>
             <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 px-3">
-              <Button variant="creativePrimary" size="lg" className="group w-full sm:w-auto">
-                Start a Project
-              </Button>
-              <Button variant="creativeSecondary" size="lg" className="group w-full sm:w-auto">
-                See Live Demo
-              </Button>
+              <a href="/contact-us?product=ai-technology" className="w-full sm:w-auto">
+                <Button asChild variant="creativePrimary" size="lg" className="group w-full sm:w-auto">
+                  <span>Start a Project</span>
+                </Button>
+              </a>
+              <a href="/video-hub" className="w-full sm:w-auto">
+                <Button asChild variant="creativeSecondary" size="lg" className="group w-full sm:w-auto">
+                  <span>See Live Demo</span>
+                </Button>
+              </a>
             </div>
           </div>
         </div>
