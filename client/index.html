@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- SSG hint: identify root element for hydrate or static HTML -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>iboothme</title>
@@ -27,17 +28,17 @@
       }
     </script>
 
-    <!-- Google Tag Manager (loaded only when VITE_GTM_ID is set at build time) -->
+    <!-- Google Tag Manager (static ID) -->
     <script>
       (function(){
         try {
-          var GTM_ID = (typeof import !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GTM_ID) ? import.meta.env.VITE_GTM_ID : undefined;
+          var GTM_ID = 'GTM-5T7HSBCT'; // TODO: replace with your actual container ID
           if (!GTM_ID) return;
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
           var f=document.getElementsByTagName('script')[0];
           var j=document.createElement('script');
-          j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+GTM_ID;
+          j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id=GTM-5T7HSBCT';
           f.parentNode.insertBefore(j,f);
         } catch(e) {}
       })();
@@ -45,18 +46,11 @@
     <!-- End Google Tag Manager -->
   </head>
   <body>
-    <!-- Google Tag Manager (noscript). This is harmless if VITE_GTM_ID is unset, but we keep it generic. -->
-    <noscript><iframe id="gtm-ns" src="about:blank" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <script>
-      (function(){
-        try {
-          var GTM_ID = (typeof import !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GTM_ID) ? import.meta.env.VITE_GTM_ID : undefined;
-          if (!GTM_ID) return;
-          var ns=document.getElementById('gtm-ns');
-          if (ns) ns.src = 'https://www.googletagmanager.com/ns.html?id=' + GTM_ID;
-        } catch(e) {}
-      })();
-    </script>
+    <!-- Google Tag Manager (noscript, static ID) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T7HSBCT"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- Removed dev-only replit banner for production build -->

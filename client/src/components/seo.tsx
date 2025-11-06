@@ -13,7 +13,8 @@ type SeoProps = {
 };
 
 const SITE_NAME = "iboothme";
-const BASE_URL = typeof window !== "undefined" ? window.location.origin : "";
+// Prefer configured public site URL so canonicals are absolute during SSG/SSR
+const BASE_URL = (import.meta as any).env?.VITE_PUBLIC_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "");
 const DEFAULT_OG = "/images/icon.svg";
 
 export function Seo({

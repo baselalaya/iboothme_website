@@ -31,6 +31,10 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      // When SSG mode is enabled, use ssg.html as entry so vite-ssg runs
+      input: process.env.VITE_SSG ? path.resolve(import.meta.dirname, "client/ssg.html") : undefined,
+    },
   },
   server: {
     port: 5000,

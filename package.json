@@ -7,6 +7,8 @@
     "prebuild": "",
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build:ssg": "VITE_SSG=1 vite build && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
+    "build:prerender": "vite build && tsx scripts/prerender.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
     "prebuild:client": "tsx scripts/check-env.ts",
     "build:client": "vite build && tsx scripts/generate-sitemap.ts && tsx scripts/generate-robots.ts",
     "sitemap": "tsx scripts/generate-sitemap.ts",
@@ -113,11 +115,14 @@
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.30.4",
     "esbuild": "^0.25.0",
+    "playwright": "^1.56.1",
     "postcss": "^8.4.47",
+    "sirv": "^3.0.2",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.1",
     "typescript": "5.6.3",
-    "vite": "^5.4.19"
+    "vite": "^5.4.19",
+    "vite-ssg": "^28.2.2"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"

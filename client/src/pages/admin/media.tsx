@@ -95,7 +95,7 @@ export default function AdminMediaPage() {
 
   return (
     <div className="relative min-h-screen text-white">
-      <Seo title="Admin • Media" canonical="/admin/media" />
+      <Seo title="Admin • Media" canonical="/admin/media" robots="noindex,nofollow" />
       {null}
       <main className="relative z-20 max-w-7xl mx-auto px-6 py-8">
         <header className="mb-6">

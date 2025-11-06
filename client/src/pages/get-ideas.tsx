@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper/modules";
 import { useMemo, useRef, useState } from "react";
+import { apiBaseJoin } from "../lib/publicApi";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { getEffectiveUtm } from "@/lib/utm";
@@ -67,22 +68,32 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
 export default function GetIdeasPage() {
   useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/get-ideas'); if (cfg) applySeoToHead(cfg); })(); }, []);
   const [activeFilter, setActiveFilter] = useState<string>("All Effects");
-  const featured: Idea[] = [
-    { tag: 'AI Photo Effect', title: 'AI Portrait Enhancement', subtitle: 'Professional studio-quality portraits with AI-powered lighting and skin enhancement.', media: { type: 'image', src: '/images/studio-ai-example.jpg' } },
-    { tag: 'AI Video Effect', title: 'Cinematic Video Transform', subtitle: 'Transform photos into dynamic cinematic video sequences with AI motion.', media: { type: 'video', src: '/videos/ai-parallax-new.mp4' } },
-  ];
+  const [featured, setFeatured] = useState<Idea[]>([]);
 
-  const gridAll: Idea[] = [
-    { tag: 'AI Photo Effect', title: 'AI Portrait Enhancement', subtitle: 'AI Portrait Enhancement', media: { type: 'image', src: '/images/studio-ai-example.jpg' } },
-    { tag: 'AI Video Effect', title: 'Cinematic Video Transform', subtitle: 'Cinematic Video Transform', media: { type: 'video', src: '/videos/1.mp4' } },
-    { tag: 'AI Music Generator', title: 'Brand Music Generator', subtitle: 'Brand Music Generator', media: { type: 'video', src: '/videos/2.mp4' } },
-    { tag: 'AI Photo Effect', title: 'Virtual Background Magic', subtitle: 'Virtual Background Magic', media: { type: 'image', src: '/images/alex.jpg' } },
-    { tag: 'Interactive Experience', title: 'Interactive Gaming Hub', subtitle: 'Interactive Gaming Hub', media: { type: 'video', src: '/videos/3.mp4' } },
-    { tag: 'Creative AI Tool', title: 'Sketch to Art AI', subtitle: 'Sketch to Art AI', media: { type: 'image', src: '/images/robin.jpg' } },
-    { tag: 'AI Effect', title: 'AI Face Filters', subtitle: 'AI Face Filters', media: { type: 'video', src: '/videos/4.mp4' } },
-    { tag: 'Motion Graphics Video', title: 'Motion Graphics Video', subtitle: 'Motion Graphics Video', media: { type: 'video', src: '/videos/ai-avatar.mp4' } },
-    { tag: 'AI Video Generator', title: 'Brand Voice AI', subtitle: 'Brand Voice AI', media: { type: 'video', src: '/videos/ai-tech.mp4' } },
-  ];
+  const [gridAll, setGridAll] = useState<Idea[]>([]);
+
+  // Fetch dynamic ideas/media from admin-managed API similar to ai-effects
+  useEffect(() => {
+    (async () => {
+      try {
+        const params = new URLSearchParams({ page: '1', pageSize: '24' });
+        const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
+        const data = await res.json();
+        const items = (data?.data || []) as Array<{ id:string; title:string; type:'image'|'video'; url:string; thumbnail_url?:string; tags?:string[] }>
+        const ideas: Idea[] = items.map(it => ({
+          tag: it.tags?.[0] || (it.type==='video' ? 'AI Video' : 'AI Photo'),
+          title: it.title,
+          subtitle: it.tags?.slice(0,2).join(', ') || it.title,
+          media: { type: it.type, src: it.type==='image' ? it.url : (it.url) }
+        }));
+        setGridAll(ideas);
+        setFeatured(ideas.slice(0,2));
+      } catch (e) {
+        // fallback to existing static set if needed
+        setGridAll([]);
+      }
+    })();
+  }, []);
 
   const filters = ['All Effects','AI Photo','AI Video','AI Music','Interactive','Creative'];
 
