@@ -381,6 +381,15 @@ function IdeasFilterGrid() {
               <form ref={formRef}
                 onSubmit={async (e)=>{
                   e.preventDefault();
+                  if (typeof window !== 'undefined') {
+                    // Min-delay guard: reuse or set a mount timestamp on the form element
+                    const key = '__mountedAt';
+                    // @ts-ignore
+                    if (!formRef.current?.[key]) { /* @ts-ignore */ formRef.current[key] = Date.now(); }
+                    // @ts-ignore
+                    const elapsed = Date.now() - (formRef.current?.[key] || 0);
+                    if (elapsed < 2000) { try { toast?.({ title:'Hold on', description: 'Please review your details before sending.', variant: 'destructive' as any }); } catch {} return; }
+                  }
                   if(sending) return;
                   {
                     const res = validateLeadBasics({ name: form.name, email: form.email, phone: form.phone });

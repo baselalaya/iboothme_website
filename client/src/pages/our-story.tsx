@@ -36,7 +36,6 @@ export default function OurStoryPage() {
     { name: "Robin", role: "Senior Accountant" },
     { name: "Alex", role: "Operations Manager" },
     { name: "Laith", role: "Embedded System Engineer" },
-        { name: "Maya Lin ", role: "Project Coordinator" },
     { name: "Asem", role: "Project Manager" },
     { name: "Wendell", role: "Event Operations" },
     { name: "Firas", role: "Event Operations" },
@@ -94,7 +93,9 @@ export default function OurStoryPage() {
           </p>
           {!showVideo && (
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 transition-all duration-500 ease-out px-3">
-              <Button variant="creativePrimary" size="lg" className="w-full sm:w-auto">Work With Us</Button>
+              <Button asChild variant="creativePrimary" size="lg" className="w-full sm:w-auto">
+                <a href="/careers">Work With Us</a>
+              </Button>
           <Button variant="creativeSecondary" size="lg" className="w-full sm:w-auto" onClick={() => setShowVideo(true)}>Inside iboothme</Button>
             </div>
           )}

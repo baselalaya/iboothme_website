@@ -30,6 +30,9 @@ const legalLinks = [
 export default function FooterSection() {
   const prefersReducedMotion = useReducedMotion();
   const [ref, isIntersecting] = useIntersectionObserver();
+  const now = new Date();
+  const hours = now.getHours();
+  const isOpen = hours >= 9 && hours < 17; // 9:00–16:59
 
   const fadeUpVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -158,6 +161,27 @@ export default function FooterSection() {
           </div>
           </div>
 
+        {/* Status above copyright */}
+        <div className="mt-12 sm:mt-14 md:mt-16 mb-6 sm:mb-8 md:mb-10 flex justify-center">
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${isOpen ? 'border-emerald-400/30 bg-emerald-500/10 text-emerald-200' : 'border-amber-400/30 bg-amber-500/10 text-amber-200'}`}>
+            <span className={`h-2 w-2 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} aria-hidden />
+            {isOpen ? (
+              <>
+                <span className="font-medium">We're Open</span>
+                <span>•</span>
+                <a href="tel:+97144488563" className=" decoration-white/40 hover:decoration-white">+971 4 44 88 563</a>
+                {/* <span className="text-white/70">(9am–5pm)</span> */}
+              </>
+            ) : (
+              <>
+                <span className="font-medium">We are closed</span>
+                <span>•</span>
+                <a href="mailto:info@iboothme.com" className="underline underline-offset-4 decoration-white/40 hover:decoration-white">info@iboothme.com</a>
+                {/* <span className="text-white/70">(5pm–9am)</span> */}
+              </>
+            )}
+          </div>
+        </div>
         <motion.div
           className="pt-6 md:pt-8 border-t border-white/10"
           variants={fadeUpVariants}

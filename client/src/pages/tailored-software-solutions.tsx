@@ -161,7 +161,7 @@ export default function TailoredSoftwareSolutionsPage() {
             <h2 className="text-2xl md:text-3xl font-bold">Ready to Build Your Custom Software Solution?</h2>
             <p className="text-white/80 mt-3">Turn bold activation ideas into powerful, interactive tools. We design and develop software built around your brand, your audience, and your goals. Every feature is created in-house to engage, perform, and deliver results.</p>
             <CTAGroup breakpoint="md" className="justify-center mt-6">
-              <Button asChild variant="creativePrimary" size="lg"><a href="/contact-us">Develop My Custom Software</a></Button>
+              <Button asChild variant="creativePrimary" size="lg"><a href="/contact-us?product=tailored-software-solutions&utm_source=site&utm_medium=page-cta&utm_campaign=tailored-software-solutions&utm_content=develop-custom-software">Develop My Custom Software</a></Button>
             </CTAGroup>
           </div>
         </section>

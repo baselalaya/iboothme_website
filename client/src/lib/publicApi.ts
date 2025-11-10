@@ -12,7 +12,9 @@ function sleep(ms: number) { return new Promise(res => setTimeout(res, ms)); }
 export type PublicApiOptions = { timeoutMs?: number; retries?: number; backoffMs?: number; headers?: Record<string,string> };
 
 export function apiBaseJoin(path: string): string {
-  const base = (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_BASE) || '';
+  // Prefer VITE_PUBLIC_API_URL if provided (production droplet), fallback to VITE_API_BASE for backward compat
+  const env = (typeof import.meta !== 'undefined' && (import.meta as any).env) || {};
+  const base = env.VITE_PUBLIC_API_URL || env.VITE_API_BASE || '';
   return base ? base.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`) : path;
 }
 

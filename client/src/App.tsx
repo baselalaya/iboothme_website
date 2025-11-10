@@ -35,6 +35,7 @@ import VideoHubPage from "@/pages/video-hub";
 import InsightsPage from "@/pages/insights";
 import InsightArticlePage from "@/pages/insights-article";
 import CareersPage from "@/pages/careers";
+import AssistantPage from "@/pages/assistant";
 import ScrollToTop from "@/components/scroll-to-top";
 import PageTransition from "@/components/page-transition";
 import { AnimatePresence } from "framer-motion";
@@ -52,6 +53,11 @@ function Router() {
         <Route path="/">
           <PageTransition key={location} type="scale-blur">
             <Home />
+          </PageTransition>
+        </Route>
+        <Route path="/assistant">
+          <PageTransition key={location} type="scale-blur">
+            <AssistantPage />
           </PageTransition>
         </Route>
         <Route path="/careers">

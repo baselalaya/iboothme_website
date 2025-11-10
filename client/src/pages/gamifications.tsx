@@ -129,7 +129,7 @@ export default function GamificationsPage() {
             <p className="text-white/80 mt-3">Transform your marketing message into an engaging, interactive experience. We design and build games tailored to your brand activation, ensuring maximum impact and audience connection.</p>
             <CTAGroup breakpoint="md" className="justify-center mt-6">
               <Button asChild variant="creativePrimary" size="lg">
-                <a href="/contact-us">Bring My Game to Life</a>
+                <a href="/contact-us?product=gamification&utm_source=site&utm_medium=page-cta&utm_campaign=gamifications&utm_content=bring-game-to-life">Bring My Game to Life</a>
               </Button>
             </CTAGroup>
           </div>

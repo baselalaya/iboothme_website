@@ -44,6 +44,7 @@ export default function RoboticsPage() {
   });
   const { toast } = useToast?.() || ({ toast: (args: any) => console.log(args) } as any);
   const formRef = useRef<HTMLFormElement|null>(null);
+  const mountedAtRef = useRef<number>(Date.now());
   useEffect(() => { if (!open) return; const onKey = (e: KeyboardEvent)=>{ if (e.key==='Escape') setOpen(false); }; document.addEventListener('keydown', onKey); return ()=>document.removeEventListener('keydown', onKey); }, [open]);
   return (
     <div className="relative min-h-screen text-white">
@@ -360,8 +361,13 @@ Don’t miss on the updates!              </p>
               <form ref={formRef}
                 onSubmit={async (e)=>{
                   e.preventDefault();
-                  const res = validateLeadBasics({ name: form.name, email: form.email, phone: form.phone });
-                  if (!res.ok) { toast({ title:'Invalid input', description: res.message, variant: 'destructive' as any }); return; }
+                  const elapsed = Date.now() - (mountedAtRef.current || 0);
+                  if (elapsed < 2000) { try { toast?.({ title:'Hold on', description: 'Please review your details before sending.', variant: 'destructive' as any }); } catch {} return; }
+                  try {
+                    const res: any = validateLeadBasics?.({ name: form.name, email: form.email, phone: form.phone } as any);
+                    if (res && res.ok === false) { try { toast?.({ title:'Invalid input', description: res.message, variant: 'destructive' as any }); } catch {} return; }
+                    if (!form.name?.trim() || !form.email?.trim()) { try { toast?.({ title:'Invalid input', description: 'Please provide your name and email.', variant: 'destructive' as any }); } catch {} return; }
+                  } catch {}
                   if (sending) return;
                   setSending(true);
                   try{
@@ -467,8 +473,8 @@ Don’t miss on the updates!              </p>
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_24px_70px_rgba(0,0,0,0.55)]">
               <iframe
                 className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/1zdCE7vdh8Y?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&start=0"
-                title="Talia Robotics Demo"
+                src="https://www.youtube.com/embed/YtdEsSryBmY?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&start=0"
+                title="Talia Robotics – See It In Action"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
@@ -490,8 +496,8 @@ function VideoTeaser() {
         <iframe
           id="yt-inline-player"
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/1zdCE7vdh8Y?autoplay=0&mute=1&controls=0&loop=1&playlist=1zdCE7vdh8Y&modestbranding=1&rel=0"
-          title="Talia Robotics Demo"
+          src="https://www.youtube.com/embed/YtdEsSryBmY?autoplay=0&mute=1&controls=0&loop=1&playlist=YtdEsSryBmY&modestbranding=1&rel=0"
+          title="Talia Robotics – See It In Action"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
@@ -502,7 +508,7 @@ function VideoTeaser() {
             const iframe = document.getElementById('yt-inline-player') as HTMLIFrameElement | null;
             if (iframe) {
               // restart unmuted with controls
-              iframe.src = 'https://www.youtube.com/embed/1zdCE7vdh8Y?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&start=0';
+              iframe.src = 'https://www.youtube.com/embed/YtdEsSryBmY?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1&start=0';
             }
             // remove overlay
             const btn = document.getElementById('yt-inline-overlay');

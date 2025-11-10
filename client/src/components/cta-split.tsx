@@ -115,15 +115,17 @@ export default function CTASplit() {
                   </p>
                 </div>
                 <CTAGroup breakpoint="md">
-                  <Button 
-                    size="lg"
-                    variant="creativeSecondary"
-                    className="group w-full md:w-auto text-base sm:text-lg py-5 sm:py-6"
-                    data-testid="start-project"
-                  >
-                    Request Customization
-                    <Rocket className="ml-2 group-hover:translate-x-2 transition-transform duration-300" />
-                  </Button>
+                  <a href="/contact-us">
+                    <Button 
+                      size="lg"
+                      variant="creativeSecondary"
+                      className="group w-full md:w-auto text-base sm:text-lg py-5 sm:py-6"
+                      data-testid="start-project"
+                    >
+                      Request Customization
+                      <Rocket className="ml-2 group-hover:translate-x-2 transition-transform duration-300" />
+                    </Button>
+                  </a>
                 </CTAGroup>
               </div>
             </Card>

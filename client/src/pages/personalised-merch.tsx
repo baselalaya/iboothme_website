@@ -96,7 +96,7 @@ export default function PersonalisedMerchPage() {
                   size="lg"
                   className="w-full md:w-auto text-base sm:text-lg py-6"
                 >
-                  Personalize for My Event
+                  Customize On-Site
                 </Button>
               </a>
               <a

@@ -59,6 +59,7 @@ export default function CreativeResultsPage() {
   const [sent, setSent] = useState(false);
   function upd<K extends keyof typeof form>(k: K, v: string) { setForm(f => ({...f, [k]: v})); }
   const formRef = useRef<HTMLFormElement|null>(null);
+  const mountedAtRef = useRef<number>(Date.now());
   useEffect(()=>{ if(!open) return; const onKey=(e:KeyboardEvent)=>{ if(e.key==='Escape') setOpen(null); }; document.addEventListener('keydown', onKey); return ()=>document.removeEventListener('keydown', onKey); },[open]);
 
   return (
@@ -145,6 +146,8 @@ export default function CreativeResultsPage() {
                 <form ref={formRef}
                   onSubmit={async (e)=>{
                     e.preventDefault();
+                    const elapsed = Date.now() - (mountedAtRef.current || 0);
+                    if (elapsed < 2000) { try { toast?.({ title:'Hold on', description: 'Please review your details before sending.', variant: 'destructive' as any }); } catch {} return; }
                     if(sending) return;
                     {
                       const res = validateLeadBasics({ name: form.name, email: form.email, phone: form.phone });

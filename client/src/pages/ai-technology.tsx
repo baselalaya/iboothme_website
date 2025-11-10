@@ -354,6 +354,33 @@ Our AI makes every capture look professional. Photos which people will not only 
         </div>
       </section>
 
+      {/* Divider CTA */}
+      <section className="relative mt-10 sm:mt-12 md:mt-16 py-12 md:py-16">
+        <div className="absolute inset-0 -z-10">
+          <div className="mx-auto max-w-7xl h-full px-6">
+            <div className="h-full rounded-[28px] md:rounded-[32px] bg-white/5 border border-white/10" />
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center">
+            
+            <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-black leading-tight">
+              Not sure which AI effect fits your brand?
+            </h2>
+            <p className="mt-3 text-white/85 text-base sm:text-lg md:text-xl max-w-3xl mx-auto">
+              Explore our curated hub of AI effects and concepts to match your brand goals.
+            </p>
+            <div className="mt-6">
+              <a href="/get-ideas" className="inline-block">
+                <Button variant="creativePrimary" size="lg" className="rounded-full px-6 sm:px-8">
+                  GET IDEAS
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Feature Videos: styled like Personalised Merch "Proven Results" cards */}
       <section className="max-w-7xl mx-auto px-6 mb-12">
         <div className="text-center mb-8 opacity-60">⸻</div>

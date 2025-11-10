@@ -5,7 +5,7 @@ import Seo from "@/components/seo";
 import FooterSection from "@/components/footer-section";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Clock, MapPin, Phone as PhoneIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { products } from "@/data/products";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
@@ -33,6 +33,7 @@ export default function ContactUsPage() {
     _hp: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const mountedAtRef = useRef<number>(Date.now());
 
   function update<K extends keyof typeof form>(k: K, v: string) {
     setForm((f) => ({ ...f, [k]: v }));
@@ -40,6 +41,19 @@ export default function ContactUsPage() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Min-delay submission guard (2s)
+    const elapsed = Date.now() - (mountedAtRef.current || 0);
+    if (elapsed < 2000) {
+      toast({ title: 'Hold on', description: 'Please review your details before sending.', variant: 'destructive' as any });
+      return;
+    }
+    // Normalize
+    form.name = form.name.trim();
+    form.email = form.email.trim();
+    form.phone = form.phone.trim();
+    form.company = form.company.trim();
+    form.product = (form.product || '').trim();
+    form.message = (form.message || '').trim();
     if (!form.name.trim() || !form.email.trim()) {
       toast({ title: 'Missing required fields', description: 'Please provide your name and email to continue.', variant: 'destructive' as any });
       return;
@@ -54,12 +68,12 @@ export default function ContactUsPage() {
       const params = new URLSearchParams(window.location.search);
       const eff = getEffectiveUtm();
       await apiRequest('POST','/api/leads', {
-        name: form.name.trim(),
-        email: form.email.trim(),
-        phone: form.phone.trim() || undefined,
-        company: form.company.trim() || undefined,
+        name: form.name,
+        email: form.email,
+        phone: form.phone || undefined,
+        company: form.company || undefined,
         product: form.product || undefined,
-        message: form.message.trim() || undefined,
+        message: form.message || undefined,
         _hp: form._hp,
         source_path: window.location.pathname,
         utm_source: params.get('utm_source') || eff?.utm_source || undefined,
@@ -198,8 +212,13 @@ export default function ContactUsPage() {
               {!selectedProduct && (
                 <div className="md:col-span-2">
                   <label className="block text-sm text-white/80 mb-1">Product Interest</label>
-                  <select value={form.product} onChange={(e) => update("product", e.target.value)} className="w-full rounded-xl bg-black/40 border border-white/15 px-4 py-3 outline-none focus:ring-2 focus:ring-[#7042D2]">
+                  <select value={form.product || productId} onChange={(e) => update("product", e.target.value)} className="w-full rounded-xl bg-black/40 border border-white/15 px-4 py-3 outline-none focus:ring-2 focus:ring-[#7042D2]">
                     <option value="">Select a product (optional)</option>
+                    <option value="custom-solution">Custom Solution</option>
+                    <option value="experiential-marketing">Experiential Marketing</option>
+                    <option value="tailored-software-solutions">Tailored Software Solutions</option>
+                    <option value="ai-technology">AI Technology</option>
+                    <option value="gamification">Gamification</option>
                     {products.map(p => (
                       <option key={p.id} value={p.id}>{p.name}</option>
                     ))}

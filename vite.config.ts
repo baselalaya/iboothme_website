@@ -38,6 +38,12 @@ export default defineConfig({
   },
   server: {
     port: 5000,
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
+      'Surrogate-Control': 'no-store',
+    },
     proxy: {
       // Proxy API calls to Vercel Dev (or any API server) to keep a single origin in dev
       '/api': {

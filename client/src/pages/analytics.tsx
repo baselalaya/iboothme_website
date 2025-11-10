@@ -297,12 +297,18 @@ export default function AnalyticsPage() {
           {/* CTA */}
           <section className="relative px-6 md:px-10a md:py-16 text-center mt-16">
             <div className="relative">
-
-              <h3 className="text-2xl md:text-3xl font-bold mb-2 gradient-text">And More Insights to Discover</h3>
-              <p className="text-white/75 max-w-4xl mx-auto mb-6">Unlock deeper analytics and advanced reporting features to maximize your brand activation success.</p>
-              <div className="flex justify-center gap-3">
-                <Button variant="creativePrimary" className="px-6">Choose Your Booth</Button>
-                <Button variant="creativeSecondary">Contact Us</Button>
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/15 bg-white/10 backdrop-blur-xl text-xs font-semibold tracking-wide uppercase">
+                Deeper Insights
+              </div>
+              <h3 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-black leading-tight">And More Insights to Discover</h3>
+              <p className="mt-3 text-white/85 text-base sm:text-lg md:text-xl max-w-4xl mx-auto">Unlock deeper analytics and advanced reporting features to maximize your brand activation success.</p>
+              <div className="flex justify-center gap-3 mt-6">
+                <Button asChild variant="creativePrimary" size="lg" className="rounded-full px-6 sm:px-8">
+                  <a href="/products?utm_source=site&utm_medium=page-cta&utm_campaign=analytics&utm_content=choose-your-booth">Choose Your Booth</a>
+                </Button>
+                <Button asChild variant="creativeSecondary" size="lg" className="rounded-full px-6 sm:px-8">
+                  <a href="/contact-us?utm_source=site&utm_medium=page-cta&utm_campaign=analytics&utm_content=contact-us">Contact Us</a>
+                </Button>
               </div>
             </div>
           </section>

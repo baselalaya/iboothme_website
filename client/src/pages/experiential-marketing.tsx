@@ -189,9 +189,11 @@ export default function ExperientialMarketingPage() {
             <h2 className="text-2xl md:text-3xl font-bold">Got a Vision? <span className="gradient-text">Let’s Make It Happen.</span></h2>
             <p className="text-white/80 mt-3">Your brand deserves experiences that match its objectives. If the tech doesn't exist, we'll build it. And if your idea isn't clear, our creative team will shape it with you.</p>
             <CTAGroup breakpoint="md" className="justify-center mt-6">
-              <Button variant="creativePrimary" size="lg">Let’s Talk & Create</Button>
+              <Button asChild variant="creativePrimary" size="lg">
+                <a href="/contact-us?product=experiential-marketing&utm_source=site&utm_medium=page-cta&utm_campaign=experiential-marketing&utm_content=lets-talk-create">Let’s Talk & Create</a>
+              </Button>
               <Button asChild variant="creativeSecondary" size="lg">
-                <a href="/ideas#concepts">View More Concepts</a>
+                <a href="/get-ideas?utm_source=site&utm_medium=page-cta&utm_campaign=experiential-marketing&utm_content=view-more-concepts#concepts">View More Concepts</a>
               </Button>
             </CTAGroup>
           </div>
