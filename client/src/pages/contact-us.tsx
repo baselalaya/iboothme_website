@@ -154,7 +154,7 @@ export default function ContactUsPage() {
       <Navigation />
       <main className="relative z-10">
         {/* Hero */}
-        <section className="relative w-full overflow-hidden min-h-[70vh] text-center mb-12 rounded-[28px] flex items-center justify-center">
+        <section className="relative w-full overflow-hidden min-h-[56vh] md:min-h-[60vh] text-center mb-6 md:mb-8 rounded-[28px] flex items-center justify-center">
           <div className="absolute inset-0 -z-10 opacity-30 overflow-hidden">
             <video className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[100vh] md:w-[177.78vw] md:h-[56.25vw] max-w-none" autoPlay muted loop playsInline>
               <source src="/videos/contact-hero.mp4" />
@@ -162,7 +162,7 @@ export default function ContactUsPage() {
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0.85)_10%,rgba(0,0,0,0)_40%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.85)_90%,rgba(0,0,0,1)_100%)]" />
             <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_82%)]" />
           </div>
-          <div className="max-w-5xl mx-auto px-6 py-20 md:py-24 lg:py-28 min-h-[70vh] flex flex-col items-center justify-center">
+          <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 lg:py-24 min-h-[56vh] md:min-h-[60vh] flex flex-col items-center justify-center">
                         <div className="mt-6 mb-6 flex justify-center">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white/90 bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_8px_30px_rgba(112,66,210,0.25)] ring-1 ring-inset ring-[#7042D2]/25">
                 14 Years Experience Since 2011
@@ -175,8 +175,8 @@ export default function ContactUsPage() {
         </section>
 
         {/* Get Your Quote (Form) */}
-        <section className="max-w-7xl mx-auto px-6 mb-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
+        <section className="max-w-7xl mx-auto px-6 mb-4 md:mb-6 -mt-14 md:-mt-20">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
             <h2 className="text-2xl font-bold mb-4">Get Your Quote</h2>
             {selectedProduct && (
               <div className="mb-4 p-3 rounded-2xl border border-white/10 bg-white/5 flex items-center gap-3">
@@ -236,12 +236,10 @@ export default function ContactUsPage() {
               </div>
             </form>
           </div>
-          {/* Offices */}
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 space-y-6">
-            <h3 className="text-xl font-semibold mb-2">Our Offices</h3>
+          {/* Offices moved below form */}
+          <div className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 space-y-6">
+            <h3 className="text-xl font-semibold mb-2">Our Office</h3>
             <OfficeCard title="UAE" address="Mazaya Business Avenue AA1, 1402, Jumeirah Lakes Towers, Dubai, UAE" phone="+971 4 44 88 563" />
-            <OfficeCard title="Qatar" address="Al Mirqab Complex, Ground Floor, Office 01, Doha, Qatar" phone="+974 4001 7012" />
-            <OfficeCard title="Saudi Arabia" address="Spring Towers, 3rd Floor, Office 314, Building B, Riyadh, KSA" phone="+966 53 168 5546" />
           </div>
         </section>
 

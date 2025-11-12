@@ -174,10 +174,10 @@ export default function FooterSection() {
               </>
             ) : (
               <>
-                <span className="font-medium">We are closed</span>
+                <span className="font-medium">Opening Soon</span>
                 <span>•</span>
                 <a href="mailto:info@iboothme.com" className="underline underline-offset-4 decoration-white/40 hover:decoration-white">info@iboothme.com</a>
-                {/* <span className="text-white/70">(5pm–9am)</span> */}
+                {/* <span className="text-white/70">(Back shortly)</span> */}
               </>
             )}
           </div>
