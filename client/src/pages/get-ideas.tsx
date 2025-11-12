@@ -17,6 +17,7 @@ import { gtmEvent } from "@/lib/gtm";
 import { validateLeadBasics } from "@/lib/validation";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
+import Portal from "@/components/portal";
 
 type Idea = { tag: string; title: string; subtitle: string; media?: { type: 'image'|'video'; src: string } };
 
@@ -250,8 +251,15 @@ function IdeasFilterGrid() {
   const formRef = useRef<HTMLFormElement|null>(null);
   const [form, setForm] = useState({ name:'', email:'', phone:'', company:'', eventDate:'', eventType:'', guests:'', duration:'', location:'', idea:'' });
   function upd<K extends keyof typeof form>(k: K, v: string) { setForm(f => ({...f, [k]: v})); }
-  type Item = { id: string; type: 'image'|'video'; src: string; target?: string; video?: string; poster?: string; title?: string; tag?: string };
+  type Item = { id: string; type: 'image'|'video'; src: string; target?: string; video?: string; poster?: string; title?: string; tag?: string; aspect?: 'portrait'|'landscape'|'square' };
   const [demo, setDemo] = useState<Item[]>([]);
+  // precise aspect overrides determined at runtime (naturalWidth/Height)
+  const [aspectMap, setAspectMap] = useState<Record<string, Item['aspect']>>({});
+  const setAspectFor = (id: string, w: number, h: number) => {
+    if (!w || !h) return;
+    const a: Item['aspect'] = h > w ? 'portrait' : w > h ? 'landscape' : 'square';
+    setAspectMap(prev => (prev[id] === a ? prev : { ...prev, [id]: a }));
+  };
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string|undefined>();
 
@@ -270,7 +278,16 @@ function IdeasFilterGrid() {
       const poster = primary || undefined;
       const title = it?.title || '';
       const tag = (Array.isArray(it?.tags) ? it.tags[0] : it?.tags) || it?.type || (isVideo ? 'Video' : 'Image');
-      return { id, type: isVideo ? 'video' : 'image', src: primary, target, video, poster, title, tag } as Item;
+      // Best-effort aspect inference: prefer portrait for videos; otherwise try hints
+      let aspect: Item['aspect'] = 'square';
+      if (isVideo) {
+        aspect = 'portrait';
+      } else if (primary) {
+        const lower = primary.toLowerCase();
+        if (lower.includes('portrait') || lower.includes('9-16') || lower.includes('9_16')) aspect = 'portrait';
+        else if (lower.includes('16-9') || lower.includes('16_9') || lower.includes('landscape')) aspect = 'landscape';
+      }
+      return { id, type: isVideo ? 'video' : 'image', src: primary, target, video, poster, title, tag, aspect } as Item;
     }).sort((a: Item, b: Item) => {
       const getOrder = (id: string) => {
         const o = (arr.find((x: any) => (x?._id?.$oid || '') === id)?.orderby?.$numberLong);
@@ -291,11 +308,7 @@ function IdeasFilterGrid() {
       }
     } catch {}
     try{
-      const res = await fetch("https://demo.iboothme.ae/service/node-data/get-all-data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ page_key: "ai_filters", data_id: null })
-      });
+      const res = await fetch(apiBaseJoin('/api/ai-filters'), { method: 'POST' });
       const json = await res.json();
       const arr = Array.isArray(json?.data) ? json.data : [];
       const mapped = mapItems(arr);
@@ -319,6 +332,7 @@ function IdeasFilterGrid() {
   const frFilters = useMemo(()=>['All', ...Array.from(new Set(demo.map(i=>i.tag||'').filter(Boolean)))] ,[demo]);
   const items = useMemo(()=> active==='All' ? demo : demo.filter(i => i.tag===active), [active, demo]);
   const [visibleCount, setVisibleCount] = useState(8);
+  useEffect(() => { setVisibleCount(8); }, [active]);
   const eight = items.slice(0, visibleCount);
 
   const onCardClick = (it: Item) => {
@@ -351,32 +365,55 @@ function IdeasFilterGrid() {
         ))}
       </div>
 
-      {/* Adaptive Bento Grid: square images, portrait videos; taller spans on lg */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5 auto-rows-[10rem] sm:auto-rows-[12rem] lg:auto-rows-[9rem]">
+      {/* Bento Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5">
         {eight.map((it, idx) => (
           <article
             key={it.id}
             onClick={() => onCardClick(it)}
-            className={`group relative rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20 
-              lg:col-span-2 
-              ${it.type === 'video' ? 'lg:row-span-[4]' : 'lg:row-span-[3]'}
-            `}
+            className={`group relative rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20 ${
+              // New rule: videos are tall, images are square-ish
+              it.type === 'video'
+                ? 'lg:col-span-2 lg:row-span-3'
+                : 'lg:col-span-2 lg:row-span-2'
+            }`}
           >
-            <div className={`relative h-full min-h-[12rem] sm:min-h-[14rem] lg:min-h-[18rem]`}>
+            <div className={`relative ${it.type === 'video' ? 'h-72 sm:h-80 md:h-[26rem] lg:h-[34rem]' : 'h-60 sm:h-64 md:h-72 lg:h-[22rem]'}`}>
               {it.type==='image' ? (
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
-                    <div className={`w-full h-full aspect-square max-h-full mx-auto`}>
-                      {/* Keep base visible until target loads to avoid blank in prod */}
-                      <SwapImage src={it.src} target={it.target} alt={it.title||'Creative Result'} />
+                    <div className={`w-full h-full ${(aspectMap[it.id]||it.aspect)==='portrait' ? 'aspect-[9/16]' : (aspectMap[it.id]||it.aspect)==='landscape' ? 'aspect-video' : 'aspect-square'} max-h-full mx-auto`}>
+                      {/* Keep base visible until target loads; adapt aspect to image */}
+                      <div className="relative w-full h-full">
+                        <img
+                          src={it.src}
+                          alt={it.title||'Creative Result'}
+                          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${(!!it.target) ? 'group-hover:opacity-0' : ''}`}
+                          loading="lazy"
+                          decoding="async"
+                          onLoad={(e)=>{
+                            const el = e.currentTarget as HTMLImageElement;
+                            setAspectFor(it.id, el.naturalWidth, el.naturalHeight);
+                          }}
+                        />
+                        {it.target && (
+                          <img
+                            src={it.target}
+                            alt={it.title||'Creative Result'}
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
-                    <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[22rem] md:max-w-[24rem] lg:max-w-[26rem]">
-                      {/* Autoplay in-view muted video for mixed media */}
+                    <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[20rem] md:max-w-[22rem] lg:max-w-[24rem]">
+                      {/* autoplay in-view muted video for mixed media */}
                       <SmartVideo poster={it.poster || it.src} src={it.video || ''} />
                     </div>
                   </div>
@@ -408,9 +445,10 @@ function IdeasFilterGrid() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-[9999] grid min-h-screen place-items-center p-4">
+        <Portal>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/70" onClick={()=>setOpen(null)} />
-          <div className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl">
+          <div className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-3xl border border-white/10 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl translate-y-0 pointer-events-auto">
             <button aria-label="Close" className="absolute top-3 right-3 z-20 h-10 w-10 rounded-full bg-white/90 text-black grid place-items-center shadow" onClick={()=>setOpen(null)}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
             </button>
@@ -522,6 +560,7 @@ function IdeasFilterGrid() {
             </div>
           </div>
         </div>
+        </Portal>
       )}
     </div>
   );
