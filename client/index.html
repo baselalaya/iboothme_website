@@ -71,12 +71,64 @@
           if (document.readyState === 'complete') { l(); }
           else if (w.attachEvent) { w.attachEvent('onload', l); }
           else { w.addEventListener('load', l, false); }
+
+          // Safari scroll lock workaround when Intercom is present
+          // Intercom sometimes toggles body overflow styles which can lock scrolling in Safari/iOS.
+          // This observer restores scrollability if body becomes non-scrollable unintentionally.
+          var restoreScroll = function() {
+            try {
+              var b = document.body;
+              if (!b) return;
+              var style = b.style || {};
+              var computed = window.getComputedStyle ? window.getComputedStyle(b) : null;
+              var overflow = style.overflow || (computed && computed.overflow) || '';
+              var pos = style.position || (computed && computed.position) || '';
+              // If body is set to fixed or overflow hidden without an Intercom open state, unlock it.
+              // Always clear hard locks so page remains scrollable even while messenger is open
+              if ((overflow && /hidden/i.test(overflow)) || /fixed/i.test(pos)) {
+                b.style.overflow = '';
+                b.style.position = '';
+                b.style.top = '';
+                b.style.width = '';
+              }
+            } catch (e) {}
+          };
+
+          // Observe mutations that typically occur when Intercom mounts/unmounts
+          var mo;
+          if ('MutationObserver' in window) {
+            mo = new MutationObserver(function(){ restoreScroll(); });
+            window.addEventListener('load', function(){
+              try { restoreScroll(); } catch(e) {}
+            });
+            try { mo.observe(document.documentElement, { attributes: true, childList: true, subtree: true }); } catch(e) {}
+          } else {
+            // Fallback periodic check
+            setInterval(restoreScroll, 1000);
+          }
+
+          // Extra safety: clear on user interactions and navigation
+          var pulse = function(durationMs, intervalMs){
+            var start = Date.now();
+            var id = setInterval(function(){ try { restoreScroll(); } catch(e){} if (Date.now()-start >= (durationMs||1200)) clearInterval(id); }, intervalMs||100);
+          };
+          ['click','touchend','visibilitychange','focus'].forEach(function(evt){
+            window.addEventListener(evt, function(){ try { restoreScroll(); } catch(e){} }, true);
+          });
+          ['popstate','hashchange'].forEach(function(evt){
+            window.addEventListener(evt, function(){ try { restoreScroll(); pulse(); } catch(e){} }, false);
+          });
         } catch {}
       })();
     </script>
     <!-- End Intercom -->
   </head>
   <body>
+    <style>
+      /* Ensure page remains scrollable on iOS Safari when overlays/widgets mount */
+      html, body { height: 100%; }
+      body { -webkit-overflow-scrolling: touch; overscroll-behavior-y: auto; }
+    </style>
     <!-- Google Tag Manager (noscript, static ID) -->
     <noscript>
       <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T7HSBCT"

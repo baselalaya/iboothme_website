@@ -41,7 +41,7 @@ export default function VideoHubPage(){
       <Seo title="Video Hub" description="Watch our AI activations and technology in action" canonical="/video-hub" />
       <Navigation />
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
-        <Breadcrumbs items={[{ label:'Get Ideas', href:'/get-ideas' }, { label:'Video Hub' }]} />
+        <Breadcrumbs items={[{ label:'Ideas', href:'/ideas' }, { label:'Video Hub' }]} />
         <header className="text-center mb-8 md:mb-10">
           <h1 className="text-3xl md:text-5xl font-black">Video Hub</h1>
           <p className="text-white/80 mt-2">Explore highlight videos from real activations and demos</p>

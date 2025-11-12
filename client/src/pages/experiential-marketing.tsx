@@ -193,7 +193,7 @@ export default function ExperientialMarketingPage() {
                 <a href="/contact-us?product=experiential-marketing&utm_source=site&utm_medium=page-cta&utm_campaign=experiential-marketing&utm_content=lets-talk-create">Let’s Talk & Create</a>
               </Button>
               <Button asChild variant="creativeSecondary" size="lg">
-                <a href="/get-ideas?utm_source=site&utm_medium=page-cta&utm_campaign=experiential-marketing&utm_content=view-more-concepts#concepts">View More Concepts</a>
+                <a href="/ideas?utm_source=site&utm_medium=page-cta&utm_campaign=experiential-marketing&utm_content=view-more-concepts#concepts">View More Concepts</a>
               </Button>
             </CTAGroup>
           </div>

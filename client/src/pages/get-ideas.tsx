@@ -90,7 +90,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
 }
 
 export default function GetIdeasPage() {
-  useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/get-ideas'); if (cfg) applySeoToHead(cfg); })(); }, []);
+  useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/ideas'); if (cfg) applySeoToHead(cfg); })(); }, []);
   const [activeFilter, setActiveFilter] = useState<string>("All Effects");
   const [featured, setFeatured] = useState<Idea[]>([]);
   const [items, setItems] = useState<Array<{ id:string; title:string; type:'image'|'video'; url:string; target?: string; video_url?: string; thumbnail_url?:string; tags?:string[] }>>([]);
@@ -158,7 +158,7 @@ export default function GetIdeasPage() {
       <Seo
         title="Activation Ideas"
         description="Explore fresh activation ideas and experiential concepts to inspire your next event."
-        canonical="/get-ideas"
+        canonical="/ideas"
         ogImage="/images/Brand Activation.jpg"
         keywords={["activation ideas", "experiential ideas", "event concepts"]}
       />
@@ -166,13 +166,13 @@ export default function GetIdeasPage() {
       <Navigation />
       <main className="relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Get Ideas' }]} />
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Ideas' }]} />
         </div>
         {/* Hero */}
         <section className="relative w-full overflow-hidden min-h-[30vh] text-center mb-14 rounded-[28px] flex items-center justify-center">
           <div className="absolute inset-0 -z-10 opacity-30 overflow-hidden">
             <video className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[100vh] md:w-[177.78vw] md:h-[56.25vw] max-w-none" autoPlay muted loop playsInline preload="metadata">
-              <source src="/videos/get-ideas.mp4" />
+              <source src="/videos/ideas.mp4" />
             </video>
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0.85)_10%,rgba(0,0,0,0)_40%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.85)_90%,rgba(0,0,0,1)_100%)]" />
             <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_82%)]" />
@@ -180,7 +180,7 @@ export default function GetIdeasPage() {
           <div className="max-w-5xl mx-auto px-6 py-16 md:py-20 lg:py-24 min-h-[30vh] flex flex-col items-center justify-center">
             <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/15 bg-white/10 backdrop-blur mb-6">
               <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span className="text-sm font-semibold tracking-wide uppercase">Get Ideas</span>
+              <span className="text-sm font-semibold tracking-wide uppercase">Ideas</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black gradient-text">Discover. Imagine. Activate.</h1>
             <p className="text-base sm:text-lg md:text-xl text-white/85 mt-3 sm:mt-4 max-w-[34ch] sm:max-w-3xl mx-auto leading-relaxed">Get inspired with concepts that help you win your pitches and create unforgettable brand activations</p>
@@ -230,9 +230,9 @@ export default function GetIdeasPage() {
             Let’s discuss how we can customize these solutions for your brand activation needs.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button asChild variant="creativePrimary" size="lg" className="w-full sm:w-auto">
-              <a href="/contact-us">Start the Conversation</a>
-            </Button>
+            <a href="/contact-us" className="w-full sm:w-auto inline-flex">
+              <Button type="button" variant="creativePrimary" size="lg" className="w-full">Start the Conversation</Button>
+            </a>
           </div>
         </section>
       </main>
@@ -257,19 +257,69 @@ function IdeasFilterGrid() {
 
   useEffect(()=>{ (async()=>{
     setLoading(true); setError(undefined);
+    const CACHE_KEY = 'ideas.ai_filters.v1';
+    const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+    const now = Date.now();
+
+    const mapItems = (arr: any[]): Item[] => arr.map((it: any) => {
+      const id = it?._id?.$oid || (globalThis.crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2));
+      const isVideo = !!it?.media_4;
+      const primary = it?.image_3 || it?.image_1 || it?.media || '';
+      const target = it?.image_2 || undefined;
+      const video = it?.media_4 || undefined;
+      const poster = primary || undefined;
+      const title = it?.title || '';
+      const tag = (Array.isArray(it?.tags) ? it.tags[0] : it?.tags) || it?.type || (isVideo ? 'Video' : 'Image');
+      return { id, type: isVideo ? 'video' : 'image', src: primary, target, video, poster, title, tag } as Item;
+    }).sort((a: Item, b: Item) => {
+      const getOrder = (id: string) => {
+        const o = (arr.find((x: any) => (x?._id?.$oid || '') === id)?.orderby?.$numberLong);
+        const n = Number(o);
+        return Number.isFinite(n) ? n : -Infinity;
+      };
+      return getOrder(b.id) - getOrder(a.id);
+    });
+
+    // 1) Try cached data for instant render
+    try {
+      const cachedRaw = localStorage.getItem(CACHE_KEY);
+      if (cachedRaw) {
+        const cached = JSON.parse(cachedRaw) as { ts: number; data: any[] };
+        if (cached && Array.isArray(cached.data) && (now - (cached.ts||0) < CACHE_TTL_MS)) {
+          setDemo(mapItems(cached.data));
+        }
+      }
+    } catch {}
     try{
-      const params = new URLSearchParams({ page:'1', pageSize:'24' });
-      const res = await fetch(apiBaseJoin(`/api/media?${params.toString()}`));
-      const ct = res.headers.get('content-type')||'';
-      const json = ct.includes('application/json') ? await res.json() : JSON.parse(await res.text());
-      const arr = (json?.data||[]) as Array<{ id:string; title:string; type:'image'|'video'; url:string; target?:string; video_url?:string; thumbnail_url?:string; tags?:string[] }>;
-      const mapped: Item[] = arr.map(it => ({ id: it.id, type: it.type, src: it.url, target: it.target, video: it.video_url, poster: it.thumbnail_url, title: it.title, tag: it.tags?.[0]|| (it.type==='video'?'AI Video':'AI Photo') }));
+      const res = await fetch("https://demo.iboothme.ae/service/node-data/get-all-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ page_key: "ai_filters", data_id: null })
+      });
+      const json = await res.json();
+      const arr = Array.isArray(json?.data) ? json.data : [];
+      const mapped = mapItems(arr);
       setDemo(mapped);
-    }catch(e:any){ setError(e?.message||'Failed to load'); setDemo([]);} finally{ setLoading(false);} })(); },[]);
+      // 2) Update cache in background
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now, data: arr })); } catch {}
+    }catch(err:any){
+      try {
+        const local = await fetch('/cmxlite_iboothmedb.ai_filters.json');
+        const localData = await local.json();
+        const mapped = mapItems(Array.isArray(localData) ? localData : []);
+        setDemo(mapped);
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now, data: Array.isArray(localData)? localData : [] })); } catch {}
+        setError('Using local dataset (remote API blocked by CORS)');
+      } catch (e:any) {
+        setDemo([]);
+        setError(err?.message || 'Failed to load ideas');
+      }
+    } finally{ setLoading(false);} })(); },[]);
 
   const frFilters = useMemo(()=>['All', ...Array.from(new Set(demo.map(i=>i.tag||'').filter(Boolean)))] ,[demo]);
   const items = useMemo(()=> active==='All' ? demo : demo.filter(i => i.tag===active), [active, demo]);
-  const eight = items.slice(0, 8);
+  const [visibleCount, setVisibleCount] = useState(8);
+  const eight = items.slice(0, visibleCount);
 
   const onCardClick = (it: Item) => {
     try {
@@ -301,24 +351,22 @@ function IdeasFilterGrid() {
         ))}
       </div>
 
-      {/* Bento Grid */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5">
+      {/* Adaptive Bento Grid: square images, portrait videos; taller spans on lg */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5 auto-rows-[10rem] sm:auto-rows-[12rem] lg:auto-rows-[9rem]">
         {eight.map((it, idx) => (
           <article
             key={it.id}
             onClick={() => onCardClick(it)}
-            className={`group relative rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20 ${
-              // New rule: videos are tall, images are square-ish
-              it.type === 'video'
-                ? 'lg:col-span-2 lg:row-span-3'
-                : 'lg:col-span-2 lg:row-span-2'
-            }`}
+            className={`group relative rounded-3xl overflow-hidden bg-zinc-900/70 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)] hover:border-white/20 
+              lg:col-span-2 
+              ${it.type === 'video' ? 'lg:row-span-[4]' : 'lg:row-span-[3]'}
+            `}
           >
-            <div className={`relative ${it.type === 'video' ? 'h-72 sm:h-80 md:h-[26rem] lg:h-[34rem]' : 'h-60 sm:h-64 md:h-72 lg:h-[22rem]'}`}>
+            <div className={`relative h-full min-h-[12rem] sm:min-h-[14rem] lg:min-h-[18rem]`}>
               {it.type==='image' ? (
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
-                    <div className={`w-full h-full ${it.type==='video' ? 'aspect-[9/16]' : 'aspect-square'} max-h-full mx-auto`}>
+                    <div className={`w-full h-full aspect-square max-h-full mx-auto`}>
                       {/* Keep base visible until target loads to avoid blank in prod */}
                       <SwapImage src={it.src} target={it.target} alt={it.title||'Creative Result'} />
                     </div>
@@ -327,9 +375,9 @@ function IdeasFilterGrid() {
               ) : (
                 <div className="absolute inset-0 flex">
                   <div className="m-auto w-full h-full">
-                    <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[20rem] md:max-w-[22rem] lg:max-w-[24rem]">
-                      {/* show source image by default, swap to video on hover when ready */}
-                      <SwapVideo poster={it.poster || it.src} src={it.video} alt={it.title||'Creative Result'} />
+                    <div className="w-full h-full aspect-[9/16] max-h-full mx-auto max-w-[18rem] sm:max-w-[22rem] md:max-w-[24rem] lg:max-w-[26rem]">
+                      {/* Autoplay in-view muted video for mixed media */}
+                      <SmartVideo poster={it.poster || it.src} src={it.video || ''} />
                     </div>
                   </div>
                 </div>
@@ -350,7 +398,13 @@ function IdeasFilterGrid() {
       </section>
 
       <div className="mt-6 flex justify-center">
-        <a href="/creative-results" className="px-5 py-2.5 rounded-full border border-white/20 bg-zinc-800/60 hover:bg-zinc-700/60 text-sm font-semibold">View more</a>
+        {loading ? (
+          <button disabled className="px-5 py-2.5 rounded-full border border-white/20 bg-zinc-800/60 text-sm font-semibold opacity-60 cursor-not-allowed">Loading…</button>
+        ) : items.length > visibleCount ? (
+          <button onClick={()=> setVisibleCount(c => Math.min(c + 8, items.length))} className="px-5 py-2.5 rounded-full border border-white/20 bg-zinc-800/60 hover:bg-zinc-700/60 text-sm font-semibold">View more</button>
+        ) : (
+          <button disabled className="px-5 py-2.5 rounded-full border border-white/20 bg-zinc-800/60 text-sm font-semibold opacity-60 cursor-not-allowed">No more items</button>
+        )}
       </div>
 
       {open && (

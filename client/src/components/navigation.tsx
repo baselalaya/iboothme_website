@@ -8,7 +8,7 @@ import Portal from "@/components/portal";
 const navItems = [
   { name: "Solutions", href: "/products", description: "Discover modular booth ecosystems built for instant impact." },
   { name: "AI Technology", href: "/ai-technology", description: "See how our adaptive AI creates unforgettable experiences." },
-  { name: "Get Ideas", href: "/get-ideas", description: "Browse curated launch playbooks designed for your next event." },
+  { name: "Ideas", href: "/ideas", description: "Browse curated launch playbooks designed for your next event." },
   { name: "Robotics", href: "/robotics", description: "Step inside autonomous capture labs crafted for futuristic brands." },
   { name: "Personalized Merch", href: "/personalised-merch", description: "Generate signature keepsakes that ship before your guests get home." },
   { name: "Our Story", href: "/our-story", description: "Meet the team reimagining photo experiences for 2026 and beyond." },

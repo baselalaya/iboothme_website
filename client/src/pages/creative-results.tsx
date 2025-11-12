@@ -67,7 +67,7 @@ export default function CreativeResultsPage() {
       <Seo title="Creative Results" description="Real project outcomes and successful brand activations" canonical="/creative-results" />
       <Navigation />
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
-        <Breadcrumbs items={[{ label: 'Get Ideas', href: '/get-ideas' }, { label: 'Creative Results' }]} />
+        <Breadcrumbs items={[{ label: 'Ideas', href: '/ideas' }, { label: 'Creative Results' }]} />
         <header className="text-center mb-6 md:mb-8">
           <h1 className="text-3xl md:text-5xl font-black text-white">Creative Results</h1>
           <p className="text-white/80 mt-2">Real project outcomes and successful brand activations</p>

@@ -33,7 +33,7 @@ const services = [
     description: "Custom digital platforms and brand ecosystems",
     video: "/videos/tailored.mp4",
     gradient: "from-orange-500/0 to-orange-500/60",
-    href: "/get-ideas#software",
+    href: "/ideas#software",
   }
 ];
 

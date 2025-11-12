@@ -55,7 +55,7 @@ export default function CTASplit() {
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[10px] sm:text-xs tracking-wide uppercase text-white/80 mb-3 sm:mb-4">
             The Hub
           </div>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-2 sm:mb-3 leading-tight">Get Ideas</h3>
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-2 sm:mb-3 leading-tight">Ideas</h3>
           <p className="text-sm sm:text-base text-white/80 max-w-2xl mx-auto px-1">1. 250+ case studies, AI innovations, trendy results, and secret lab creations — all in one curated hub.</p>
         </div>
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 items-stretch relative">
@@ -78,7 +78,7 @@ export default function CTASplit() {
                   </p>
                 </div>
                 <CTAGroup breakpoint="md">
-                  <a href="/get-ideas">
+                  <a href="/ideas">
                     <Button 
                       size="lg"
                       variant="creativePrimary"

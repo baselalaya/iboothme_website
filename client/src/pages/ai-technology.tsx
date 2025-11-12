@@ -371,7 +371,7 @@ Our AI makes every capture look professional. Photos which people will not only 
               Explore our curated hub of AI effects and concepts to match your brand goals.
             </p>
             <div className="mt-6">
-              <a href="/get-ideas" className="inline-block">
+              <a href="/ideas" className="inline-block">
                 <Button variant="creativePrimary" size="lg" className="rounded-full px-6 sm:px-8">
                   GET IDEAS
                 </Button>

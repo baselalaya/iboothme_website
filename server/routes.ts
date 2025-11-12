@@ -95,7 +95,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { name, email, phone, company, product, message, source_path, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid } = req.body || {};
       if (!name || !email) return res.status(400).json({ message: 'Missing required fields' });
       const inferredSource = source_path || (req.headers['referer'] as string | undefined) || null;
-      const { data, error } = await supabase.from('leads').insert({ name, email, phone, company, product, message, source_path: inferredSource, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid }).select().single();
+      // Full payload including marketing params
+      const fullPayload: any = { name, email, phone, company, product, message, source_path: inferredSource, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid };
+      let { data, error } = await supabase.from('leads').insert(fullPayload).select().single();
+      // If the DB schema is missing some columns in production, retry without them
+      if (error && /column .* does not exist|schema cache|invalid input value/i.test(error.message || '')) {
+        const safePayload = { name, email, phone, company, product, message, source_path: inferredSource } as any;
+        ({ data, error } = await supabase.from('leads').insert(safePayload).select().single());
+      }
       if (error) return res.status(500).json({ message: error.message });
       return res.status(201).json(data);
     } catch (e:any) {
@@ -147,6 +154,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.json({ data: data || [], count: count || 0, page: p, pageSize: ps });
     } catch (e: any) {
       return res.status(500).json({ message: e.message || 'Server error' });
+    }
+  });
+
+  // Proxy: AI Filters (avoids CORS from client)
+  app.post('/api/ai-filters', async (req, res) => {
+    try {
+      const upstream = 'https://demo.iboothme.ae/service/node-data/get-all-data';
+      const r = await fetch(upstream, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page_key: 'ai_filters', data_id: null })
+      });
+      const ct = r.headers.get('content-type') || '';
+      const text = await r.text();
+      const data = ct.includes('application/json') ? JSON.parse(text) : (()=>{ try { return JSON.parse(text); } catch { return { raw: text }; } })();
+      if (!r.ok) return res.status(r.status).json({ message: 'Upstream error', status: r.status, data });
+      return res.json(data);
+    } catch (e: any) {
+      return res.status(500).json({ message: e?.message || 'Proxy failed' });
     }
   });
 

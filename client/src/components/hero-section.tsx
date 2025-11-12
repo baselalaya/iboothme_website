@@ -123,7 +123,7 @@ export default function HeroSection() {
             variant="creativePrimary"
             className="group w-full sm:w-auto"
             data-testid="cta-custom-concept"
-            onClick={()=>{ window.location.href = '/get-ideas'; }}
+            onClick={()=>{ window.location.href = '/ideas'; }}
           >
             <span className="text-white font-bold">
               Unlock Ideas

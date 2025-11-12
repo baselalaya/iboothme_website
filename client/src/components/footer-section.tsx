@@ -15,7 +15,7 @@ const servicesLinks = [
   { name: "Experiential Marketing", href: "/experiential-marketing" },
   { name: "Gamifications", href: "/gamifications" },
   { name: "Tailored Software Solutions", href: "/tailored-software-solutions" },
-  { name: "The Hub", href: "/get-ideas" },
+  { name: "The Hub", href: "/ideas" },
 ] as const;
 const companyLinks = [
   { name: "Our Story", href: "/our-story" },

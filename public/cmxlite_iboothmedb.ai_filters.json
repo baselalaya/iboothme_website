@@ -1,0 +1,1161 @@
+[{
+  "_id": {
+    "$oid": "68663bb7336cdde65c921faa"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:13:43.293Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:56:48.894Z"
+  },
+  "disc": "Cinematic Array",
+  "media": "ai_filters/23936c99-4e3e-4b8b-8c90-32130b30de49.jpg",
+  "title": "Cinematic Array",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d60f0b97-5021-4d53-ac01-d4a0cd3bddc6.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/33c9a006-d574-41fb-9b29-ff239f51919a.png",
+  "index": {
+    "$numberLong": "12"
+  },
+  "orderby": {
+    "$numberLong": "6"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663bc0336cdde65c921fab"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:13:52.570Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:36:28.545Z"
+  },
+  "disc": "Spectrum Shift",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/0be03ca8-43da-41a8-be1d-efddc02d2d46.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/67f59bcc-db8c-4e67-8911-04b2d9d8873f.png",
+  "title": "Spectrum Shift",
+  "index": {
+    "$numberLong": "11"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663bc7336cdde65c921fac"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:13:59.240Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:55:17.590Z"
+  },
+  "disc": "Classic Triangle",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/a38596ef-2e48-474f-ae9f-f453f937e896.jpeg",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/ae54c940-451d-4fc7-81fa-88dfe33b10e7.png",
+  "title": "Classic Triangle",
+  "index": {
+    "$numberLong": "10"
+  },
+  "orderby": {
+    "$numberLong": "2"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663bda336cdde65c921fad"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:14:18.389Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:36:50.708Z"
+  },
+  "disc": "Golden Flow",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/5160927f-fe3e-4b25-bac1-ec9dfc48a1a7.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/83137c6e-ff82-4439-9355-2eaaa51e0c45.png",
+  "title": "Golden Flow",
+  "index": {
+    "$numberLong": "9"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663be4336cdde65c921fae"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:14:28.078Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:37:44.705Z"
+  },
+  "disc": "Surface Realism",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/338a6783-4de0-42e1-b7e6-a9c40a711f10.jpeg",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/b2df3b19-b54c-4bb1-973f-e1c25631f0f6.png",
+  "title": "Surface Realism",
+  "index": {
+    "$numberLong": "8"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663bf1336cdde65c921faf"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:14:41.242Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:37:55.292Z"
+  },
+  "disc": "Dual Horizon",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/8a5f3fb1-53da-4fa7-a58b-6803c92482bd.jpeg",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/adaffa0d-eb01-4a8e-bcd1-88558308351d.png",
+  "title": "Dual Horizon",
+  "index": {
+    "$numberLong": "7"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663c01336cdde65c921fb0"
+  },
+  "type": "AI Effects",
+  "tags": "Advanced Photo Effects",
+  "createdOn": {
+    "$date": "2025-07-03T08:14:57.331Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:38:02.658Z"
+  },
+  "disc": "Neon Pulse",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/26489d4f-8bfe-4053-9939-aa73a18a1d6a.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/0d32a5af-33e0-4666-825d-c6e2c34aa65d.png",
+  "title": "Neon Pulse",
+  "index": {
+    "$numberLong": "6"
+  }
+},
+{
+  "_id": {
+    "$oid": "68663c09336cdde65c921fb1"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "createdOn": {
+    "$date": "2025-07-03T08:15:05.292Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:55:49.837Z"
+  },
+  "disc": "Silver Veil",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/69cec65e-c8bf-487a-8abc-7dd73a3e604c.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/863a9ea1-a224-4171-b900-d56959394421.png",
+  "title": "Silver Veil",
+  "index": {
+    "$numberLong": "5"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "6892fec04d67bbf4fdfa3ee0"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Velvet Eclipse",
+  "title": "Velvet Eclipse",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/5a1f494e-8220-4a85-8f3b-81a8a5f3d3ed.jpeg",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/398e6d14-05a9-4490-a91c-0267fb528c2f.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:05:36.175Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:38:23.399Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6892ff144d67bbf4fdfa3ee1"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Surreal Grace",
+  "title": "Surreal Grace",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/e7718e4a-9d19-4577-b090-fa737528d9f1.jpeg",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/a6d485f0-8a27-43b0-8d20-79e05a94b38f.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:07:00.177Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:56:39.287Z"
+  },
+  "orderby": {
+    "$numberLong": "5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6892ff9b4d67bbf4fdfa3ee2"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Obsidian Frame",
+  "title": "Obsidian Frame",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/8542481e-640b-490e-915a-8c8eaccf1a35.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/744e0307-d3d7-4968-8b20-888056b379fb.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:09:15.518Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:56:28.687Z"
+  },
+  "orderby": {
+    "$numberLong": "4"
+  }
+},
+{
+  "_id": {
+    "$oid": "6892ffcf4d67bbf4fdfa3ee3"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Chromatic Muse",
+  "title": "Chromatic Muse",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/f7e6b318-a823-4970-86aa-320cf7340aab.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/c74e6cc5-5327-42dc-b071-bfa46082c7ce.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:10:07.436Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:38:51.762Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "689300024d67bbf4fdfa3ee4"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Renaissance Depth",
+  "title": "Renaissance Depth",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/ff4d85ab-24b0-4c1b-9163-a311b72425f4.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/a8d175fe-b894-4415-ab1a-b1ede78ca71a.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:10:58.681Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:56:16.405Z"
+  },
+  "orderby": {
+    "$numberLong": "3"
+  }
+},
+{
+  "_id": {
+    "$oid": "689300384d67bbf4fdfa3ee5"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Golden Aura",
+  "title": "Golden Aura",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/b14bddab-170e-4e39-9e77-d7b13b398e6e.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/f70e5e57-3d8b-42d9-9dff-642b0c539c15.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:11:52.715Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T08:23:25.312Z"
+  },
+  "orderby": {
+    "$numberLong": "20"
+  }
+},
+{
+  "_id": {
+    "$oid": "689300ab4d67bbf4fdfa3ee6"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Marble Light",
+  "title": "Marble Light",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/32d131d0-d2ac-4894-9fd9-2efe96f23c83.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/9bf46f63-6236-4894-881b-a448a919b052.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:13:47.805Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:39:23.810Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "689301034d67bbf4fdfa3ee7"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Noir Essence",
+  "title": "Noir Essence",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/5c7ab370-7993-480a-9bd8-e87333218d53.jpeg",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/cfb0978a-9feb-4595-827a-73c10ed25e64.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:15:15.909Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T08:23:16.567Z"
+  },
+  "orderby": {
+    "$numberLong": "1"
+  }
+},
+{
+  "_id": {
+    "$oid": "6893012d4d67bbf4fdfa3ee8"
+  },
+  "type": "AI Effects",
+  "tags": "Master Photographers",
+  "disc": "Icon Vogue",
+  "title": "Icon Vogue",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/e6bb8e16-babc-4ee4-9183-f36687d1158e.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/2790d806-a6b9-4e76-a818-0babaec2e25c.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:15:57.581Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:39:46.617Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "689301584d67bbf4fdfa3ee9"
+  },
+  "type": "AI Effects",
+  "tags": "Minimalistic Photo Effects",
+  "disc": "Studio Balance",
+  "title": "Studio Balance",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/a3a0bca4-e2c5-4427-9e0e-86d89821645c.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/8005b89a-9c15-495c-b7d5-6e74a248e677.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:16:40.002Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:40:05.343Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "689301f84d67bbf4fdfa3eea"
+  },
+  "type": "AI Effects",
+  "tags": "Minimalistic Photo Effects",
+  "disc": "Precision Glow",
+  "title": "Precision Glow",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/b5bbfe90-c75e-4d98-8cee-29b7f3cefe48.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/8f08dd1e-11b2-4569-8995-f030236b9394.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:19:20.547Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:40:14.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6893022f4d67bbf4fdfa3eeb"
+  },
+  "type": "AI Effects",
+  "tags": "Minimalistic Photo Effects",
+  "disc": "Warm Halo",
+  "title": "Warm Halo",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/5c31032b-c19d-48d0-b4c9-2fba79278eca.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d3cd3ae4-f7d5-4fb9-bb43-a91af6f0eafc.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:20:15.688Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T05:40:22.622Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6893025d4d67bbf4fdfa3eec"
+  },
+  "type": "AI Effects",
+  "tags": "Minimalistic Photo Effects",
+  "disc": "Soft Contour",
+  "title": "Soft Contour",
+  "image_1": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/b5300ae8-36c3-466a-bd90-b64fb8707e78.png",
+  "image_2": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/811d677a-9c9a-40b4-8fb6-273bc8f26abd.png",
+  "createdOn": {
+    "$date": "2025-08-06T07:21:01.225Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-29T06:48:40.591Z"
+  },
+  "orderby": {
+    "$numberLong": "10"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbb9744d67bbf4fdfa3fb4"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI SQUID GAME",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d576f1c2-cdfa-47ce-bda5-6d8039f36ece.png",
+  "createdOn": {
+    "$date": "2025-09-18T07:49:08.171Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:18:49.523Z"
+  },
+  "orderby": {
+    "$numberLong": "21"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbb9e64d67bbf4fdfa3fb6"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI PRODUCT 1",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/b54b1fd3-b523-4001-8947-53430f6161b4.png",
+  "createdOn": {
+    "$date": "2025-09-18T07:51:02.000Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:22:44.939Z"
+  },
+  "orderby": {
+    "$numberLong": "11"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbba4a4d67bbf4fdfa3fb7"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI ACTION FIGURE",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d1d4ba2f-0b5e-44db-a72a-b41b37b5d459.png",
+  "createdOn": {
+    "$date": "2025-09-18T07:52:42.052Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:18:42.871Z"
+  },
+  "orderby": {
+    "$numberLong": "20"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbc844d67bbf4fdfa3fb8"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI BACKGROUND",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/4e648005-df49-49e5-890d-087d0a00808e.jpg",
+  "createdOn": {
+    "$date": "2025-09-18T08:02:12.917Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:18:36.203Z"
+  },
+  "orderby": {
+    "$numberLong": "19"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbce84d67bbf4fdfa3fb9"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI HARCOURT",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d82f8ab8-013f-4a94-886d-a83480a115e9.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:03:52.468Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:18:28.251Z"
+  },
+  "index": {
+    "$numberLong": "1"
+  },
+  "orderby": {
+    "$numberLong": "18"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbd4a4d67bbf4fdfa3fba"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI PLUSHIE",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/8c8a1211-f951-40e2-ba4b-a247812f3a8b.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:05:30.133Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:18:21.636Z"
+  },
+  "orderby": {
+    "$numberLong": "17"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbd8e4d67bbf4fdfa3fbb"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI MANGA",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/c6e59070-ec97-4832-8289-d66a9b217692.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:06:38.796Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-07T12:51:34.723Z"
+  },
+  "index": {
+    "$numberLong": "14"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "68cbbdbf4d67bbf4fdfa3fbc"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI TOP VIEW",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/2e0b521f-592c-4ce8-acc3-a9b270007516.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:07:27.245Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:26:35.047Z"
+  },
+  "orderby": {
+    "$numberLong": "8"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbe2a4d67bbf4fdfa3fbd"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI BARBIE DOLL",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/c2e26b17-16a3-4cff-abc0-c9973ac9fbda.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:09:14.615Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:25:26.713Z"
+  },
+  "orderby": {
+    "$numberLong": "12"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbe6d4d67bbf4fdfa3fbe"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI PLUSHIE 1",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/e4e58d80-1332-48eb-b164-6634299ff171.jpg",
+  "createdOn": {
+    "$date": "2025-09-18T08:10:21.662Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:24:49.184Z"
+  },
+  "orderby": {
+    "$numberLong": "7"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbe9d4d67bbf4fdfa3fbf"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "FORD",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/fb95b65e-7a70-4fc8-b2e5-1ac9613b0928.jpeg",
+  "createdOn": {
+    "$date": "2025-09-18T08:11:09.757Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:23:53.754Z"
+  },
+  "orderby": {
+    "$numberLong": "3"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbee64d67bbf4fdfa3fc0"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI PRODUCT",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/84cb047b-7959-4fa4-b06b-8c913277f7ac.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:12:22.796Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:26:41.459Z"
+  },
+  "orderby": {
+    "$numberLong": "15"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbf154d67bbf4fdfa3fc1"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "SCRIBBLE",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/b45684f2-2255-4b20-86fb-b3417c41080b.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:13:09.900Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T12:47:53.570Z"
+  },
+  "orderby": {
+    "$numberLong": "6"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbf484d67bbf4fdfa3fc2"
+  },
+  "type": "Creative Effects",
+  "tags": "Experimental",
+  "title": "LOFTCAM",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/6f39f18a-b5d1-4763-947c-08ae2915ce35.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:14:00.250Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-17T11:27:03.451Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "68cbbf6a4d67bbf4fdfa3fc3"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI STAMP",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/bc11158c-615b-4c01-996e-cabdc591317c.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:14:34.697Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:20:19.124Z"
+  },
+  "orderby": {
+    "$numberLong": "2"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbf8c4d67bbf4fdfa3fc4"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI HARCOURT",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/83bfb659-c4a0-4739-a949-0d27e2b0043d.png",
+  "createdOn": {
+    "$date": "2025-09-18T08:15:08.354Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:21:25.296Z"
+  },
+  "orderby": {
+    "$numberLong": "10"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbfa74d67bbf4fdfa3fc5"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI LABUBU",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/10bd9c93-c4db-4811-9e27-1bcb794ee89d.jpg",
+  "createdOn": {
+    "$date": "2025-09-18T08:15:35.178Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-07T12:40:39.129Z"
+  },
+  "orderby": {
+    "$numberLong": "40"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbbfcd4d67bbf4fdfa3fc6"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI LIGHTING",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/7087c0cf-fdff-43ea-958f-f9c43adcd18a.jpg",
+  "createdOn": {
+    "$date": "2025-09-18T08:16:13.219Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-17T11:16:28.612Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "68cbc1144d67bbf4fdfa3fc7"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "DISINTEGRATION",
+  "image_3": null,
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/18654668-4417-4c61-aab6-dc6d5dee2f1b.mp4",
+  "createdOn": {
+    "$date": "2025-09-18T08:21:40.034Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:27:18.218Z"
+  },
+  "index": {
+    "$numberLong": "1"
+  },
+  "orderby": {
+    "$numberLong": "16"
+  }
+},
+{
+  "_id": {
+    "$oid": "68cbc14c4d67bbf4fdfa3fc8"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "SLOW-MO",
+  "createdOn": {
+    "$date": "2025-09-18T08:22:36.718Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-18T13:25:31.768Z"
+  },
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/816340b5-4fe3-4b52-a60d-2f75b62693db.mp4",
+  "orderby": {
+    "$numberLong": "14"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ccfe474d67bbf4fdfa3fd7"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "GS - Fila",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/8accda00-e500-4dc1-993b-285110366709.mp4",
+  "createdOn": {
+    "$date": "2025-09-19T06:55:03.349Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "68ccfe804d67bbf4fdfa3fd8"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "Glamdroid",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/4507cd6c-6301-4b73-8df2-8d9f8c80aad3.mp4",
+  "createdOn": {
+    "$date": "2025-09-19T06:56:00.176Z"
+  },
+  "updatedOn": {
+    "$date": "2025-09-19T07:17:26.432Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ccfeb84d67bbf4fdfa3fd9"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "Jeep AI Result",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/359c6fa7-5010-437a-86cf-f3fc83960335.mp4",
+  "createdOn": {
+    "$date": "2025-09-19T06:56:56.099Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "68ccfee64d67bbf4fdfa3fda"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "GLAMDROID",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/61f487f2-c755-4122-ba8b-05c1886a2be0.mp4",
+  "createdOn": {
+    "$date": "2025-09-19T06:57:42.266Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-17T11:19:29.718Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ccff054d67bbf4fdfa3fdb"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "Scribble Video",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/7dd1a2ac-475a-4100-9425-578ca2f98f2f.mp4",
+  "createdOn": {
+    "$date": "2025-09-19T06:58:13.324Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "68ccff414d67bbf4fdfa3fdc"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "SPLASH GIF",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/f808a43d-c1b6-44c4-abb7-fb7902bf2d37.mp4",
+  "createdOn": {
+    "$date": "2025-09-19T06:59:13.160Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "68e609354d67bbf4fdfa4020"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "Scribble booth",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/ba8ad6fc-3719-426f-a219-90c2e29fe157.mp4",
+  "createdOn": {
+    "$date": "2025-10-08T06:48:21.924Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "68f1d8674d67bbf4fdfa406d"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "2D AVATAR",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/7110f841-0929-4cd1-842e-c3e46ac60dbe.jpg",
+  "createdOn": {
+    "$date": "2025-10-17T05:47:19.451Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T08:22:42.774Z"
+  },
+  "orderby": {
+    "$numberLong": "20"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f224284d67bbf4fdfa406e"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI BACKGROUND",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/67c0c5b8-4b0d-406d-a984-20b95fb2d41e.jpg",
+  "createdOn": {
+    "$date": "2025-10-17T11:10:32.697Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-17T11:20:02.597Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "68f224824d67bbf4fdfa406f"
+  },
+  "type": "Creative Effects",
+  "tags": "Photo ",
+  "title": "STRIP PRINT",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d0c8caf8-4d02-42d5-a33b-5260973a60e8.jpg",
+  "createdOn": {
+    "$date": "2025-10-17T11:12:02.656Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-07T12:48:21.318Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "68f225a64d67bbf4fdfa4070"
+  },
+  "type": "Creative Effects",
+  "tags": "Photo ",
+  "title": "STRIP PRINT",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/14556fce-78d4-497c-a63f-60d508f673de.jpg",
+  "createdOn": {
+    "$date": "2025-10-17T11:16:54.634Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-17T11:19:41.077Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f228054d67bbf4fdfa4072"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "AR FILTER",
+  "image_3": null,
+  "createdOn": {
+    "$date": "2025-10-17T11:27:01.449Z"
+  },
+  "updatedOn": {
+    "$date": "2025-10-17T11:30:53.285Z"
+  },
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/94fc5ec1-6f43-4e1b-b614-107476a658a6.mp4",
+  "index": {
+    "$numberLong": "2"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f229cf4d67bbf4fdfa4074"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI ACTION FIGURE",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/a424a21e-a284-4b15-b829-cc2e7b806016.jpg",
+  "createdOn": {
+    "$date": "2025-10-17T11:34:39.992Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "68f22a484d67bbf4fdfa4075"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI MAGAZINE COVER",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/dd0a11c1-2ee0-4479-864a-1503f31907bf.jpg",
+  "createdOn": {
+    "$date": "2025-10-17T11:36:40.115Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "690de4b44d67bbf4fdfa40c1"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "LOFTCAM",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/17cadf09-5f9d-4731-aa76-afddee8c5ab2.mp4",
+  "createdOn": {
+    "$date": "2025-11-07T12:23:16.285Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "690de8674d67bbf4fdfa40c3"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "Faceswap",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/e329e44d-12f9-41e6-84f9-51e5c8bc6420.jfif",
+  "createdOn": {
+    "$date": "2025-11-07T12:39:03.425Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-07T12:49:26.995Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "690de8f74d67bbf4fdfa40c4"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI Try On - Watch",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/c31f0abd-92e6-4d36-9a7e-af4b09ec9585.jpg",
+  "createdOn": {
+    "$date": "2025-11-07T12:41:27.449Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-07T12:45:44.655Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "691191e74d67bbf4fdfa40c5"
+  },
+  "type": "Creative Effects",
+  "tags": "Video",
+  "title": "180",
+  "media_4": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/2ae8f95c-d52d-48ea-afbb-c396c85cb984.mp4",
+  "createdOn": {
+    "$date": "2025-11-10T07:19:03.876Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T07:21:31.020Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691194924d67bbf4fdfa40c7"
+  },
+  "type": "Creative Effects",
+  "tags": "Photo ",
+  "title": "Classic Film look",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/52d847f2-0e7a-41e3-a55b-aec59ec7b71a.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T07:30:26.903Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T09:47:59.085Z"
+  },
+  "orderby": {
+    "$numberLong": "1"
+  }
+},
+{
+  "_id": {
+    "$oid": "691197174d67bbf4fdfa40c9"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI Avatar",
+  "image_4": null,
+  "createdOn": {
+    "$date": "2025-11-10T07:41:11.821Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T07:42:26.215Z"
+  },
+  "index": {
+    "$numberLong": "1"
+  },
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/dbe39004-6155-44ec-a753-b851cdc4ae67.jpg"
+},
+{
+  "_id": {
+    "$oid": "691198af4d67bbf4fdfa40ca"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "Ai Avatar",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/08b38f86-edf3-449a-8aaa-e17e28745509.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T07:47:59.050Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T08:25:47.803Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "691198ed4d67bbf4fdfa40cb"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "AI Avatar",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/11f88694-38e6-4adf-bb6f-7694588f0624.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T07:49:01.055Z"
+  },
+  "updatedOn": null
+},
+{
+  "_id": {
+    "$oid": "69119b064d67bbf4fdfa40cc"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/c5cb5c94-b354-4b9d-a5d4-77b8df48b821.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T07:57:58.231Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T07:58:14.901Z"
+  },
+  "title": "AI Avatar"
+},
+{
+  "_id": {
+    "$oid": "6911a0e74d67bbf4fdfa40ce"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "Face Swap",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/9e27a97f-719b-4207-829b-563dd996b569.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T08:23:03.522Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T08:29:46.432Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6911a1724d67bbf4fdfa40cf"
+  },
+  "type": "Creative Effects",
+  "tags": "Photo ",
+  "title": "Ai Background",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d02480d6-f71a-40c8-8095-ebd274e4bc74.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T08:25:22.407Z"
+  },
+  "updatedOn": {
+    "$date": "2025-11-10T09:47:43.608Z"
+  },
+  "orderby": null
+},
+{
+  "_id": {
+    "$oid": "6911a1ab4d67bbf4fdfa40d0"
+  },
+  "type": "Creative Effects",
+  "tags": "Ai",
+  "title": "Face swap",
+  "image_3": "https://testvb-cdn.s3-eu-central-1.amazonaws.com/datalite_gallery/ai_filters/d4e6b254-f1c8-4474-b66e-cb627872c5ed.jpg",
+  "createdOn": {
+    "$date": "2025-11-10T08:26:19.965Z"
+  },
+  "updatedOn": null
+}]

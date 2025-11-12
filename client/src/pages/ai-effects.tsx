@@ -148,7 +148,7 @@ export default function AiEffectsGallery() {
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
         <Breadcrumbs
           items={[
-            { label: "Get Ideas", href: "/get-ideas" },
+            { label: "Ideas", href: "/ideas" },
             { label: "AI Effects Gallery" },
           ]}
         />

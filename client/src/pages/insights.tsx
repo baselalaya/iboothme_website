@@ -79,7 +79,7 @@ export default function InsightsPage(){
       <Seo title="Insights & Inspiration" description="Ideas, case studies, and inspiration from real brand activations." canonical="/insights" prev={prev} next={next} jsonLd={jsonLd} />
       <Navigation />
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
-        <Breadcrumbs items={[{ label:'Get Ideas', href:'/get-ideas' }, { label:'Insights & Inspiration' }]} />
+        <Breadcrumbs items={[{ label:'Ideas', href:'/ideas' }, { label:'Insights & Inspiration' }]} />
         <header className="text-center mb-8 md:mb-10">
           <h1 className="text-3xl md:text-5xl font-black">Insights & Inspiration</h1>
           <p className="text-white/80 mt-2">Articles, guides, and case studies for experiential marketing</p>

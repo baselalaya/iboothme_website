@@ -110,7 +110,7 @@ function Router() {
             <PersonalisedMerchPage />
           </PageTransition>
         </Route>
-        <Route path="/get-ideas">
+        <Route path="/ideas">
           <PageTransition key={location} type="scale-blur">
             <GetIdeasPage />
           </PageTransition>
