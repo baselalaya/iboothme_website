@@ -32,6 +32,7 @@ import PrivacyPage from "@/pages/privacy";
 import AiEffectsGallery from "@/pages/ai-effects";
 import CreativeResultsPage from "@/pages/creative-results";
 import VideoHubPage from "@/pages/video-hub";
+import GalleryPage from "@/pages/gallery";
 import InsightsPage from "@/pages/insights";
 import InsightArticlePage from "@/pages/insights-article";
 import CareersPage from "@/pages/careers";
@@ -128,6 +129,11 @@ function Router() {
         <Route path="/video-hub">
           <PageTransition key={location} type="scale-blur">
             <VideoHubPage />
+          </PageTransition>
+        </Route>
+        <Route path="/gallery">
+          <PageTransition key={location} type="scale-blur">
+            <GalleryPage />
           </PageTransition>
         </Route>
         <Route path="/insights">
