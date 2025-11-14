@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import FooterSection from "@/components/footer-section";
 import Seo from "@/components/seo";
+import { applySeoToHead, fetchSeoConfig } from "@/lib/seoOverride";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -14,7 +15,9 @@ type YTVideo = {
 const CHANNEL_HANDLE = "@iboothmeCreative";
 
 export default function GalleryPage() {
+  useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/gallery'); if (cfg) applySeoToHead(cfg); })(); }, []);
   const [videos, setVideos] = useState<YTVideo[]>([]);
+  const [nextPageToken, setNextPageToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [playing, setPlaying] = useState<YTVideo | null>(null);
@@ -24,7 +27,9 @@ export default function GalleryPage() {
     async function load() {
       try {
         // Prefer backend proxy (implemented in /api/youtube), else fall back to RSS
-        const resp = await fetch(`/api/youtube?handle=${encodeURIComponent(CHANNEL_HANDLE)}`);
+        const params = new URLSearchParams();
+        params.set('mode', 'data'); // prefer Data API when available
+        const resp = await fetch(`/api/youtube?${params.toString()}`);
         const ct = resp.headers.get('content-type') || '';
         if (resp.ok && ct.includes('application/json')) {
           const data = await resp.json();
@@ -36,6 +41,7 @@ export default function GalleryPage() {
           } as YTVideo)).filter((v: YTVideo) => v.videoId);
           if (!cancelled) {
             setVideos(mapped);
+            setNextPageToken(data.nextPageToken || null);
             setLoading(false);
             return;
           }
@@ -69,6 +75,21 @@ export default function GalleryPage() {
   }, []);
 
   const grid = useMemo(() => videos.slice(0, 48), [videos]);
+  async function loadMore() {
+    if (!nextPageToken) return;
+    try {
+      const params = new URLSearchParams();
+      params.set('mode', 'data');
+      params.set('max', '50');
+      params.set('pageToken', nextPageToken);
+      const r = await fetch(`/api/youtube?${params.toString()}`);
+      if (!r.ok) return;
+      const data = await r.json();
+      const more = (data.items || []).map((it: any) => ({ videoId: it.videoId, title: it.title, publishedAt: it.publishedAt, thumbnail: it.thumbnail } as YTVideo));
+      setVideos(v => [...v, ...more]);
+      setNextPageToken(data.nextPageToken || null);
+    } catch {}
+  }
 
   return (
     <div className="relative min-h-screen text-white">
@@ -106,6 +127,11 @@ export default function GalleryPage() {
               </article>
             ))}
           </section>
+        )}
+        {!loading && !error && nextPageToken && (
+          <div className="flex justify-center mt-8">
+            <button onClick={loadMore} className="px-5 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 transition">Load more</button>
+          </div>
         )}
       </main>
       <FooterSection />
