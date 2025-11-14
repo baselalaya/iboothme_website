@@ -207,18 +207,18 @@ All our tech is built in-house and if you don’t find what you need, we’ll bu
               <button
                 type="button"
                 aria-label="Previous"
-                className="products-prev absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/10 border border-white/20 backdrop-blur grid place-items-center hover:bg-white/20 transition"
+                className="products-prev absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-black/50 border border-white/30 text-white shadow-[0_6px_18px_rgba(0,0,0,0.45)] backdrop-blur-sm grid place-items-center hover:bg-black/70 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 transition"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white/80">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
                   <path d="M15 18l-6-6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
               <button
                 type="button"
                 aria-label="Next"
-                className="products-next absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/10 border border-white/20 backdrop-blur grid place-items-center hover:bg-white/20 transition"
+                className="products-next absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-black/50 border border-white/30 text-white shadow-[0_6px_18px_rgba(0,0,0,0.45)] backdrop-blur-sm grid place-items-center hover:bg-black/70 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 transition"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white/80">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
                   <path d="M9 18l6-6-6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>

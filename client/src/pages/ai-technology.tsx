@@ -245,7 +245,7 @@ Our AI makes every capture look professional. Photos which people will not only 
             type="button"
             aria-label="Previous"
             ref={prevRef}
-            className="hidden lg:grid absolute left-6 inset-y-0 my-auto z-20 h-12 w-12 rounded-full bg-white/10 border border-white/20 backdrop-blur hover:bg-white/20 transition place-items-center"
+            className="hidden lg:grid absolute left-6 inset-y-0 my-auto z-20 h-12 w-12 rounded-full bg-black/50 border border-white/30 text-white shadow-[0_6px_18px_rgba(0,0,0,0.45)] backdrop-blur-sm hover:bg-black/70 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 transition place-items-center"
           >
             <svg
               width="22"
@@ -253,7 +253,7 @@ Our AI makes every capture look professional. Photos which people will not only 
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              className="text-white/80"
+              className="text-white"
             >
               <path
                 d="M15 18l-6-6 6-6"
@@ -267,7 +267,7 @@ Our AI makes every capture look professional. Photos which people will not only 
             type="button"
             aria-label="Next"
             ref={nextRef}
-            className="hidden lg:grid absolute right-6 inset-y-0 my-auto z-20 h-12 w-12 rounded-full bg-white/10 border border-white/20 backdrop-blur hover:bg-white/20 transition place-items-center"
+            className="hidden lg:grid absolute right-6 inset-y-0 my-auto z-20 h-12 w-12 rounded-full bg-black/50 border border-white/30 text-white shadow-[0_6px_18px_rgba(0,0,0,0.45)] backdrop-blur-sm hover:bg-black/70 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 transition place-items-center"
           >
             <svg
               width="22"
@@ -275,7 +275,7 @@ Our AI makes every capture look professional. Photos which people will not only 
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              className="text-white/80"
+              className="text-white"
             >
               <path
                 d="M9 18l6-6-6-6"

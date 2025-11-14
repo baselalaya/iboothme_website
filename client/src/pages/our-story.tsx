@@ -247,18 +247,18 @@ export default function OurStoryPage() {
             <button
               type="button"
               aria-label="Previous"
-              className="swiper-prev absolute -left-4 sm:-left-8 md:-left-10 lg:-left-12 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/10 border border-white/20 backdrop-blur hover:bg-white/20 transition grid place-items-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+              className="swiper-prev absolute -left-4 sm:-left-8 md:-left-10 lg:-left-12 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-black/50 border border-white/30 text-white backdrop-blur-sm hover:bg-black/70 hover:border-white/40 transition grid place-items-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white/80">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
                 <path d="M15 18l-6-6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
             <button
               type="button"
               aria-label="Next"
-              className="swiper-next absolute -right-4 sm:-right-8 md:-right-10 lg:-right-12 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/10 border border-white/20 backdrop-blur hover:bg-white/20 transition grid place-items-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
+              className="swiper-next absolute -right-4 sm:-right-8 md:-right-10 lg:-right-12 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-black/50 border border-white/30 text-white backdrop-blur-sm hover:bg-black/70 hover:border-white/40 transition grid place-items-center shadow-[0_10px_30px_rgba(0,0,0,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white/80">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
                 <path d="M9 18l6-6-6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>

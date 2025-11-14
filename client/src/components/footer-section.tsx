@@ -11,6 +11,7 @@ const servicesLinks = [
   { name: "AI Tech", href: "/ai-technology" },
   { name: "Analytics", href: "/analytics" },
   { name: "Robotics", href: "/robotics" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Personalized Merch", href: "/personalised-merch" },
   { name: "Experiential Marketing", href: "/experiential-marketing" },
   { name: "Gamifications", href: "/gamifications" },
@@ -187,8 +188,12 @@ export default function FooterSection() {
           variants={fadeUpVariants}
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-white/60 text-center md:text-left text-xs md:text-sm" data-testid="footer-copyright">
-              2026 Iboothme. All rights reserved.
+            <div className="text-white/70 text-center md:text-left text-xs md:text-sm flex flex-col md:flex-row items-center gap-2 md:gap-4" data-testid="footer-copyright">
+              <span>© {new Date().getFullYear()} Studio 94 DMCC • 14 Years of Premium Experiences</span>
+              <span className="hidden md:inline">•</span>
+              <span className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-emerald-500" aria-hidden /> Available for bookings</span>
+              <span className="hidden md:inline">•</span>
+              <span>Made with <span role="img" aria-label="love">❤️</span> in the GCC</span>
             </div>
             <div className="flex items-center gap-2.5 sm:gap-3.5" aria-label="footer social links">
               <a href="https://instagram.com/iboothme" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="group">

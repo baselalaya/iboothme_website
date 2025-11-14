@@ -2,9 +2,7 @@ import Navigation from "@/components/navigation";
 import FooterSection from "@/components/footer-section";
 import Seo from "@/components/seo";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { useEffect, useMemo, useState } from "react";
-import { apiBaseJoin } from "../lib/publicApi";
-import { applySeoToHead, fetchSeoConfig } from "@/lib/seoOverride";
+import { useEffect, useState } from "react";
 import { gtmEvent } from "@/lib/gtm";
 
 type Article = {
@@ -18,16 +16,31 @@ type Article = {
   published_at?: string;
 };
 
+function decodeHtml(input: string | undefined): string {
+  if (!input) return "";
+  if (typeof window === "undefined") {
+    return input
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, "\"")
+      .replace(/&apos;/g, "'")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
+  }
+  const el = document.createElement("textarea");
+  el.innerHTML = input;
+  return el.value;
+}
+
 export default function InsightsPage(){
-  useEffect(() => { (async () => { const cfg = await fetchSeoConfig('/insights'); if (cfg) applySeoToHead(cfg); })(); }, []);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string|undefined>();
   const [data, setData] = useState<Article[]>([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [q, setQ] = useState('');
   const [tag, setTag] = useState('');
-  const pageSize = 12;
   useEffect(()=>{
     // keep URL in sync for shareability
     const url = new URL(window.location.href);
@@ -39,50 +52,82 @@ export default function InsightsPage(){
   useEffect(()=>{ (async()=>{
     setLoading(true); setError(undefined);
     try{
-      const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
-      if (q) params.set('q', q); if (tag) params.set('tag', tag);
-      const res = await fetch(apiBaseJoin(`/api/articles?${params.toString()}`));
+      const params = new URLSearchParams({
+        per_page: "12",
+        page: String(page),
+        _embed: "1",
+      });
+      const res = await fetch(`https://demo.iboothme.ae/blog/wp-json/wp/v2/posts?${params.toString()}`);
+      if (!res.ok) throw new Error("Failed to load blog posts");
+      const total = Number(res.headers.get("X-WP-Total") || "0");
+      const totalPagesHeader = Number(res.headers.get("X-WP-TotalPages") || "1");
       const json = await res.json();
-      if(!res.ok) throw new Error(json?.message||'Failed');
-      setData(json.data||[]); setCount(json.count||0);
+      const mapped: Article[] = (json || []).map((p: any) => {
+        const media = p._embedded?.["wp:featuredmedia"]?.[0];
+        const sizes = media?.media_details?.sizes || {};
+        const preferredSize =
+          sizes["shutter-image-blog-grid-standart"] ||
+          sizes["shutter-image-blog-grid-masonry"] ||
+          sizes["medium_large"] ||
+          sizes["full"];
+        const cover =
+          preferredSize?.source_url ||
+          media?.source_url ||
+          p.yoast_head_json?.og_image?.[0]?.url ||
+          undefined;
+
+        const rawExcerpt = p.excerpt?.rendered
+          ? p.excerpt.rendered.replace(/<[^>]+>/g, "").trim()
+          : undefined;
+
+        return {
+          id: String(p.id),
+          title: decodeHtml(p.title?.rendered || ""),
+          slug: p.slug || String(p.id),
+          excerpt: rawExcerpt ? decodeHtml(rawExcerpt) : undefined,
+          cover_image: cover,
+          tags: Array.isArray(p.tags) ? p.tags.map(String) : [],
+          author: p._embedded?.author?.[0]?.name,
+          published_at: p.date,
+        };
+      });
+      setData(mapped);
+      setCount(total || mapped.length);
+      setTotalPages(totalPagesHeader || 1);
       try {
-        gtmEvent('insights_list_view', {
+        gtmEvent("insights_list_view", {
           page,
-          page_size: 12,
-          count: (json?.count || (json?.data?.length ?? 0)),
-          q: q || undefined,
-          tag: tag || undefined,
+          page_size: mapped.length,
+          count: total || mapped.length,
         });
       } catch {}
-    }catch(e:any){ setError(e?.message||'Failed'); }
+    }catch(e:any){ setError(e?.message||"Failed"); }
     finally{ setLoading(false); }
-  })(); }, [page, q, tag]);
+  })(); }, [page]);
 
-  const totalPages = Math.max(1, Math.ceil(count / pageSize));
-
-  const prev = page > 1 ? `/insights?page=${page-1}${q?`&q=${encodeURIComponent(q)}`:''}${tag?`&tag=${encodeURIComponent(tag)}`:''}` : undefined;
-  const next = page < totalPages ? `/insights?page=${page+1}${q?`&q=${encodeURIComponent(q)}`:''}${tag?`&tag=${encodeURIComponent(tag)}`:''}` : undefined;
+  const prev = page > 1 ? `/blog?page=${page-1}${q?`&q=${encodeURIComponent(q)}`:''}${tag?`&tag=${encodeURIComponent(tag)}`:''}` : undefined;
+  const next = page < totalPages ? `/blog?page=${page+1}${q?`&q=${encodeURIComponent(q)}`:''}${tag?`&tag=${encodeURIComponent(tag)}`:''}` : undefined;
   const jsonLd = {
     "@context":"https://schema.org",
     "@type":"CollectionPage",
-    name: "Insights & Inspiration",
-    description: "Articles, guides, and case studies for experiential marketing",
+    name: "Blog",
+    description: "Blog articles, guides, and case studies for experiential marketing",
     hasPart: (data||[]).slice(0,12).map(a=>({
       "@type":"Article",
       headline: a.title,
-      url: `/insights/${a.slug}`,
+      url: `/blog/${a.slug}`,
       datePublished: a.published_at || undefined
     }))
   } as any;
   return (
     <div className="relative min-h-screen text-white">
-      <Seo title="Insights & Inspiration" description="Ideas, case studies, and inspiration from real brand activations." canonical="/insights" prev={prev} next={next} jsonLd={jsonLd} />
+      <Seo title="Blog" description="Ideas, case studies, and inspiration from real brand activations." canonical="/blog" prev={prev} next={next} jsonLd={jsonLd} />
       <Navigation />
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-10 md:py-14">
-        <Breadcrumbs items={[{ label:'Ideas', href:'/ideas' }, { label:'Insights & Inspiration' }]} />
+        <Breadcrumbs items={[{ label:'Ideas', href:'/ideas' }, { label:'Blog' }]} />
         <header className="text-center mb-8 md:mb-10">
-          <h1 className="text-3xl md:text-5xl font-black">Insights & Inspiration</h1>
-          <p className="text-white/80 mt-2">Articles, guides, and case studies for experiential marketing</p>
+          <h1 className="text-3xl md:text-5xl font-black">Blog</h1>
+          <p className="text-white/80 mt-2">Articles, guides, and case studies for experiential marketing.</p>
         </header>
 
         <div className="mb-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
@@ -95,7 +140,10 @@ export default function InsightsPage(){
 
         {error && <div className="mb-6 rounded-xl border border-red-500/40 bg-red-500/10 p-4 text-red-200">{error}</div>}
 
-        <section className="[column-fill:_balance] sm:columns-2 lg:columns-3 gap-4 space-y-4 min-h-[200px]">
+        <section
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[200px]"
+          aria-label="Blog articles"
+        >
           {loading && (
             <div className="min-h-[40vh] w-full flex items-center justify-center">
               <div className="flex items-center gap-3 text-white/80 bg-white/5 border border-white/10 rounded-xl px-4 py-3 animate-fade-in">
@@ -107,26 +155,93 @@ export default function InsightsPage(){
               </div>
             </div>
           )}
-          {!loading && data.map(a => (
-            <a key={a.id} href={`/insights/${a.slug}`} className="block break-inside-avoid rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-white/20">
-              {a.cover_image && (
-                <img src={a.cover_image} alt={a.title} className="w-full h-auto object-cover" loading="lazy" />
-              )}
-              <div className="px-3 py-3 bg-black/40 text-white">
-                <div className="text-sm font-semibold">{a.title}</div>
-                {a.excerpt && (<div className="text-xs text-white/70 mt-1">{a.excerpt}</div>)}
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {(a.tags||[]).slice(0,3).map(t=> (<span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-white/20 bg-white/10">{t}</span>))}
-                </div>
-              </div>
-            </a>
-          ))}
+          {!loading &&
+            data.map((a) => (
+              <article
+                key={a.id}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_18px_45px_rgba(2,6,23,0.6)] transition-transform duration-200 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
+                itemScope
+                itemType="https://schema.org/Article"
+              >
+                <a href={`/blog/${a.slug}`} className="flex h-full flex-col" aria-label={a.title}>
+                  {a.cover_image && (
+                    <div className="relative aspect-[16/9] w-full overflow-hidden">
+                      <img
+                        src={a.cover_image}
+                        alt={a.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                        itemProp="image"
+                      />
+                    </div>
+                  )}
+                  <div className="flex flex-1 flex-col px-4 py-4 bg-black/40 text-white">
+                    <header className="mb-2">
+                      <h2
+                        className="text-base font-semibold leading-snug line-clamp-2"
+                        itemProp="headline"
+                      >
+                        {a.title}
+                      </h2>
+                      {a.published_at && (
+                        <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-white/60">
+                          <time
+                            dateTime={a.published_at}
+                            itemProp="datePublished"
+                          >
+                            {new Date(a.published_at).toLocaleDateString()}
+                          </time>
+                        </div>
+                      )}
+                    </header>
+                    {a.excerpt && (
+                      <p className="mt-1 line-clamp-3 text-xs text-white/75" itemProp="description">
+                        {a.excerpt}
+                      </p>
+                    )}
+                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex flex-wrap gap-1">
+                        {(a.tags || []).slice(0, 3).map((t) => (
+                          <span
+                            key={t}
+                            className="text-[10px] px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-white/80"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="text-[11px] font-medium text-[#C5A6FF] group-hover:text-white">
+                        Read article →
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            ))}
         </section>
 
         <div className="mt-8 flex items-center justify-center gap-3">
-          <button disabled={page<=1} onClick={()=>setPage(p=>Math.max(1,p-1))} className="px-4 py-2 rounded-full border border-white/20 text-white/90 disabled:opacity-50">Prev</button>
+          <button
+            disabled={page<=1}
+            onClick={()=>{
+              setPage(p=>Math.max(1,p-1));
+              if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="px-4 py-2 rounded-full border border-white/20 text-white/90 disabled:opacity-50"
+          >
+            Prev
+          </button>
           <div className="text-white/70 text-sm">Page {page} of {totalPages}</div>
-          <button disabled={page>=totalPages} onClick={()=>setPage(p=>Math.min(totalPages,p+1))} className="px-4 py-2 rounded-full border border-white/20 text-white/90 disabled:opacity-50">Next</button>
+          <button
+            disabled={page>=totalPages}
+            onClick={()=>{
+              setPage(p=>Math.min(totalPages,p+1));
+              if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="px-4 py-2 rounded-full border border-white/20 text-white/90 disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </main>
       <FooterSection />

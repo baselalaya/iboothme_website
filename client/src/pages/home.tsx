@@ -82,7 +82,7 @@ export default function Home() {
               "@type": "SearchAction",
               target: {
                 "@type": "EntryPoint",
-                urlTemplate: "https://www.iboothme.com/insights?q={search_term_string}"
+                urlTemplate: "https://www.iboothme.com/blog?q={search_term_string}"
               },
               queryInput: "required name=search_term_string"
             }
@@ -91,8 +91,8 @@ export default function Home() {
       />
       <div className="absolute inset-0 z-10 pointer-events-none">
         <ThreeDShape />
-        {/* Readability overlay to blend background with content */}
-        <div className="absolute inset-0 mix-blend-multiply bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
+        {/* Readability overlay tuned lighter to preserve particle crispness */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20" />
       </div>
       <div className="relative z-10">
         <div className="min-h-screen text-white" data-testid="home-page">

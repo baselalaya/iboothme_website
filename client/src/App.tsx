@@ -136,12 +136,12 @@ function Router() {
             <GalleryPage />
           </PageTransition>
         </Route>
-        <Route path="/insights">
+        <Route path="/blog">
           <PageTransition key={location} type="scale-blur">
             <InsightsPage />
           </PageTransition>
         </Route>
-        <Route path="/insights/:slug">
+        <Route path="/blog/:slug">
           <PageTransition key={location} type="scale-blur">
             <InsightArticlePage />
           </PageTransition>

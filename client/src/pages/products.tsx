@@ -52,7 +52,10 @@ export default function ProductsPage() {
           description: "Interactive booths and experiential products for events.",
           hasPart: (function(){
             try { return (dataProducts||[]).map(p=>({
-              "@type":"Product",
+              // Use Thing here to avoid invalid Product
+              // rich result warnings when we don't expose
+              // offers/reviews on the listing page.
+              "@type":"Thing",
               name: p.name,
               sku: p.id,
               image: p.image,

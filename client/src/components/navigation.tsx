@@ -12,6 +12,7 @@ const navItems = [
   { name: "Robotics", href: "/robotics", description: "Step inside autonomous capture labs crafted for futuristic brands." },
   { name: "Personalized Merch", href: "/personalised-merch", description: "Generate signature keepsakes that ship before your guests get home." },
   { name: "Our Story", href: "/our-story", description: "Meet the team reimagining photo experiences for 2026 and beyond." },
+  { name: "Blog", href: "/blog", description: "Read case studies and articles from our blog." },
 ];
 
 export default function Navigation() {

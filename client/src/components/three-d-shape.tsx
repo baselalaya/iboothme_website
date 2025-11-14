@@ -32,12 +32,13 @@ export default function ThreeDShape() {
     const isMobile = width <= 768 || window.matchMedia('(pointer:coarse)').matches;
 
     const getResponsiveConfig = (w: number) => {
-      if (w <= 420) return { scale: 0.58, baseZ: 25, dolly: 4.5 };
-      if (w <= 640) return { scale: 0.62, baseZ: 24.5, dolly: 4.7 };
-      if (w <= 980) return { scale: 0.7, baseZ: 23.5, dolly: 5.2 };
-      if (w <= 1440) return { scale: 0.98, baseZ: 22.3, dolly: 5.8 };
-      if (w <= 1920) return { scale: 1.12, baseZ: 21.6, dolly: 6.1 }; 
-      return { scale: 1.28, baseZ: 20.6, dolly: 6.5 };
+      // Portrait-focused tuning on narrow widths; larger presence on laptops
+      if (w <= 420) return { scale: 0.80, baseZ: 25.8, dolly: 4.8 };
+      if (w <= 640) return { scale: 0.86, baseZ: 25.4, dolly: 5.0 };
+      if (w <= 980) return { scale: 0.90, baseZ: 23.0, dolly: 5.5 };    // small tablets / large phones landscape
+      if (w <= 1440) return { scale: 1.22, baseZ: 21.6, dolly: 6.3 };   // typical laptops 13"–15" (1440px target)
+      if (w <= 1920) return { scale: 1.30, baseZ: 21.2, dolly: 6.5 };   // large laptops / small desktops
+      return { scale: 1.42, baseZ: 20.4, dolly: 6.8 };                   // big desktops
     };
     let responsiveConfig = getResponsiveConfig(width);
 
@@ -54,27 +55,37 @@ export default function ThreeDShape() {
     const maxCap = isMobile ? 2 : 3;
     // If GPU is likely weak (coarse pointer or low-power preference), be conservative
     const perfCap = (navigator as any).hardwareConcurrency && (navigator as any).hardwareConcurrency < 6 ? Math.min(maxCap, 2) : maxCap;
-    renderer.setPixelRatio(Math.min(dpr, perfCap));
+    const effectiveDpr = Math.min(dpr, perfCap);
+    renderer.setPixelRatio(effectiveDpr);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // Postprocessing (Bloom)
+    // Postprocessing (Bloom) — reduce to eliminate blur on particles
     const composer = new EffectComposer(renderer);
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
     // Reintroduce a very faint bloom for depth without visible blur
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.25, 0.6, 0.95);
-    bloomPass.threshold = 0.92; // only brightest points
-    bloomPass.strength = isMobile ? 0.025 : 0.045; // very low glow
-    bloomPass.radius = isMobile ? 0.06 : 0.09; // small radius
-    // Keep subtle to avoid softness
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 0.1, 0.1, 0.95);
+    bloomPass.threshold = 1.0; // effectively disable for most particles
+    bloomPass.strength = 0.0;  // disable glow to avoid blur
+    bloomPass.radius = 0.0;    // no radius to keep points crisp
     composer.addPass(bloomPass);
 
     // Configurable look
-    const DENSITY = isMobile ? 0.45 : 0.8; // density scale (lower on mobile for performance)
-    const POINT_SIZE = isMobile ? 1.6 : 2.0; // slightly larger points for sharper appearance
+    // Further reduce density (x2 request)
+    const DENSITY = isMobile ? 0.24 : 0.48;
+    // DPI-adaptive point size: smaller on high DPR to keep crisp, slightly bigger on low DPR
+    const POINT_SIZE = (() => {
+      const d = Math.min(effectiveDpr, isMobile ? 2.0 : 2.4);
+      if (isMobile) {
+        // Nudge smaller (~5%) for extra delicacy
+        return 2.1 / d + 0.90; // ~3.00 @1x, ~1.95 @2x
+      }
+      // Desktop: modest reduction for subtlety
+      return 1.7 / d + 0.96;   // ~2.66 @1x, ~1.87 @2x
+    })();
     const COLOR_A = new THREE.Color('#7042d2');
     const COLOR_B = new THREE.Color('#7042d2');
 
@@ -157,7 +168,7 @@ export default function ThreeDShape() {
     // Responsive vertical offset to avoid overlapping hero content on laptops
     const getGroupOffsetY = (w: number) => {
       if (w >= 980 && w <= 1600) return 1.35; // laptop range: tiny bit more up
-      if (w < 980) return 0.75;               // tablets/phones: tiny bit more up
+      if (w < 980) return 0.95;               // phones/tablets: lift a bit more in portrait
       return 0.45;                             // large desktops: slight extra lift
     };
     group.position.y = getGroupOffsetY(window.innerWidth);
@@ -204,7 +215,7 @@ export default function ThreeDShape() {
     const pMat = new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       uniforms: {
         uTime: { value: 0 },
         uScale: { value: 6.0 },
@@ -218,7 +229,8 @@ export default function ThreeDShape() {
         uPointerStrength: { value: 0.0 },
         uPulse: { value: 0.0 },
         uMaskCenter: { value: new THREE.Vector2(0.5, 0.5) },
-        uMaskRadius: { value: 0.28 },
+        // Revert mask radius to earlier value that kept center readable but visible
+        uMaskRadius: { value: 0.24 },
       },
       vertexShader: `
         attribute float aU;  // base parameter along infinity curve
@@ -266,7 +278,7 @@ export default function ThreeDShape() {
           float th = aTheta + uTime * (0.3 + 0.2 * sin(aSeed));
           vec3 offset = (N * cos(th) + B * sin(th)) * r;
           vec3 target = p0 + offset;
-          // assemble from origin
+          // assemble from origin (reverted to original pacing)
           float assemble = smoothstep(0.0, 1.0, uAssemble);
           vec3 pos = mix(aOrigin, target, assemble);
 
@@ -277,11 +289,12 @@ export default function ThreeDShape() {
           // size attenuation + pointer interaction in world space
           vec4 worldPos = modelMatrix * vec4(pos, 1.0);
           float d = distance(worldPos.xyz, uPointer);
-          float influence = smoothstep(2.5, 0.0, d); // near pointer -> 1
+          float influence = smoothstep(2.2, 0.0, d);
           float boost = uPointerStrength * influence * (1.0 + uPulse * 1.5);
           vec4 mv = viewMatrix * worldPos;
           float introSize = mix(0.4, 1.0, smoothstep(0.0, 1.0, uIntro));
-          gl_PointSize = uSize * (300.0 / -mv.z) * (1.0 + 0.5 * boost) * introSize;
+          // Slightly smaller attenuation to match -5% request
+          gl_PointSize = uSize * (280.0 / -mv.z) * (1.0 + 0.40 * boost) * introSize;
           vAlpha = 0.8 * pow(clamp(uIntro, 0.0, 1.0), 1.2) * assemble;
           vBoost = boost;
           vec4 clip = projectionMatrix * mv;
@@ -303,15 +316,18 @@ export default function ThreeDShape() {
           vec2 d = gl_PointCoord - vec2(0.5);
           float dist = length(d);
           if (dist > 0.5) discard;
-          float alpha = smoothstep(0.5, 0.0, dist) * vAlpha * (0.40 + vBoost * 0.25) * smoothstep(0.0, 1.0, uIntro);
+          // Solid core with very thin antialiased edge for maximum crispness
+          float edge = smoothstep(0.50, 0.45, dist);
+          float coreMask = step(dist, 0.42);
+          float alpha = (coreMask + edge * 0.35) * vAlpha * 0.85 * smoothstep(0.0, 1.0, uIntro);
           // central UI-safe hole to avoid overlapping hero text/CTAs
           float ndcDist = distance(vNDC, uMaskCenter);
           float hole = smoothstep(0.0, uMaskRadius, ndcDist);
           alpha *= hole;
           vec3 color = mix(uColorA, uColorB, clamp(vMix + vBoost * 0.15, 0.0, 1.0));
-          // slight center emphasis for perceived sharpness
-          float core = smoothstep(0.5, 0.0, dist);
-          color += 0.04 * core;
+          // slight center emphasis kept minimal to avoid haze
+          float core = smoothstep(0.26, 0.0, dist);
+          color += 0.010 * core;
           gl_FragColor = vec4(color, alpha);
         }
       `,
@@ -531,10 +547,11 @@ export default function ThreeDShape() {
       const assemble = rawIntro < 0.5
         ? 2.0 * rawIntro * rawIntro
         : -1.0 + (4.0 - 2.0 * rawIntro) * rawIntro;
-      // Subtle hover for the particle infinity
-      group.rotation.x = Math.sin(time * 0.14) * 0.025;
-      group.rotation.y = Math.cos(time * 0.12) * 0.025;
-      const baseScale = 0.86 + 0.14 * intro; // dolly-in scaling
+      // Subtle hover for the particle infinity (reduced on mobile portrait)
+      const rotateAmp = isMobile ? 0.02 : 0.025;
+      group.rotation.x = Math.sin(time * 0.14) * rotateAmp;
+      group.rotation.y = Math.cos(time * 0.12) * rotateAmp;
+      const baseScale = 0.9 + 0.14 * intro; // slightly larger base scale on all, helps mobile
       const scalePulse = baseScale * (1 + Math.sin(time * 0.7) * 0.01);
       const scaleFactor = responsiveConfig.scale;
       group.scale.set(scalePulse * scaleFactor, scalePulse * scaleFactor, scalePulse * scaleFactor);
@@ -548,14 +565,22 @@ export default function ThreeDShape() {
       (pMat.uniforms.uIntro as any).value = intro;
       (pMat.uniforms.uAssemble as any).value = assemble;
       // ramp speed from slow to normal during intro
-      const baseSpeed = isMobile ? 0.06 : 0.08;
-      const speedRange = isMobile ? 0.12 : 0.17;
+      const baseSpeed = isMobile ? 0.055 : 0.08;
+      const speedRange = isMobile ? 0.10 : 0.17;
       (pMat.uniforms.uSpeed as any).value = baseSpeed + speedRange * intro;
       // camera dolly-in
       camera.position.z = responsiveConfig.baseZ - responsiveConfig.dolly * intro;
       camera.lookAt(0, 0, 0);
-      // bloom ramp down
-      (bloomPass as any).strength = (isMobile ? 0.22 : 0.5) - (isMobile ? 0.14 : 0.3) * intro; // soften bloom for mobile
+      // bloom disabled for crisp particles
+      (bloomPass as any).strength = 0.0;
+      // Ease pointer strength each frame toward targetStrength (cheap lerp)
+      try {
+        const cur = (pMat.uniforms.uPointerStrength as any).value as number;
+        // 0.1 per frame max change ~ smooth but responsive
+        const diff = ((typeof targetStrength !== 'undefined' ? targetStrength : 0) - cur);
+        const step = Math.max(-0.1, Math.min(0.1, diff));
+        (pMat.uniforms.uPointerStrength as any).value = cur + step;
+      } catch {}
       // kick a gentle pulse mid-intro
       if (rawIntro > 0.55 && rawIntro < 0.58) {
         (pMat.uniforms.uPulse as any).value = 0.8;
@@ -583,7 +608,8 @@ export default function ThreeDShape() {
       // Re-evaluate DPR on resize (e.g., zoom changes)
       const ndpr = window.devicePixelRatio || 1;
       const nCap = w <= 768 ? 2 : perfCap;
-      renderer.setPixelRatio(Math.min(ndpr, nCap));
+      const neffective = Math.min(ndpr, nCap);
+      renderer.setPixelRatio(neffective);
       composer.setSize(w, h);
       // keep responsive vertical offset on resize
       group.position.y = getGroupOffsetY(w);

@@ -5,7 +5,7 @@ export async function getStaticPaths() {
   const staticRoutes = [
     '/',
     '/products',
-    '/insights',
+    '/blog',
     '/ai-effects',
     '/ai-technology',
     '/our-story',
@@ -36,7 +36,7 @@ export async function getStaticPaths() {
   }
 
   // Try to fetch insights list
-  const insights = await safeJson<any[]>(`${baseApi}/insights`);
+  const insights = await safeJson<any[]>(`${baseApi}/blog`);
   if (insights?.length) {
     for (const a of insights.slice(0, 100)) {
       if (a?.slug) insightsSlugs.push(String(a.slug));
@@ -45,7 +45,7 @@ export async function getStaticPaths() {
 
   const dynamicRoutes = [
     ...productIds.map((id) => `/products/${id}`),
-    ...insightsSlugs.map((slug) => `/insights/${slug}`),
+    ...insightsSlugs.map((slug) => `/blog/${slug}`),
   ];
 
   return [...staticRoutes, ...dynamicRoutes];

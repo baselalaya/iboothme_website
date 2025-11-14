@@ -3,107 +3,246 @@ import FooterSection from "@/components/footer-section";
 import Seo from "@/components/seo";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { useEffect, useMemo, useState } from "react";
-import { apiBaseJoin } from "../lib/publicApi";
 import { useRoute } from "wouter";
 import { gtmEvent } from "@/lib/gtm";
 
 type Article = {
-  id: string; title: string; slug: string; excerpt?: string; cover_image?: string; content: string; tags?: string[]; author?: string; published_at?: string;
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  cover_image?: string;
+  content_html: string;
+  tags?: string[];
+  author?: string;
+  published_at?: string;
 };
 
-function mdToHtml(md: string){
-  // minimal markdown -> HTML (headings, bold/italic, links, paragraphs)
-  let html = md
-    .replace(/^###\s(.+)$/gm, '<h3>$1</h3>')
-    .replace(/^##\s(.+)$/gm, '<h2>$1</h2>')
-    .replace(/^#\s(.+)$/gm, '<h1>$1</h1>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1<\/a>')
-    .split(/\n\n+/).map(p=>`<p>${p}</p>`).join('\n');
-  return html;
+function decodeHtml(input: string | undefined): string {
+  if (!input) return "";
+  if (typeof window === "undefined") {
+    return input
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, "\"")
+      .replace(/&apos;/g, "'")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
+  }
+  const el = document.createElement("textarea");
+  el.innerHTML = input;
+  return el.value;
 }
 
-export default function InsightArticlePage(){
-  const [, params] = useRoute('/insights/:slug');
-  const slug = params?.slug || '';
-  const [article, setArticle] = useState<Article|undefined>();
-  const [error, setError] = useState<string|undefined>();
+function stripHtml(input: string | undefined): string {
+  if (!input) return "";
+  return input.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
 
-  useEffect(()=>{ (async()=>{
-    const tryFetch = async (url: string) => {
-      const res = await fetch(url);
-      const ct = res.headers.get('content-type') || '';
-      // If JSON, parse normally
-      if (ct.includes('application/json')) {
+export default function InsightArticlePage() {
+  const [, params] = useRoute("/blog/:slug");
+  const slug = params?.slug || "";
+  const [article, setArticle] = useState<Article | undefined>();
+  const [error, setError] = useState<string | undefined>();
+  const [related, setRelated] = useState<Article[]>([]);
+  const [loadingRelated, setLoadingRelated] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (!slug) return;
+      setError(undefined);
+      try {
+        const res = await fetch(
+          `https://demo.iboothme.ae/blog/wp-json/wp/v2/posts?slug=${encodeURIComponent(
+            slug
+          )}&_embed`
+        );
+        if (!res.ok) throw new Error("Failed to load article");
         const json = await res.json();
-        if (!res.ok) throw new Error(json?.message || res.statusText || 'Request failed');
-        return json;
-      }
-      // Otherwise read as text and detect HTML fallbacks
-      const txt = await res.text();
-      if (/<!DOCTYPE html>|<html[\s>]/i.test(txt)) {
-        throw new Error('Received HTML from API (routing fallback)');
-      }
-      try { return JSON.parse(txt); } catch {}
-      throw new Error('Unexpected non-JSON response');
-    };
+        const wp = json?.[0];
+        if (!wp) throw new Error("Article not found");
 
-    setError(undefined);
-    try {
-      // Prefer query-based endpoint to avoid any dynamic route quirks on Vercel
-      const firstUrl = apiBaseJoin(`/api/articles/by-slug?slug=${encodeURIComponent(slug)}`);
-      let data: any;
-      try {
-        data = await tryFetch(firstUrl);
-      } catch (e:any) {
-        // Fallback to dynamic route if the first attempt returns HTML or fails parsing
-        const fallbackUrl = apiBaseJoin(`/api/articles/${encodeURIComponent(slug)}`);
-        data = await tryFetch(fallbackUrl);
+        const media = wp._embedded?.["wp:featuredmedia"]?.[0];
+        const sizes = media?.media_details?.sizes || {};
+        const preferredSize =
+          sizes["shutter-image-blog-grid-standart"] ||
+          sizes["shutter-image-blog-grid-masonry"] ||
+          sizes["medium_large"] ||
+          sizes["full"];
+        const cover =
+          preferredSize?.source_url ||
+          media?.source_url ||
+          wp.yoast_head_json?.og_image?.[0]?.url ||
+          undefined;
+
+        const rawExcerpt = wp.excerpt?.rendered
+          ? wp.excerpt.rendered.replace(/<[^>]+>/g, "").trim()
+          : undefined;
+
+        const mapped: Article = {
+          id: String(wp.id),
+          // Use the pure post title for on-page heading and SEO.
+          title: decodeHtml(wp.title?.rendered || ""),
+          slug: wp.slug || String(wp.id),
+          excerpt: rawExcerpt ? decodeHtml(rawExcerpt) : undefined,
+          cover_image: cover,
+          content_html: wp.content?.rendered || "",
+          tags: Array.isArray(wp.tags) ? wp.tags.map(String) : [],
+          author: wp._embedded?.author?.[0]?.name,
+          published_at: wp.date,
+        };
+
+        setArticle(mapped);
+        try {
+          gtmEvent("insights_article_view", {
+            slug: mapped.slug,
+            title: mapped.title,
+            published_at: mapped.published_at,
+          });
+        } catch {}
+      } catch (e: any) {
+        const msg =
+          typeof e?.message === "string"
+            ? e.message
+            : "Failed to load article";
+        setError(msg);
       }
-      setArticle(data);
+    })();
+  }, [slug]);
+
+  useEffect(() => {
+    (async () => {
+      if (!article?.id) return;
+      setLoadingRelated(true);
       try {
-        gtmEvent('insights_article_view', {
-          slug,
-          title: data?.title,
-          published_at: data?.published_at,
+        const res = await fetch(
+          `https://demo.iboothme.ae/blog/wp-json/wp/v2/posts?per_page=3&exclude=${article.id}&_embed`
+        );
+        if (!res.ok) throw new Error("Failed to load related articles");
+        const json = await res.json();
+        const mapped: Article[] = (json || []).map((p: any) => {
+          const media = p._embedded?.["wp:featuredmedia"]?.[0];
+          const sizes = media?.media_details?.sizes || {};
+          const preferredSize =
+            sizes["shutter-image-blog-grid-standart"] ||
+            sizes["shutter-image-blog-grid-masonry"] ||
+            sizes["medium_large"] ||
+            sizes["full"];
+          const cover =
+            preferredSize?.source_url ||
+            media?.source_url ||
+            p.yoast_head_json?.og_image?.[0]?.url ||
+            undefined;
+          const rawExcerpt = p.excerpt?.rendered
+            ? p.excerpt.rendered.replace(/<[^>]+>/g, "").trim()
+            : undefined;
+          return {
+            id: String(p.id),
+            title: decodeHtml(p.title?.rendered || ""),
+            slug: p.slug || String(p.id),
+            excerpt: rawExcerpt ? decodeHtml(rawExcerpt) : undefined,
+            cover_image: cover,
+            content_html: "",
+            tags: Array.isArray(p.tags) ? p.tags.map(String) : [],
+            author: p._embedded?.author?.[0]?.name,
+            published_at: p.date,
+          };
         });
-      } catch {}
-    } catch (e:any) {
-      const msg = typeof e?.message === 'string' ? e.message : 'Failed to load article';
-      setError(msg);
-    }
-  })(); }, [slug]);
+        setRelated(mapped);
+      } catch {
+        setRelated([]);
+      } finally {
+        setLoadingRelated(false);
+      }
+    })();
+  }, [article?.id]);
 
-  const jsonLd = useMemo(()=>{
+  const jsonLd = useMemo(() => {
     if (!article) return null;
+    const description =
+      article.excerpt || stripHtml(article.content_html).slice(0, 300);
     return {
-      "@context":"https://schema.org",
-      "@type":"Article",
+      "@context": "https://schema.org",
+      "@type": "Article",
       headline: article.title,
+      description,
       datePublished: article.published_at || undefined,
-      author: article.author ? { "@type":"Person", name: article.author } : undefined,
+      author: article.author
+        ? { "@type": "Person", name: article.author }
+        : undefined,
       image: article.cover_image || undefined,
-      keywords: (article.tags||[]).join(', ')
+      keywords: (article.tags || []).join(", "),
     } as any;
   }, [article]);
 
-  const html = useMemo(()=> article ? mdToHtml(article.content||'') : '', [article]);
-  const breadcrumbLd = useMemo(()=>({
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    itemListElement: [
-      { "@type":"ListItem", position: 1, name: "Insights", item: "/insights" },
-      { "@type":"ListItem", position: 2, name: article?.title || 'Article', item: `/insights/${slug}` }
-    ]
-  }), [article, slug]);
+  const breadcrumbLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Blog",
+          item: "/blog",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: article?.title || "Article",
+          item: `/blog/${slug}`,
+        },
+      ],
+    }),
+    [article, slug]
+  );
+
+  // As a simple, resilient fallback, force-update the core SEO
+  // tags once the article has loaded. This guarantees that even
+  // if anything else interferes with <Seo>, title/description
+  // will reflect the WordPress article.
+  useEffect(() => {
+    if (!article || typeof document === "undefined") return;
+    const titleText = article.title || "Article";
+    const descText =
+      article.excerpt ||
+      stripHtml(article.content_html).slice(0, 160) ||
+      "Insights and inspiration from iboothme.";
+
+    document.title = `${titleText} | iboothme`;
+
+    const ensureMeta = (name: string, content: string) => {
+      let el = document.head.querySelector(
+        `meta[name="${name}"]`
+      ) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute("name", name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
+
+    ensureMeta("description", descText);
+    ensureMeta("twitter:description", descText);
+  }, [article]);
 
   return (
     <div className="relative min-h-screen text-white">
-      <Seo title={article?.title || 'Article'} description={article?.excerpt} canonical={`/insights/${slug}`} jsonLd={jsonLd ? [jsonLd, breadcrumbLd] : breadcrumbLd} />
+      <Seo
+        title={article?.title || "Article"}
+        description={
+          article
+            ? article.excerpt ||
+              stripHtml(article.content_html).slice(0, 160)
+            : "Insights and inspiration from iboothme."
+        }
+        canonical={`/blog/${slug}`}
+        jsonLd={jsonLd ? [jsonLd, breadcrumbLd] : breadcrumbLd}
+      />
       <Navigation />
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-10 md:py-14">
-        <Breadcrumbs items={[{ label:'Insights & Inspiration', href:'/insights' }, { label: article?.title || 'Article' }]} />
+        <Breadcrumbs items={[{ label:'Blog', href:'/blog' }, { label: article?.title || 'Article' }]} />
         {error && <div className="mt-6 rounded-xl border border-red-500/40 bg-red-500/10 p-4 text-red-200">{error}</div>}
         {!article ? (
           <div className="min-h-[40vh] w-full flex items-center justify-center">
@@ -116,20 +255,120 @@ export default function InsightArticlePage(){
             </div>
           </div>
         ) : (
-          <article>
-            <header className="mb-6">
-              <h1 className="text-3xl md:text-4xl font-black">{article.title}</h1>
-              <div className="text-white/70 text-sm mt-2">
-                {article.published_at && new Date(article.published_at).toLocaleDateString()}
+          <article
+            className="article-content"
+            itemScope
+            itemType="https://schema.org/Article"
+          >
+            <header className="mb-6 border-b border-white/10 pb-4">
+              <h1
+                className="text-3xl md:text-4xl font-black leading-tight"
+                itemProp="headline"
+              >
+                {article.title}
+              </h1>
+              <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-white/60">
+                {article.published_at && (
+                  <time
+                    dateTime={article.published_at}
+                    itemProp="datePublished"
+                  >
+                    {new Date(article.published_at).toLocaleDateString()}
+                  </time>
+                )}
+                {article.tags && article.tags.length > 0 && (
+                  <span className="inline-flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#C5A6FF]" />
+                    <span>{article.tags.slice(0, 3).join(" • ")}</span>
+                  </span>
+                )}
               </div>
             </header>
             {article.cover_image && (
-              <img src={article.cover_image} alt={article.title} className="w-full rounded-2xl border border-white/10 mb-6" />
+              <img
+                src={article.cover_image}
+                alt={article.title}
+                className="w-full rounded-2xl border border-white/10 mb-6 object-cover"
+                itemProp="image"
+              />
             )}
-            <div className="prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
-            <footer className="mt-8 flex flex-wrap gap-2">
-              {(article.tags||[]).map(t=> (<span key={t} className="text-xs px-2 py-1 rounded-full border border-white/20 bg-white/10">{t}</span>))}
+            <div
+              className="prose prose-invert max-w-none"
+              itemProp="articleBody"
+              dangerouslySetInnerHTML={{ __html: article.content_html }}
+            />
+            <footer className="mt-10 border-t border-white/10 pt-4">
+              {(article.tags || []).length > 0 && (
+                <div className="mb-4 flex flex-wrap gap-2" aria-label="Article tags">
+                  {(article.tags || []).map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs px-2 py-1 rounded-full border border-white/20 bg-white/10"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
             </footer>
+            {(related.length > 0 || loadingRelated) && (
+              <section className="mt-10">
+                <h2 className="text-xl md:text-2xl font-semibold mb-4">
+                  Related insights
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                  {loadingRelated &&
+                    Array.from({ length: 3 }).map((_, i) => (
+                      <div
+                        key={`skeleton-${i}`}
+                        className="h-40 rounded-2xl border border-white/10 bg-white/5 animate-pulse"
+                      />
+                    ))}
+                  {!loadingRelated &&
+                    related.map((r) => (
+                      <article
+                        key={r.id}
+                        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10 transition-colors"
+                      >
+                        <a
+                          href={`/blog/${r.slug}`}
+                          className="flex h-full flex-col"
+                          aria-label={r.title}
+                        >
+                          {r.cover_image && (
+                            <div className="relative aspect-[16/9] w-full overflow-hidden">
+                              <img
+                                src={r.cover_image}
+                                alt={r.title}
+                                loading="lazy"
+                                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                              />
+                            </div>
+                          )}
+                          <div className="flex flex-1 flex-col px-3 py-3 bg-black/40">
+                            <h3 className="text-sm font-semibold leading-snug line-clamp-2">
+                              {r.title}
+                            </h3>
+                            {r.published_at && (
+                              <time className="mt-1 text-[11px] text-white/60">
+                                {new Date(r.published_at).toLocaleDateString()}
+                              </time>
+                            )}
+                            {r.excerpt && (
+                              <p className="mt-1 text-[11px] text-white/70 line-clamp-2">
+                                {r.excerpt}
+                              </p>
+                            )}
+                            <span className="mt-3 text-[11px] font-medium text-[#C5A6FF] group-hover:text-white">
+                              Read article →
+                            </span>
+                          </div>
+                        </a>
+                      </article>
+                    ))}
+                </div>
+              </section>
+            )}
           </article>
         )}
       </main>
